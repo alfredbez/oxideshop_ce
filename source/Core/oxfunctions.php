@@ -348,7 +348,6 @@ function ox_get_trusted($sTplName, $oSmarty)
     // not used for templates
 }
 
-
 if (!function_exists('getLangTableIdx')) {
 
     /**
@@ -391,6 +390,38 @@ if (!function_exists('getLangTableName')) {
         }
 
         return $sTable;
+    }
+}
+
+if (!function_exists('getLanguageTableSuffix')) {
+
+    /**
+     * Returns language table suffix
+     *
+     * @return string
+     */
+    function getLanguageTableSuffix()
+    {
+        $languageTableSuffix = oxRegistry::getConfig()->getConfigParam("sLangTableSuffix");
+        $languageTableSuffix = $languageTableSuffix ? $languageTableSuffix : "_set";
+
+        return $languageTableSuffix;
+    }
+}
+
+if (!function_exists('getLanguagesPerTable')) {
+
+    /**
+     * Returns maximum allowed number of languages per table.
+     *
+     * @return integer
+     */
+    function getLanguagesPerTable()
+    {
+        $languagesPerTable = oxRegistry::getConfig()->getConfigParam("iLangPerTable");
+        $languagesPerTable = ($languagesPerTable > 1) ? $languagesPerTable : 8;
+
+        return $languagesPerTable;
     }
 }
 

@@ -25,38 +25,6 @@ require_once 'MultilanguageTestCase.php';
 class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCase
 {
     /**
-     * Additional multilanguage tables.
-     *
-     * @var array
-     */
-    protected $additionalTables = array();
-
-    /**
-     * Fixture setUp.
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-    }
-
-    /**
-     * Fixture tearDown.
-     */
-    protected function tearDown()
-    {
-        $this->setConfigParam('aMultiLangTables', array());
-        $this->updateViews();
-
-        foreach ($this->additionalTables as $name) {
-            $this->removeAdditionalTables($name);
-        }
-        $this->removeAdditionalTables('set1');
-
-        parent::tearDown();
-    }
-
-    /**
      * Assert that set tables are automatically created for additional multilanguage table
      * in case we add first the table and then create the languages.
      */
@@ -68,9 +36,14 @@ class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCa
         //add nine more languages
         $this->prepare(9);
 
-        $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES  WHERE TABLE_NAME LIKE 'addtest_set1'";
-        $result = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getOne($sql);
-        $this->assertEquals('addtest_set1', $result);
+        $dbMetaDataHandler = oxNew('oxDbMetaDataHandler');
+        $this->assertTrue($dbMetaDataHandler->tableExists('addtest_set1'));
+
+        //Make sure the multilanguage fields have the same order (and so the same set tables) as the core fields.
+        //Not relevant for functionality but it is more tidy.
+        $expected = array_keys($dbMetaDataHandler->getLanguage2TableSetMap('oxarticles', 'oxtitle'));
+        $this->assertSame($expected, array_keys($dbMetaDataHandler->getLanguage2TableSetMap('addtest', 'title')));
+
     }
 
     /**
@@ -88,9 +61,13 @@ class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCa
 
         $this->updateViews();
 
-        $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES  WHERE TABLE_NAME LIKE 'addtest_set1'";
-        $result = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getOne($sql);
-        $this->assertEquals('addtest_set1', $result);
+        $dbMetaDataHandler = oxNew('oxDbMetaDataHandler');
+        $this->assertTrue($dbMetaDataHandler->tableExists('addtest_set1'));
+
+        //Make sure the multilanguage fields have the same order (and so the same set tables) as the core fields.
+        //Not relevant for functionality but it is more tidy.
+        $expected = array_keys($dbMetaDataHandler->getLanguage2TableSetMap('oxarticles', 'oxtitle'));
+        $this->assertSame($expected, array_keys($dbMetaDataHandler->getLanguage2TableSetMap('addtest', 'title')));
 
     }
 
@@ -107,8 +84,9 @@ class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCa
         //add nine more languages
         $languageId = $this->prepare(9);
 
-        //insert testdata for language id 0
-        $sql = "INSERT INTO addtest (OXID, TITLE) VALUES ('" . $oxid . "', 'some default title')";
+        //insert testdata for default language
+        $defaultLanguage = $this->getConfig()->getConfigParam('sDefaultLang');
+        $sql = "INSERT INTO addtest (OXID, TITLE_" . $defaultLanguage . ") VALUES ('" . $oxid . "', 'some default title')";
         oxDb::getDb()->query($sql);
 
         //insert testdata for last added language id in set1 table
@@ -118,7 +96,7 @@ class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCa
         $sql = "SELECT TITLE FROM " . getViewName('addtest', $languageId) . " WHERE OXID = '" . $oxid . "'";
         $this->assertSame('some additional title', oxDb::getDb()->getOne($sql));
 
-        $sql = "SELECT TITLE FROM " . getViewName('addtest', 0) . " WHERE OXID = '" . $oxid . "'";
+        $sql = "SELECT TITLE FROM " . getViewName('addtest', $defaultLanguage) . " WHERE OXID = '" . $oxid . "'";
         $this->assertSame('some default title', oxDb::getDb()->getOne($sql));
 
     }
@@ -137,8 +115,9 @@ class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCa
 
         $this->updateViews();
 
-        //insert testdata for language id 0
-        $sql = "INSERT INTO addtest (OXID, TITLE) VALUES ('" . $oxid . "', 'some default title')";
+        //insert testdata for default language
+        $defaultLanguage = $this->getConfig()->getConfigParam('sDefaultLang');
+        $sql = "INSERT INTO addtest (OXID, TITLE_" . $defaultLanguage . ") VALUES ('" . $oxid . "', 'some default title')";
         oxDb::getDb()->query($sql);
 
         //insert testdata for last added language id in set1 table
@@ -148,49 +127,42 @@ class Integration_Multilanguage_AdditionalTablesTest extends MultilanguageTestCa
         $sql = "SELECT TITLE FROM " . getViewName('addtest', $languageId) . " WHERE OXID = '" . $oxid . "'";
         $this->assertSame('some additional title', oxDb::getDb()->getOne($sql));
 
-        $sql = "SELECT TITLE FROM " . getViewName('addtest', 0) . " WHERE OXID = '" . $oxid . "'";
+        $sql = "SELECT TITLE FROM " . getViewName('addtest', $defaultLanguage) . " WHERE OXID = '" . $oxid . "'";
         $this->assertSame('some default title', oxDb::getDb()->getOne($sql));
 
     }
 
     /**
-     * Create additional multilanguage table.
-     *
-     * @param string $name
+     * Verify that the expected data turned up in the language views
      */
-    protected function createTable($name = 'addtest')
+    public function testViewContentsCreateAdditionalTableAfterCreatingLanguageIdWithUnderscore()
     {
-        $sql = "CREATE TABLE `" . $name . "` (" .
-                "`OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Item id'," .
-                "`TITLE` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
-                "`TITLE_1` varchar(128) NOT NULL DEFAULT ''," .
-                "`TITLE_2` varchar(128) NOT NULL DEFAULT ''," .
-                "`TITLE_3` varchar(128) NOT NULL DEFAULT ''," .
-                "`TITLE_4` varchar(128) NOT NULL DEFAULT ''," .
-                "`TITLE_5` varchar(128) NOT NULL DEFAULT ''," .
-                "`TITLE_6` varchar(128) NOT NULL DEFAULT ''," .
-                "`TITLE_7` varchar(128) NOT NULL DEFAULT ''," .
-                "PRIMARY KEY (`OXID`)" .
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='for testing'";
+        //add nine more languages
+        $this->prepare(8);
+        $languageId = 'xy_yx';
+        $this->insertLanguage($languageId);
+        $oxid = '_test101';
 
+        $this->createTable('addtest');
+        $this->setConfigParam('aMultiLangTables', array('addtest'));
+
+        $this->updateViews();
+
+        //insert testdata for default language
+        $defaultLanguage = $this->getConfig()->getConfigParam('sDefaultLang');
+        $sql = "INSERT INTO addtest (OXID, TITLE_" . $defaultLanguage . ") VALUES ('" . $oxid . "', 'some default title')";
         oxDb::getDb()->query($sql);
-        oxDb::getInstance()->getTableDescription($name); //throws exception if table does not exist
-        $this->additionalTables[] = $name;
-    }
 
-    /**
-     * Remove additional multilanguage tables and related.
-     *
-     * @return null
-     */
-    protected function removeAdditionalTables($name)
-    {
-        $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES  WHERE TABLE_NAME LIKE '%" . $name . "%'";
-        $result = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getArray($sql);
-        foreach ($result as $sub) {
-            oxDb::getDb()->query("DROP TABLE IF EXISTS `" . $sub['TABLE_NAME'] . "`");
-        }
-    }
+        //insert testdata for last added language id in set1 table
+        $sql = "INSERT INTO addtest_set1 (OXID, TITLE_" . $languageId . ") VALUES ('" . $oxid . "', 'some additional title')";
+        oxDb::getDb()->query($sql);
 
+        $sql = "SELECT TITLE FROM " . getViewName('addtest', $languageId) . " WHERE OXID = '" . $oxid . "'";
+        $this->assertSame('some additional title', oxDb::getDb()->getOne($sql));
+
+        $sql = "SELECT TITLE FROM " . getViewName('addtest', $defaultLanguage) . " WHERE OXID = '" . $oxid . "'";
+        $this->assertSame('some default title', oxDb::getDb()->getOne($sql));
+
+    }
 }
 

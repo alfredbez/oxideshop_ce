@@ -117,27 +117,21 @@ class Language_Main extends oxAdminDetails
 
         $blViewError = false;
 
-        // if changed language abbervation, updating it for all arrays related with languages
+        // if changed language abbreviation, updating it for all arrays related with languages
         if ($sOxId != -1 && $sOxId != $aParams['abbr']) {
-            // #0004850 preventing changing abbr for main language with base id = 0
-            if ((int) $this->_aLangData['params'][$sOxId]['baseId'] == 0) {
+            // Preventing changing abbr for any existing language
+            if (isset($this->_aLangData['params'][$sOxId])) {
                 $oEx = oxNew("oxExceptionToDisplay");
-                $oEx->setMessage('LANGUAGE_ABBRCHANGEMAINLANG_WARNING');
+                $oEx->setMessage('LANGUAGE_ABBRCHANGELANG_WARNING');
                 oxRegistry::get("oxUtilsView")->addErrorToDisplay($oEx);
                 $aParams['abbr'] = $sOxId;
-            } else {
-                $this->_updateAbbervation($sOxId, $aParams['abbr']);
-                $sOxId = $aParams['abbr'];
-                $this->setEditObjectId($sOxId);
-
-                $blViewError = true;
             }
         }
 
-        // if adding new language, setting lang id to abbervation
+        // if adding new language, setting lang id to abbreviation
         if ($blNewLanguage = ($sOxId == -1)) {
             $sOxId = $aParams['abbr'];
-            $this->_aLangData['params'][$sOxId]['baseId'] = $this->_getAvailableLangBaseId();
+            $this->_aLangData['params'][$sOxId]['baseId'] = $sOxId;
             $this->setEditObjectId($sOxId);
         }
 
@@ -159,9 +153,6 @@ class Language_Main extends oxAdminDetails
         $this->_aLangData['urls'][$iBaseId] = $aParams['baseurl'];
         $this->_aLangData['sslUrls'][$iBaseId] = $aParams['basesslurl'];
 
-        //sort parameters, urls and languages arrays by language base id
-        $this->_sortLangArraysByBaseId();
-
         $this->_aViewData["updatelist"] = "1";
 
         if ($this->isValidLanguageData($this->_aLangData)) {
@@ -174,7 +165,7 @@ class Language_Main extends oxAdminDetails
             //with new base ID - if not, creating new fields
             if ($blNewLanguage) {
                 if (!$this->_checkMultilangFieldsExistsInDb($sOxId)) {
-                    $this->_addNewMultilangFieldsToDb();
+                    $this->_addNewMultilangFieldsToDb($sOxId);
                 } else {
                     $blViewError = true;
                 }
@@ -375,19 +366,18 @@ class Language_Main extends oxAdminDetails
     /**
      * Check if selected language already has multilanguage fields in DB
      *
-     * @param string $sOxId language abbervation
+     * @param string $abbreviation language abbreviation
      *
      * @return bool
      */
-    protected function _checkMultilangFieldsExistsInDb($sOxId)
+    protected function _checkMultilangFieldsExistsInDb($abbreviation)
     {
-        $iBaseId = $this->_aLangData['params'][$sOxId]['baseId'];
-        $sTable = getLangTableName('oxarticles', $iBaseId);
-        $sColumn = 'oxtitle' . oxRegistry::getLang()->getLanguageTag($iBaseId);
+        $coreColumn = 'oxtitle';
+        $column = $coreColumn . '_' . $abbreviation;
+        $dbMetaDataHandler = oxNew('oxDbMetaDataHandler');
+        $table = $dbMetaDataHandler->getTableSetForLanguageAbbreviation($abbreviation, 'oxarticles', $coreColumn);
 
-        $oDbMetadata = oxNew('oxDbMetaDataHandler');
-
-        return $oDbMetadata->tableExists($sTable) && $oDbMetadata->fieldExists($sColumn, $sTable);
+        return $dbMetaDataHandler->tableExists($table) && $dbMetaDataHandler->fieldExists($column, $table);
     }
 
     /**
@@ -396,7 +386,7 @@ class Language_Main extends oxAdminDetails
      *
      * @return null
      */
-    protected function _addNewMultilangFieldsToDb()
+    protected function _addNewMultilangFieldsToDb($languageId)
     {
         //creating new multilanguage fields with new id over whole DB
         oxDb::getDb()->startTransaction();
@@ -404,7 +394,7 @@ class Language_Main extends oxAdminDetails
         $oDbMeta = oxNew("oxDbMetaDataHandler");
 
         try {
-            $oDbMeta->addNewLangToDb();
+            $oDbMeta->addNewLanguageToDb($languageId);
         } catch (Exception $oEx) {
             // if exception, rollBack everything
             oxDb::getDb()->rollbackTransaction();

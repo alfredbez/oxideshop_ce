@@ -75,7 +75,7 @@ class I18n extends \oxBase
      */
     public function setLanguage($iLang = null)
     {
-        $this->_iLanguage = (int) $iLang;
+        $this->_iLanguage = (string) $iLang;
         // reset
         $this->_sViewTable = false;
     }
@@ -257,15 +257,27 @@ class I18n extends \oxBase
      * Returns _aFieldName[] value. 0 means - non multilanguage, 1 - multilanguage field.
      * This method is slow, so we should make sure it is called only when tmp dir is cleaned (and then the results are cached).
      *
-     * @param string $sFieldName Field name
+     * @param string $fieldName Field name
      *
      * @return int
      */
-    protected function _getFieldStatus($sFieldName)
+    protected function _getFieldStatus($fieldName)
     {
-        $aAllField = $this->_getAllFields(true);
-        if (isset($aAllField[strtolower($sFieldName) . "_1"])) {
+        $tmp = explode('_', $fieldName);
+        $base = strtolower($tmp[0]);
+
+        $allFields = $this->_getAllFields(true);
+
+        if (isset($allFields[$base . '_' . $this->getLanguage()])) {
             return 1;
+        }
+
+        //no match yet needs more detailed check
+        $languageAbbreviations = oxRegistry::getLang()->getLanguageIds();
+        foreach ($languageAbbreviations as $abbreviation) {
+            if (isset($allFields[$base . '_' . $abbreviation])) {
+                return 1;
+            }
         }
 
         return 0;
@@ -314,22 +326,20 @@ class I18n extends \oxBase
     }
 
     /**
-     * Gets multilanguage field language. In case of oxtitle_2 it will return 2. 0 is returned if language ending is not defined.
+     * Gets multilanguage field language. In case of oxtitle_en it will return en.
+     * Empty string is returned if language ending is not defined.
+     * Null is returned if it is no multilanguage field.
      *
-     * @param string $sFieldName Field name
+     * @param string $fieldName Field name
      *
-     * @return bool
+     * @return string|null
      */
-    protected function _getFieldLang($sFieldName)
+    protected function _getFieldLang($fieldName)
     {
-        if (false === strpos($sFieldName, '_')) {
-            return 0;
-        }
-        if (preg_match('/_(\d{1,2})$/', $sFieldName, $aRegs)) {
-            return $aRegs[1];
-        } else {
-            return 0;
-        }
+        $temp = explode('_', $fieldName);
+        $return = ($fieldName != $temp[count($temp)-1]) ? $temp[count($temp)-1] : null;
+
+        return $return;
     }
 
     /**
@@ -382,7 +392,7 @@ class I18n extends \oxBase
             $blSkipCoreFields = true;
         }
         if ($this->_blEmployMultilanguage) {
-            if ($sTable != getLangTableName($sCoreTable, $this->getLanguage())) {
+            if ($sTable != $this->getLanguageTableName($sCoreTable, $this->getLanguage())) {
                 $blSkipMultilingual = true;
             }
         }
@@ -403,7 +413,7 @@ class I18n extends \oxBase
                     // need to explicitly check field language
                     $iFieldLang = $this->_getFieldLang($sKey);
                     if ($iFieldLang) {
-                        if ($sTable != getLangTableName($sCoreTable, $iFieldLang)) {
+                        if ($sTable != $this->getLanguageTableName($sCoreTable, $iFieldLang)) {
                             continue;
                         }
                     } elseif ($blSkipCoreFields) {
@@ -474,7 +484,7 @@ class I18n extends \oxBase
             $aUpdateTables = array();
             if ($this->_blEmployMultilanguage) {
                 $sCoreTable = $this->getCoreTableName();
-                $sLangTable = getLangTableName($sCoreTable, $this->getLanguage());
+                $sLangTable = $this->getLanguageTableName($sCoreTable, $this->getLanguage());
                 if ($sCoreTable != $sLangTable) {
                     $aUpdateTables[] = $sLangTable;
                 }
@@ -511,6 +521,21 @@ class I18n extends \oxBase
         $sCoreTableName = $sCoreTableName ? $sCoreTableName : $this->getCoreTableName();
 
         return oxNew('oxDbMetaDataHandler')->getAllMultiTables($sCoreTableName);
+    }
+
+    /**
+     * Wrapper for oxDbMetaDataHandler::getTableSetForLanguageAbbreviation
+     *
+     * @param $table
+     * @param $languageId
+     *
+     * @return mixed
+     */
+    protected function getLanguageTableName($table, $languageI)
+    {
+        $metaDataHandler = oxNew('oxDbMetaDataHandler');
+        $tableSet = $metaDataHandler->getTableSetForLanguageAbbreviation($languageId, $table);
+        return $tableSet;
     }
 
     /**
@@ -589,7 +614,7 @@ class I18n extends \oxBase
      */
     protected function _addField($sName, $sStatus, $sType = null, $sLength = null)
     {
-        if ($this->_blEmployMultilanguage && $this->_getFieldLang($sName)) {
+        if ($this->_blEmployMultilanguage && !is_null($this->_getFieldLang($sName))) {
             return;
         }
 

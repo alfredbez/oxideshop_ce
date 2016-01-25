@@ -36,28 +36,12 @@ class Integration_Multilanguage_ViewTest extends MultilanguageTestCase
     private $testArticleId = null;
 
     /**
-     * Fixture setUp.
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
-    /*
-    * Fixture tearDown.
-    */
-    protected function tearDown()
-    {
-        parent::tearDown();
-    }
-
-    /**
      * Assert that we get the expected multilanguage data for some language id >= 8.
      * Testing the case that no data is available for the article title in new default language.
      */
     public function testMultilanguageViewsAddLanguagesAfterAddingArticle()
     {
-        //insert article first
+        oxRegistry::getLang()->setBaseLanguage('de');
         $this->insertArticle();
 
         //add more languages and activate latest added language in frontend
@@ -74,7 +58,7 @@ class Integration_Multilanguage_ViewTest extends MultilanguageTestCase
 
         //Make sure we have the expected value for the base language.
         //Effect of #6216 was that base language data was wrongly used for language id >= 8 with no way to change this.
-        oxRegistry::getLang()->setBaseLanguage($this->originalBaseLanguageId);
+        oxRegistry::getLang()->setBaseLanguage('de');
         $article = oxnew('oxArticle');
         $article->disableLazyLoading();
         $article->load($this->testArticleId);
@@ -103,7 +87,7 @@ class Integration_Multilanguage_ViewTest extends MultilanguageTestCase
         $this->assertSame('TEST_MULTI_LANGUAGE', $article->oxarticles__oxtitle->value);
 
         //As article was stored in switched base language, related original base language field is empty.
-        oxRegistry::getLang()->setBaseLanguage($this->originalBaseLanguageId);
+        oxRegistry::getLang()->setBaseLanguage('de');
         $article = oxnew('oxArticle');
         $article->disableLazyLoading();
         $article->load($this->testArticleId);

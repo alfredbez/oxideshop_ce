@@ -22,6 +22,11 @@
 
 class LanguageMainHelper extends Language_Main
 {
+    public function init()
+    {
+        //do nothing atm
+    }
+
     public function getLanguageData()
     {
         return $this->_aLangData;
@@ -30,5 +35,11 @@ class LanguageMainHelper extends Language_Main
     public function setLanguageData($languageData)
     {
         $this->_aLangData = $languageData;
+    }
+
+    public function render()
+    {
+        //loading languages info from config
+        $this->_aLangData = $this->_getLanguages();
     }
 }

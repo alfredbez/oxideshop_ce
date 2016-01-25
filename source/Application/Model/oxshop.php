@@ -265,17 +265,19 @@ class oxShop extends oxI18n
     /**
      * Returns language table view JOIN section
      *
-     * @param string $sTable table name
-     * @param int    $iLang  language id
+     * @param string $table table name
+     * @param string $languageId language id
      *
      * @return string $sSQL
      */
-    protected function _getViewJoinLang($sTable, $iLang)
+    protected function _getViewJoinLang($table, $languageId)
     {
         $sJoin = ' ';
-        $sLangTable = getLangTableName($sTable, $iLang);
-        if ($sLangTable && $sLangTable !== $sTable) {
-            $sJoin .= "LEFT JOIN {$sLangTable} USING (OXID) ";
+        $metaDataHandler = oxNew('oxDbMetaDataHandler');
+        $tableSet = $metaDataHandler->getTableSetForLanguageAbbreviation($languageId, $table);
+
+        if ($tableSet && $tableSet !== $table) {
+            $sJoin .= "LEFT JOIN {$tableSet} USING (OXID) ";
         }
 
         return $sJoin;
