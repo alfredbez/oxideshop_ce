@@ -84,7 +84,7 @@ class Article_Seo extends Object_Seo
             $iLang = key($aList);
         }
 
-        return (int) $iLang;
+        return $iLang;
     }
 
     /**

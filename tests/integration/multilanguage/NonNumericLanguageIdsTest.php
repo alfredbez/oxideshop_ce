@@ -771,20 +771,6 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
     }
 
     /**
-     * Remove additional multilanguage tables and related.
-     *
-     * @return null
-     */
-    protected function removeAdditionalTables($name)
-    {
-        $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES  WHERE TABLE_NAME LIKE '%" . $name . "%'";
-        $result = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getArray($sql);
-        foreach ($result as $sub) {
-            oxDb::getDb()->query("DROP TABLE IF EXISTS `" . $sub['TABLE_NAME'] . "`");
-        }
-    }
-
-    /**
      * Test helper to add a bunch of new languages to shop configuration.
      *
      * @param bool $leaveOneOut

@@ -3624,7 +3624,7 @@ class oxArticle extends oxI18n implements ArticleInterface, oxIUrl
             if ($sValue !== null) {
                 $oArtExt = oxNew('oxI18n');
                 $oArtExt->init('oxartextends');
-                $oArtExt->setLanguage((int) $this->getLanguage());
+                $oArtExt->setLanguage($this->getLanguage());
                 if (!$oArtExt->load($this->getId())) {
                     $oArtExt->setId($this->getId());
                 }

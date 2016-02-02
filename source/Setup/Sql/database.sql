@@ -45,24 +45,24 @@ CREATE TABLE `oxactions` (
   `OXSHOPID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (oxshops)',
   `OXTYPE` tinyint( 1 ) NOT NULL COMMENT 'Action type: 0 or 1 - action, 2 - promotion, 3 - banner',
   `OXTITLE` char(128) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXTITLE_1` char(128) NOT NULL default '' COMMENT '',
-  `OXTITLE_2` char(128) NOT NULL default '' COMMENT '',
-  `OXTITLE_3` char(128) NOT NULL default '' COMMENT '',
+  `OXTITLE_de` char(128) NOT NULL default '' COMMENT '',
+  `OXTITLE_en` char(128) NOT NULL default '' COMMENT '',
+  `OXTITLE_fr` char(128) NOT NULL default '' COMMENT '',
   `OXLONGDESC` text NOT NULL COMMENT 'Long description, used for promotion (multilanguage)',
-  `OXLONGDESC_1` text NOT NULL,
-  `OXLONGDESC_2` text NOT NULL,
-  `OXLONGDESC_3` text NOT NULL,
+  `OXLONGDESC_de` text NOT NULL,
+  `OXLONGDESC_en` text NOT NULL,
+  `OXLONGDESC_fr` text NOT NULL,
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
   `OXACTIVETO` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active to specified date',
   `OXPIC`   VARCHAR(128) NOT NULL DEFAULT '' COMMENT 'Picture filename, used for banner (multilanguage)',
-  `OXPIC_1` VARCHAR(128) NOT NULL DEFAULT '',
-  `OXPIC_2` VARCHAR(128) NOT NULL DEFAULT '',
-  `OXPIC_3` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXPIC_de` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXPIC_en` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXPIC_fr` VARCHAR(128) NOT NULL DEFAULT '',
   `OXLINK`   VARCHAR(128) NOT NULL DEFAULT '' COMMENT 'Link, used on banner (multilanguage)',
-  `OXLINK_1` VARCHAR(128) NOT NULL DEFAULT '',
-  `OXLINK_2` VARCHAR(128) NOT NULL DEFAULT '',
-  `OXLINK_3` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXLINK_de` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXLINK_en` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXLINK_fr` VARCHAR(128) NOT NULL DEFAULT '',
   `OXSORT` int( 5 ) NOT NULL DEFAULT '0' COMMENT 'Sorting',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
@@ -73,7 +73,7 @@ CREATE TABLE `oxactions` (
 #
 # Data for table `oxactions`
 #
-INSERT INTO `oxactions` (`OXID`, `OXSHOPID`, `OXTYPE`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`, `OXLONGDESC`, `OXLONGDESC_1`, `OXLONGDESC_2`, `OXLONGDESC_3`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXPIC`, `OXPIC_1`, `OXPIC_2`, `OXPIC_3`, `OXLINK`, `OXLINK_1`, `OXLINK_2`, `OXLINK_3`, `OXSORT`) VALUES
+INSERT INTO `oxactions` (`OXID`, `OXSHOPID`, `OXTYPE`, `OXTITLE`, `OXTITLE_de`, `OXTITLE_en`, `OXTITLE_fr`, `OXLONGDESC`, `OXLONGDESC_de`, `OXLONGDESC_en`, `OXLONGDESC_fr`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXPIC`, `OXPIC_de`, `OXPIC_en`, `OXPIC_fr`, `OXLINK`, `OXLINK_de`, `OXLINK_en`, `OXLINK_fr`, `OXSORT`) VALUES
 ('oxstart',      'oxbaseshop', 0, 'Startseite unten', 'Start page bottom', '', '', '', '', '', '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '', '', '', '', '', 0),
 ('oxtopstart',   'oxbaseshop', 0, 'Topangebot Startseite', 'Top offer start page', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '', '', '', '', '', 0),
 ('oxbargain',    'oxbaseshop', 0, 'Angebot der Woche', 'Week''s Special', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '', '', '', '', '', 0),
@@ -210,33 +210,33 @@ CREATE TABLE `oxarticles` (
   `OXVARSELECT` varchar(255) NOT NULL default '' COMMENT 'Variant article selections (separated by | ) (multilanguage)',
   `OXVARMINPRICE` double NOT NULL default '0' COMMENT 'Lowest price in active article variants',
   `OXVARMAXPRICE` double NOT NULL default '0' COMMENT 'Highest price in active article variants',
-  `OXVARNAME_1` varchar(255) NOT NULL default '',
-  `OXVARSELECT_1` varchar(255) NOT NULL default '',
-  `OXVARNAME_2` varchar(255) NOT NULL default '',
-  `OXVARSELECT_2` varchar(255) NOT NULL default '',
-  `OXVARNAME_3` varchar(255) NOT NULL default '',
-  `OXVARSELECT_3` varchar(255) NOT NULL default '',
-  `OXTITLE_1` varchar(255) NOT NULL default '',
-  `OXSHORTDESC_1` varchar(255) NOT NULL default '',
-  `OXURLDESC_1` varchar(255) NOT NULL default '',
-  `OXSEARCHKEYS_1` varchar(255) NOT NULL default '',
-  `OXTITLE_2` varchar(255) NOT NULL default '',
-  `OXSHORTDESC_2` varchar(255) NOT NULL default '',
-  `OXURLDESC_2` varchar(255) NOT NULL default '',
-  `OXSEARCHKEYS_2` varchar(255) NOT NULL default '',
-  `OXTITLE_3` varchar(255) NOT NULL default '',
-  `OXSHORTDESC_3` varchar(255) NOT NULL default '',
-  `OXURLDESC_3` varchar(255) NOT NULL default '',
-  `OXSEARCHKEYS_3` varchar(255) NOT NULL default '',
+  `OXVARNAME_de` varchar(255) NOT NULL default '',
+  `OXVARSELECT_de` varchar(255) NOT NULL default '',
+  `OXVARNAME_en` varchar(255) NOT NULL default '',
+  `OXVARSELECT_en` varchar(255) NOT NULL default '',
+  `OXVARNAME_fr` varchar(255) NOT NULL default '',
+  `OXVARSELECT_fr` varchar(255) NOT NULL default '',
+  `OXTITLE_de` varchar(255) NOT NULL default '',
+  `OXSHORTDESC_de` varchar(255) NOT NULL default '',
+  `OXURLDESC_de` varchar(255) NOT NULL default '',
+  `OXSEARCHKEYS_de` varchar(255) NOT NULL default '',
+  `OXTITLE_en` varchar(255) NOT NULL default '',
+  `OXSHORTDESC_en` varchar(255) NOT NULL default '',
+  `OXURLDESC_en` varchar(255) NOT NULL default '',
+  `OXSEARCHKEYS_en` varchar(255) NOT NULL default '',
+  `OXTITLE_fr` varchar(255) NOT NULL default '',
+  `OXSHORTDESC_fr` varchar(255) NOT NULL default '',
+  `OXURLDESC_fr` varchar(255) NOT NULL default '',
+  `OXSEARCHKEYS_fr` varchar(255) NOT NULL default '',
   `OXBUNDLEID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Bundled article id',
   `OXFOLDER` varchar(32) NOT NULL default '' COMMENT 'Folder',
   `OXSUBCLASS` varchar(32) NOT NULL default '' COMMENT 'Subclass',
-  `OXSTOCKTEXT_1` varchar(255) NOT NULL default '',
-  `OXSTOCKTEXT_2` varchar(255) NOT NULL default '',
-  `OXSTOCKTEXT_3` varchar(255) NOT NULL default '',
-  `OXNOSTOCKTEXT_1` varchar(255) NOT NULL default '',
-  `OXNOSTOCKTEXT_2` varchar(255) NOT NULL default '',
-  `OXNOSTOCKTEXT_3` varchar(255) NOT NULL default '',
+  `OXSTOCKTEXT_de` varchar(255) NOT NULL default '',
+  `OXSTOCKTEXT_en` varchar(255) NOT NULL default '',
+  `OXSTOCKTEXT_fr` varchar(255) NOT NULL default '',
+  `OXNOSTOCKTEXT_de` varchar(255) NOT NULL default '',
+  `OXNOSTOCKTEXT_en` varchar(255) NOT NULL default '',
+  `OXNOSTOCKTEXT_fr` varchar(255) NOT NULL default '',
   `OXSORT` int(5) NOT NULL default '0' COMMENT 'Sorting',
   `OXSOLDAMOUNT` double NOT NULL default '0' COMMENT 'Amount of sold articles including variants (used only for parent articles)',
   `OXNONMATERIAL` int(1) NOT NULL default '0' COMMENT 'Intangible article, free shipping is used (variants inherits parent setting)',
@@ -292,19 +292,19 @@ DROP TABLE IF EXISTS `oxartextends`;
 CREATE TABLE `oxartextends` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Article id (extends oxarticles article with this id)',
   `OXLONGDESC` text NOT NULL COMMENT 'Long description (multilanguage)',
-  `OXLONGDESC_1` text NOT NULL,
-  `OXLONGDESC_2` text NOT NULL,
-  `OXLONGDESC_3` text NOT NULL,
+  `OXLONGDESC_de` text NOT NULL,
+  `OXLONGDESC_en` text NOT NULL,
+  `OXLONGDESC_fr` text NOT NULL,
   `OXTAGS` varchar(255) NOT NULL COMMENT 'Tags (multilanguage)',
-  `OXTAGS_1` varchar(255) NOT NULL,
-  `OXTAGS_2` varchar(255) NOT NULL,
-  `OXTAGS_3` varchar(255) NOT NULL,
+  `OXTAGS_de` varchar(255) NOT NULL,
+  `OXTAGS_en` varchar(255) NOT NULL,
+  `OXTAGS_fr` varchar(255) NOT NULL,
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   FULLTEXT KEY `OXTAGS`   (`OXTAGS`),
-  FULLTEXT KEY `OXTAGS_1` (`OXTAGS_1`),
-  FULLTEXT KEY `OXTAGS_2` (`OXTAGS_2`),
-  FULLTEXT KEY `OXTAGS_3` (`OXTAGS_3`)
+  FULLTEXT KEY `OXTAGS_de` (`OXTAGS_de`),
+  FULLTEXT KEY `OXTAGS_en` (`OXTAGS_en`),
+  FULLTEXT KEY `OXTAGS_fr` (`OXTAGS_fr`)
 ) ENGINE=MyISAM COMMENT 'Additional information for articles';
 
 #
@@ -317,9 +317,9 @@ CREATE TABLE `oxattribute` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Attribute id',
   `OXSHOPID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (oxshops)',
   `OXTITLE` char(128) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXTITLE_1` char(128) NOT NULL default '',
-  `OXTITLE_2` char(128) NOT NULL default '',
-  `OXTITLE_3` char(128) NOT NULL default '',
+  `OXTITLE_de` char(128) NOT NULL default '',
+  `OXTITLE_en` char(128) NOT NULL default '',
+  `OXTITLE_fr` char(128) NOT NULL default '',
   `OXPOS` int(11) NOT NULL default '9999' COMMENT 'Sorting',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   `OXDISPLAYINBASKET` tinyint(1) NOT NULL default '0' COMMENT 'Display attribute`s value for articles in checkout',
@@ -362,27 +362,27 @@ CREATE TABLE `oxcategories` (
   `OXDESC` varchar(255) NOT NULL default '' COMMENT 'Description (multilanguage)',
   `OXLONGDESC` text NOT NULL COMMENT 'Long description (multilanguage)',
   `OXTHUMB` varchar(128) NOT NULL default '' COMMENT 'Thumbnail filename (multilanguage)',
-  `OXTHUMB_1` VARCHAR(128) NOT NULL DEFAULT '',
-  `OXTHUMB_2` VARCHAR(128) NOT NULL DEFAULT '',
-  `OXTHUMB_3` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXTHUMB_de` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXTHUMB_en` VARCHAR(128) NOT NULL DEFAULT '',
+  `OXTHUMB_fr` VARCHAR(128) NOT NULL DEFAULT '',
   `OXEXTLINK` varchar(255) NOT NULL default '' COMMENT 'External link, that if specified is opened instead of category content',
   `OXTEMPLATE` varchar(128) NOT NULL default '' COMMENT 'Alternative template filename (if empty, default is used)',
   `OXDEFSORT` varchar(64) NOT NULL default '' COMMENT 'Default field for sorting of articles in this category (most of oxarticles fields)',
   `OXDEFSORTMODE` tinyint(1) NOT NULL default '0' COMMENT 'Default mode of sorting of articles in this category (0 - asc, 1 - desc)',
   `OXPRICEFROM` double NOT NULL default '0' COMMENT 'If specified, all articles, with price higher than specified, will be shown in this category',
   `OXPRICETO` double NOT NULL default '0' COMMENT 'If specified, all articles, with price lower than specified, will be shown in this category',
-  `OXACTIVE_1` tinyint(1) NOT NULL default '0',
-  `OXTITLE_1` varchar(255) NOT NULL default '',
-  `OXDESC_1` varchar(255) NOT NULL default '',
-  `OXLONGDESC_1` text NOT NULL,
-  `OXACTIVE_2` tinyint(1) NOT NULL default '0',
-  `OXTITLE_2` varchar(255) NOT NULL default '',
-  `OXDESC_2` varchar(255) NOT NULL default '',
-  `OXLONGDESC_2` text NOT NULL,
-  `OXACTIVE_3` tinyint(1) NOT NULL default '0',
-  `OXTITLE_3` varchar(255) NOT NULL default '',
-  `OXDESC_3` varchar(255) NOT NULL default '',
-  `OXLONGDESC_3` text NOT NULL,
+  `OXACTIVE_de` tinyint(1) NOT NULL default '0',
+  `OXTITLE_de` varchar(255) NOT NULL default '',
+  `OXDESC_de` varchar(255) NOT NULL default '',
+  `OXLONGDESC_de` text NOT NULL,
+  `OXACTIVE_en` tinyint(1) NOT NULL default '0',
+  `OXTITLE_en` varchar(255) NOT NULL default '',
+  `OXDESC_en` varchar(255) NOT NULL default '',
+  `OXLONGDESC_en` text NOT NULL,
+  `OXACTIVE_fr` tinyint(1) NOT NULL default '0',
+  `OXTITLE_fr` varchar(255) NOT NULL default '',
+  `OXDESC_fr` varchar(255) NOT NULL default '',
+  `OXLONGDESC_fr` text NOT NULL,
   `OXICON` varchar(128) NOT NULL default '' COMMENT 'Icon filename',
   `OXPROMOICON` varchar(128) NOT NULL default '' COMMENT 'Promotion icon filename',
   `OXVAT` FLOAT NULL DEFAULT NULL COMMENT 'VAT, used for articles in this category (only if oxarticles.oxvat is not set)',
@@ -447,16 +447,16 @@ INSERT INTO `oxconfig` (`OXID`, `OXSHOPID`, `OXMODULE`, `OXVARNAME`, `OXVARTYPE`
 ('8563fba1965a219c9.51133344', 'oxbaseshop', '', 'blUseStock', 'bool', 0x07),
 ('8563fba1965a23786.00479842', 'oxbaseshop', '', 'blStoreCreditCardInfo', 'bool', ''),
 ('8563fba1965a25500.87856483', 'oxbaseshop', '', 'dDefaultVAT', 'num', 0x07a1),
-('8563fba1965a27185.06428911', 'oxbaseshop', '', 'sDefaultLang', 'str', 0xde),
+('8563fba1965a27185.06428911', 'oxbaseshop', '', 'sDefaultLang', 'str', 0xCE92),
 ('8563fba1965a2b330.65668120', 'oxbaseshop', '', 'sMerchantID', 'str', ''),
 ('8563fba1965a2d181.97927980', 'oxbaseshop', '', 'sHost', 'str', 0x00d0e1aeebd778fac282663570d1660f41dc61385dbcd5d5d6f6),
 ('7fc4007ffb2639208.44268873', 'oxbaseshop', '', 'sGZSLogFile', 'str', ''),
 ('8563fba1965a2eee6.68137602', 'oxbaseshop', '', 'sPaymentUser', 'str', ''),
 ('8563fba1965a30cf7.41846088', 'oxbaseshop', '', 'sPaymentPwd', 'str', ''),
-('mlae44cdad808d9b994c58540db39e7a', 'oxbaseshop', '', 'aLanguages', 'aarr', 0x4dba832f744c5786a371d9df3377ea87f0e2773dbaf685493e0b949a1c149111959424345b628f640a0d92ea6047ec118252e992),
-('39893a0ef6a6e11645d4beee4fd0cd51', 'oxbaseshop', '', 'aLanguageParams', 'aarr', 0x4dba832f744c5786a371d9df33778f9525f408b6efbc82de7c3c5ae3396caa6f8afb6864afa833b43597cad1fb8f9b8970c8e9098d10aae1be4637faa40a012a04e45a8a1cdd1b2ac3da558638600e58acf70fe8c192b668995bb533dac95be7af7d343b3a9c9b8daeaf4d637f065895346773476d667de331fe40d18765d4b98faf7375e1090587d8dd4bf98ad5005eb30666410920),
-('mlabefd7ebdb5946e8f3f7e7a953b323', 'oxbaseshop', '', 'aLanguageSSLURLs', 'arr', 0x4dba832f74e74df4cdd5afca153f15e216aea908af01b8),
-('mla50c74dd79703312ffb8cfd82c3741', 'oxbaseshop', '', 'aLanguageURLs', 'arr', 0x4dba832f74e74df4cdd5afca153f15e216aea908af01b8),
+('mlae44cdad808d9b994c58540db39e7a', 'oxbaseshop', '', 'aLanguages', 'aarr', 0x4DBA832F744C5786A371D9DF3377EA87F0E2773DBAF685493E0B949A1C149111959424345B628F640A0D92EA6047EC118252E992),
+('39893a0ef6a6e11645d4beee4fd0cd51', 'oxbaseshop', '', 'aLanguageParams', 'aarr', 0x4DBA832F744C5786A371D9DF33778F9525F408B6EFBC82DE7C3C5AE3396CAA6F21E11A0A0BDEEF947BB6005AC56B413E6A232CC5AA59C685268D0844864647FC59D2413F07D7880D8AB6311E3089FC75C496BAC1E0F67D15A96C855CC27646939695055DCA783A198250892890D7FF9F15E3DD4278C78D95AB206ACC1C3D5813D0480EACACD6836530C217014C89AE6944CB00422E4B954500FE21FA285C0709),
+('mlabefd7ebdb5946e8f3f7e7a953b323', 'oxbaseshop', '', 'aLanguageSSLURLs', 'arr', 0x4DBA832F744C5786A371D9DF3377EA8759E57043809BDFA094F1F9F19604A87CF1),
+('mla50c74dd79703312ffb8cfd82c3741', 'oxbaseshop', '', 'aLanguageURLs', 'arr', 0x4DBA832F744C5786A371D9DF3377EA8759E57043809BDFA094F1F9F19604A87CF1),
 ('3c4f033dfb8fd4fe692715dda19ecd28', 'oxbaseshop', '', 'aCurrencies', 'arr', 0x4dbace2972e14bf2cbd3a9a4e655024620eb2a8b1770b083941edcbf1c09b8fc7a380fb4fb661e5241a9210d3ffa59395ce3d820d2a79c058e9c3a17c6815dfd492d51e0c01ace28af380e907a09677cedf73adab55f42f0154d9fc9bee3386b61956857d73768557428bf4d2f57e672f2bc3aaea791227a0de72d60c14259edefcf1358c703cf1d639f6a59d1cc9334bf7275d37b679cc79f178db9ca504c0e43),
 ('8563fba1baec4d3b7.61553539', 'oxbaseshop', '', 'iNrofSimilarArticles', 'str', 0x5d),
 ('8563fba1baec4f6d3.38812651', 'oxbaseshop', '', 'iNrofCustomerWhoArticles', 'str', 0x5d),
@@ -655,18 +655,18 @@ CREATE TABLE `oxcontents` (
   `OXSNIPPET` tinyint(1) NOT NULL default '1' COMMENT 'Snippet (can be included to other oxcontents records)',
   `OXTYPE` tinyint(1) NOT NULL default '0' COMMENT 'Type: 0 - Snippet, 1 - Upper Menu, 2 - Category, 3 - Manual',
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Active (multilanguage)',
-  `OXACTIVE_1` tinyint(1) NOT NULL default '0' COMMENT '',
+  `OXACTIVE_de` tinyint(1) NOT NULL default '0' COMMENT '',
   `OXPOSITION` varchar(32) NOT NULL default '' COMMENT 'Position',
   `OXTITLE` varchar(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXCONTENT` text NOT NULL COMMENT 'Content (multilanguage)',
-  `OXTITLE_1` varchar(255) NOT NULL default '' COMMENT '',
-  `OXCONTENT_1` text NOT NULL ,
-  `OXACTIVE_2` tinyint(1) NOT NULL default '0' ,
-  `OXTITLE_2` varchar(255) NOT NULL default '' ,
-  `OXCONTENT_2` text NOT NULL ,
-  `OXACTIVE_3` tinyint(1) NOT NULL default '0' ,
-  `OXTITLE_3` varchar(255) NOT NULL default '' ,
-  `OXCONTENT_3` text NOT NULL,
+  `OXTITLE_de` varchar(255) NOT NULL default '' COMMENT '',
+  `OXCONTENT_de` text NOT NULL ,
+  `OXACTIVE_en` tinyint(1) NOT NULL default '0' ,
+  `OXTITLE_en` varchar(255) NOT NULL default '' ,
+  `OXCONTENT_en` text NOT NULL ,
+  `OXACTIVE_fr` tinyint(1) NOT NULL default '0' ,
+  `OXTITLE_fr` varchar(255) NOT NULL default '' ,
+  `OXCONTENT_fr` text NOT NULL,
   `OXCATID` varchar(32) character set latin1 collate latin1_general_ci default NULL COMMENT 'Category id (oxcategories), used only when type = 2',
   `OXFOLDER` varchar(32) NOT NULL default '' COMMENT 'Content Folder (available options at oxconfig.OXVARNAME = aCMSfolder)',
   `OXTERMVERSION` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Term and Conditions version (used only when OXLOADID = oxagb)',
@@ -680,7 +680,7 @@ CREATE TABLE `oxcontents` (
 # Table structure for table `oxcontents`
 #
 
-INSERT INTO `oxcontents` (`OXID`, `OXLOADID`, `OXSHOPID`, `OXSNIPPET`, `OXTYPE`, `OXACTIVE`, `OXACTIVE_1`, `OXPOSITION`, `OXTITLE`, `OXCONTENT`, `OXTITLE_1`, `OXCONTENT_1`, `OXACTIVE_2`, `OXTITLE_2`, `OXCONTENT_2`, `OXACTIVE_3`, `OXTITLE_3`, `OXCONTENT_3`, `OXCATID`, `OXFOLDER`, `OXTERMVERSION`) VALUES
+INSERT INTO `oxcontents` (`OXID`, `OXLOADID`, `OXSHOPID`, `OXSNIPPET`, `OXTYPE`, `OXACTIVE`, `OXACTIVE_de`, `OXPOSITION`, `OXTITLE`, `OXCONTENT`, `OXTITLE_de`, `OXCONTENT_de`, `OXACTIVE_en`, `OXTITLE_en`, `OXCONTENT_en`, `OXACTIVE_fr`, `OXTITLE_fr`, `OXCONTENT_fr`, `OXCATID`, `OXFOLDER`, `OXTERMVERSION`) VALUES
 ('8709e45f31a86909e9f999222e80b1d0', 'oxstdfooter', 'oxbaseshop', 1, 0, 1, 1, '', 'Standard Footer', '<div>OXID Online Shop - Alles rund um das Thema Wassersport, Sportbekleidung und Mode </div>', 'standard footer', '<div>OXID Online Shop - All about watersports, sportswear and fashion </div>', 1, '', '', 1, '', '', '30e44ab83fdee7564.23264141', '', ''),
 ('ad542e49bff479009.64538090', 'oxadminorderemail', 'oxbaseshop', 1, 0, 1, 1, '', 'Ihre Bestellung Admin', 'Folgende Artikel wurden soeben unter [{ $shop->oxshops__oxname->value }] bestellt:<br>\r\n<br>', 'your order admin', 'The following products have been ordered in [{ $shop->oxshops__oxname->value }] right now:<br>\r\n<br>', 1, '', '', 1, '', '', '30e44ab83fdee7564.23264141', 'CMSFOLDER_EMAILS', ''),
 ('c8d45408c4998f421.15746968', 'oxadminordernpemail', 'oxbaseshop', 1, 0, 1, 1, '', 'Ihre Bestellung Admin (Fremdländer)', '<div>\r\n<p> <span style="color: #ff0000;"><strong>Hinweis:</strong></span> Derzeit ist keine Liefermethode für dieses Land bekannt. Bitte Liefermöglichkeiten suchen und den Besteller unter Angabe der <strong>Lieferkosten</strong> informieren!\r\n&nbsp;</p> </div>\r\n<div>Folgende Artikel wurden soeben unter [{ $shop->oxshops__oxname->value }] bestellt:<br>\r\n<br>\r\n</div>', 'your order admin (other country)', '<p> <span style="color: #ff0000"><strong>Information:</strong></span> Currently, there is no shipping method defined for this country. Please find a delivery option and inform the customer about the <strong>shipping costs</strong>.</p>\r\n<p>The following products have been ordered on [{ $shop->oxshops__oxname->value }]:<br />\r\n<br /></p>', 1, '', '', 1, '', '', '30e44ab83fdee7564.23264141', 'CMSFOLDER_EMAILS', ''),
@@ -768,15 +768,15 @@ CREATE TABLE `oxcountry` (
   `OXORDER` int(11) NOT NULL default '9999' COMMENT 'Sorting',
   `OXSHORTDESC` char(128) NOT NULL default '' COMMENT 'Short description (multilanguage)',
   `OXLONGDESC` char(255) NOT NULL default '' COMMENT 'Long description (multilanguage)',
-  `OXTITLE_1` char(128) NOT NULL default '',
-  `OXTITLE_2` char(128) NOT NULL default '',
-  `OXTITLE_3` char(128) NOT NULL default '',
-  `OXSHORTDESC_1` char(128) NOT NULL default '',
-  `OXSHORTDESC_2` char(128) NOT NULL default '',
-  `OXSHORTDESC_3` char(128) NOT NULL default '',
-  `OXLONGDESC_1` char(255) NOT NULL,
-  `OXLONGDESC_2` char(255) NOT NULL,
-  `OXLONGDESC_3` char(255) NOT NULL,
+  `OXTITLE_de` char(128) NOT NULL default '',
+  `OXTITLE_en` char(128) NOT NULL default '',
+  `OXTITLE_fr` char(128) NOT NULL default '',
+  `OXSHORTDESC_de` char(128) NOT NULL default '',
+  `OXSHORTDESC_en` char(128) NOT NULL default '',
+  `OXSHORTDESC_fr` char(128) NOT NULL default '',
+  `OXLONGDESC_de` char(255) NOT NULL,
+  `OXLONGDESC_en` char(255) NOT NULL,
+  `OXLONGDESC_fr` char(255) NOT NULL,
   `OXVATSTATUS` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Vat status: 0 - Do not bill VAT, 1 - Do not bill VAT only if provided valid VAT ID',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
@@ -786,7 +786,7 @@ CREATE TABLE `oxcountry` (
 #
 # Data for table `oxcountry`
 #
-INSERT INTO `oxcountry` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXISOALPHA2`, `OXISOALPHA3`, `OXUNNUM3`, `OXVATINPREFIX`, `OXORDER`, `OXSHORTDESC`, `OXLONGDESC`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`, `OXSHORTDESC_1`, `OXSHORTDESC_2`, `OXSHORTDESC_3`, `OXLONGDESC_1`, `OXLONGDESC_2`, `OXLONGDESC_3`, `OXVATSTATUS`) VALUES
+INSERT INTO `oxcountry` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXISOALPHA2`, `OXISOALPHA3`, `OXUNNUM3`, `OXVATINPREFIX`, `OXORDER`, `OXSHORTDESC`, `OXLONGDESC`, `OXTITLE_de`, `OXTITLE_en`, `OXTITLE_fr`, `OXSHORTDESC_de`, `OXSHORTDESC_en`, `OXSHORTDESC_fr`, `OXLONGDESC_de`, `OXLONGDESC_en`, `OXLONGDESC_fr`, `OXVATSTATUS`) VALUES
 ('2db455824e4a19cc7.14731328', 0, 'Anderes Land', '', '', '', '', 10000, '', 'Select this if you can not find your country.', 'Other country', '', '', '', '', '', 'Select this if you can not find your country.', '', '', 0),
 ('a7c40f631fc920687.20179984', 1, 'Deutschland', 'DE', 'DEU', '276', 'DE', 9999, 'EU1', '', 'Germany', '', '', 'EU1', '', '', '', '', '', 1),
 ('a7c40f6320aeb2ec2.72885259', 1, 'Österreich', 'AT', 'AUT', '40', 'AT', 9999, 'EU1', '', 'Austria', '', '', 'EU1', '', '', '', '', '', 1),
@@ -1063,9 +1063,9 @@ CREATE TABLE `oxdelivery` (
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
   `OXACTIVETO` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active to specified date',
   `OXTITLE` varchar(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXTITLE_1` varchar(255) NOT NULL default '',
-  `OXTITLE_2` varchar(255) NOT NULL default '',
-  `OXTITLE_3` varchar(255) NOT NULL default '',
+  `OXTITLE_de` varchar(255) NOT NULL default '',
+  `OXTITLE_en` varchar(255) NOT NULL default '',
+  `OXTITLE_fr` varchar(255) NOT NULL default '',
   `OXADDSUMTYPE` enum('%','abs') NOT NULL default 'abs' COMMENT 'Price Surcharge/Reduction type (abs|%)',
   `OXADDSUM` double NOT NULL default '0' COMMENT 'Price Surcharge/Reduction amount',
   `OXDELTYPE` enum('a','s','w','p') NOT NULL default 'a' COMMENT 'Condition type: a - Amount, s - Size, w - Weight, p - Price',
@@ -1092,9 +1092,9 @@ CREATE TABLE `oxdeliveryset` (
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
   `OXACTIVETO` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active to specified date',
   `OXTITLE` varchar(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXTITLE_1` varchar(255) NOT NULL default '',
-  `OXTITLE_2` varchar(255) NOT NULL default '',
-  `OXTITLE_3` varchar(255) NOT NULL default '',
+  `OXTITLE_de` varchar(255) NOT NULL default '',
+  `OXTITLE_en` varchar(255) NOT NULL default '',
+  `OXTITLE_fr` varchar(255) NOT NULL default '',
   `OXPOS` int(11) NOT NULL default '0' COMMENT 'Sorting',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Creation time',
   PRIMARY KEY  (`OXID`),
@@ -1104,7 +1104,7 @@ CREATE TABLE `oxdeliveryset` (
 #
 # Data for table `oxdeliveryset`
 #
-INSERT INTO `oxdeliveryset` (`OXID`, `OXSHOPID`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`, `OXPOS`) VALUES
+INSERT INTO `oxdeliveryset` (`OXID`, `OXSHOPID`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXTITLE`, `OXTITLE_de`, `OXTITLE_en`, `OXTITLE_fr`, `OXPOS`) VALUES
 ('oxidstandard', 'oxbaseshop', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Standard', 'Standard', '', '', 10);
 
 #
@@ -1120,9 +1120,9 @@ CREATE TABLE `oxdiscount` (
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
   `OXACTIVETO` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active to specified date',
   `OXTITLE` varchar(128) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXTITLE_1` varchar( 128 ) NOT NULL,
-  `OXTITLE_2` varchar( 128 ) NOT NULL,
-  `OXTITLE_3` varchar( 128 ) NOT NULL,
+  `OXTITLE_de` varchar( 128 ) NOT NULL,
+  `OXTITLE_en` varchar( 128 ) NOT NULL,
+  `OXTITLE_fr` varchar( 128 ) NOT NULL,
   `OXAMOUNT` double NOT NULL default '0' COMMENT 'Valid from specified amount of articles',
   `OXAMOUNTTO` double NOT NULL default '999999' COMMENT 'Valid to specified amount of articles',
   `OXPRICETO` double NOT NULL default '999999' COMMENT 'Valid to specified purchase price',
@@ -1190,9 +1190,9 @@ CREATE TABLE `oxgroups` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Group id',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
   `OXTITLE` varchar(128) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXTITLE_1` varchar(128) NOT NULL default '',
-  `OXTITLE_2` varchar(128) NOT NULL default '',
-  `OXTITLE_3` varchar(128) NOT NULL default '',
+  `OXTITLE_de` varchar(128) NOT NULL default '',
+  `OXTITLE_en` varchar(128) NOT NULL default '',
+  `OXTITLE_fr` varchar(128) NOT NULL default '',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   KEY `OXACTIVE` (`OXACTIVE`)
@@ -1201,7 +1201,7 @@ CREATE TABLE `oxgroups` (
 #
 # Data for table `oxgroups`
 #
-INSERT INTO `oxgroups` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`) VALUES
+INSERT INTO `oxgroups` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXTITLE_de`, `OXTITLE_en`, `OXTITLE_fr`) VALUES
 ('oxidblacklist', 1, 'Blacklist', 'Blacklist', '', ''),
 ('oxidsmallcust', 1, 'Geringer Umsatz', 'Less Turnover', '', ''),
 ('oxidmiddlecust', 1, 'Mittlerer Umsatz', 'Medium Turnover', '', ''),
@@ -1251,9 +1251,9 @@ CREATE TABLE `oxlinks` (
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Active',
   `OXURL` varchar(255) NOT NULL default '' COMMENT 'Link url',
   `OXURLDESC` text NOT NULL COMMENT 'Description (multilanguage)',
-  `OXURLDESC_1` text NOT NULL,
-  `OXURLDESC_2` text NOT NULL,
-  `OXURLDESC_3` text NOT NULL,
+  `OXURLDESC_de` text NOT NULL,
+  `OXURLDESC_en` text NOT NULL,
+  `OXURLDESC_fr` text NOT NULL,
   `OXINSERT` datetime default NULL COMMENT 'Creation time (set by user)',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
@@ -1275,12 +1275,12 @@ CREATE TABLE `oxmanufacturers` (
   `OXICON` char(128) NOT NULL default '' COMMENT 'Icon filename',
   `OXTITLE` char(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXSHORTDESC` char(255) NOT NULL default '' COMMENT 'Short description (multilanguage)',
-  `OXTITLE_1` char(255) NOT NULL default '',
-  `OXSHORTDESC_1` char(255) NOT NULL default '',
-  `OXTITLE_2` char(255) NOT NULL default '',
-  `OXSHORTDESC_2` char(255) NOT NULL default '',
-  `OXTITLE_3` char(255) NOT NULL default '',
-  `OXSHORTDESC_3` char(255) NOT NULL default '',
+  `OXTITLE_de` char(255) NOT NULL default '',
+  `OXSHORTDESC_de` char(255) NOT NULL default '',
+  `OXTITLE_en` char(255) NOT NULL default '',
+  `OXSHORTDESC_en` char(255) NOT NULL default '',
+  `OXTITLE_fr` char(255) NOT NULL default '',
+  `OXSHORTDESC_fr` char(255) NOT NULL default '',
   `OXSHOWSUFFIX` tinyint(1) NOT NULL default '1' COMMENT 'Show SEO Suffix in Category',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`)
@@ -1299,9 +1299,9 @@ CREATE TABLE `oxmediaurls` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Article id (oxarticles)',
   `OXURL` varchar(255) NOT NULL COMMENT 'Media url or filename',
   `OXDESC` varchar(255) NOT NULL COMMENT 'Description (multilanguage)',
-  `OXDESC_1` varchar(255) NOT NULL,
-  `OXDESC_2` varchar(255) NOT NULL,
-  `OXDESC_3` varchar(255) NOT NULL,
+  `OXDESC_de` varchar(255) NOT NULL,
+  `OXDESC_en` varchar(255) NOT NULL,
+  `OXDESC_fr` varchar(255) NOT NULL,
   `OXISUPLOADED` int(1) NOT NULL default '0' COMMENT 'Is oxurl field used for filename or url',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
  PRIMARY KEY ( `OXID` ) ,
@@ -1323,15 +1323,15 @@ CREATE TABLE `oxnews` (
   `OXDATE` date NOT NULL default '0000-00-00' COMMENT 'Creation date (entered by user)',
   `OXSHORTDESC` varchar(255) NOT NULL default '' COMMENT 'Short description (multilanguage)',
   `OXLONGDESC` text NOT NULL COMMENT 'Long description (multilanguage)',
-  `OXACTIVE_1` tinyint(1) NOT NULL default '0',
-  `OXSHORTDESC_1` varchar(255) NOT NULL default '',
-  `OXLONGDESC_1` text NOT NULL,
-  `OXACTIVE_2` tinyint(1) NOT NULL default '0',
-  `OXSHORTDESC_2` varchar(255) NOT NULL default '',
-  `OXLONGDESC_2` text NOT NULL,
-  `OXACTIVE_3` tinyint(1) NOT NULL default '0',
-  `OXSHORTDESC_3` varchar(255) NOT NULL default '',
-  `OXLONGDESC_3` text NOT NULL,
+  `OXACTIVE_de` tinyint(1) NOT NULL default '0',
+  `OXSHORTDESC_de` varchar(255) NOT NULL default '',
+  `OXLONGDESC_de` text NOT NULL,
+  `OXACTIVE_en` tinyint(1) NOT NULL default '0',
+  `OXSHORTDESC_en` varchar(255) NOT NULL default '',
+  `OXLONGDESC_en` text NOT NULL,
+  `OXACTIVE_fr` tinyint(1) NOT NULL default '0',
+  `OXSHORTDESC_fr` varchar(255) NOT NULL default '',
+  `OXLONGDESC_fr` text NOT NULL,
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   KEY `OXSHOPID` (`OXSHOPID`),
@@ -1433,9 +1433,9 @@ CREATE TABLE `oxobject2attribute` (
   `OXATTRID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Attribute id (oxattributes)',
   `OXVALUE` char(255) NOT NULL default '' COMMENT 'Attribute value (multilanguage)',
   `OXPOS` int(11) NOT NULL default '9999' COMMENT 'Sorting',
-  `OXVALUE_1` char(255) NOT NULL default '',
-  `OXVALUE_2` char(255) NOT NULL default '',
-  `OXVALUE_3` char(255) NOT NULL default '',
+  `OXVALUE_de` char(255) NOT NULL default '',
+  `OXVALUE_en` char(255) NOT NULL default '',
+  `OXVALUE_fr` char(255) NOT NULL default '',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   KEY `OXOBJECTID` (`OXOBJECTID`),
@@ -1776,16 +1776,16 @@ CREATE TABLE `oxpayments` (
   `OXTOAMOUNT` double NOT NULL default '0' COMMENT 'Purchase Price: To',
   `OXVALDESC` text NOT NULL COMMENT 'Payment additional fields, separated by "field1__@@field2" (multilanguage)',
   `OXCHECKED` tinyint(1) NOT NULL default '0' COMMENT 'Selected as the default method',
-  `OXDESC_1` varchar(128) NOT NULL default '',
-  `OXVALDESC_1` text NOT NULL,
-  `OXDESC_2` varchar(128) NOT NULL default '',
-  `OXVALDESC_2` text NOT NULL,
-  `OXDESC_3` varchar(128) NOT NULL default '',
-  `OXVALDESC_3` text NOT NULL,
+  `OXDESC_de` varchar(128) NOT NULL default '',
+  `OXVALDESC_de` text NOT NULL,
+  `OXDESC_en` varchar(128) NOT NULL default '',
+  `OXVALDESC_en` text NOT NULL,
+  `OXDESC_fr` varchar(128) NOT NULL default '',
+  `OXVALDESC_fr` text NOT NULL,
   `OXLONGDESC` text NOT NULL default '' COMMENT 'Long description (multilanguage)',
-  `OXLONGDESC_1` text NOT NULL default '',
-  `OXLONGDESC_2` text NOT NULL default '',
-  `OXLONGDESC_3` text NOT NULL default '',
+  `OXLONGDESC_de` text NOT NULL default '',
+  `OXLONGDESC_en` text NOT NULL default '',
+  `OXLONGDESC_fr` text NOT NULL default '',
   `OXSORT` int(5) NOT NULL default 0 COMMENT 'Sorting',
   `OXTSPAYMENTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Trusted shop payment id',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -1796,7 +1796,7 @@ CREATE TABLE `oxpayments` (
 #
 # Data for table `oxpayments`
 #
-INSERT INTO `oxpayments` (`OXID`, `OXACTIVE`, `OXDESC`, `OXADDSUM`, `OXADDSUMTYPE`, `OXADDSUMRULES`, `OXFROMBONI`, `OXFROMAMOUNT`, `OXTOAMOUNT`, `OXVALDESC`, `OXCHECKED`, `OXDESC_1`, `OXVALDESC_1`, `OXDESC_2`, `OXVALDESC_2`, `OXDESC_3`, `OXVALDESC_3`, `OXLONGDESC`, `OXLONGDESC_1`, `OXLONGDESC_2`, `OXLONGDESC_3`, `OXSORT`, `OXTSPAYMENTID`) VALUES
+INSERT INTO `oxpayments` (`OXID`, `OXACTIVE`, `OXDESC`, `OXADDSUM`, `OXADDSUMTYPE`, `OXADDSUMRULES`, `OXFROMBONI`, `OXFROMAMOUNT`, `OXTOAMOUNT`, `OXVALDESC`, `OXCHECKED`, `OXDESC_de`, `OXVALDESC_de`, `OXDESC_en`, `OXVALDESC_en`, `OXDESC_fr`, `OXVALDESC_fr`, `OXLONGDESC`, `OXLONGDESC_de`, `OXLONGDESC_en`, `OXLONGDESC_fr`, `OXSORT`, `OXTSPAYMENTID`) VALUES
 ('oxidcashondel', 1, 'Nachnahme', 7.5, 'abs', 0, 0, 0, 1000000, '', 1, 'COD (Cash on Delivery)', '', '', '', '', '', '', '', '', '', 0, ''),
 ('oxidcreditcard', 1, 'Kreditkarte', 20.9, 'abs', 0, 500, 0, 1000000, 'kktype__@@kknumber__@@kkmonth__@@kkyear__@@kkname__@@kkpruef__@@', 1, 'Credit Card', 'kktype__@@kknumber__@@kkmonth__@@kkyear__@@kkname__@@kkpruef__@@', '', '', '', '', 'Die Belastung Ihrer Kreditkarte erfolgt mit dem Abschluss der Bestellung.', 'Your Credit Card will be charged when you submit the order.', '', '', 0, ''),
 ('oxiddebitnote', 1, 'Bankeinzug/Lastschrift', 0, 'abs', 0, 0, 0, 1000000, 'lsbankname__@@lsblz__@@lsktonr__@@lsktoinhaber__@@', 0, 'Direct Debit', 'lsbankname__@@lsblz__@@lsktonr__@@lsktoinhaber__@@', '', '', '', '', 'Die Belastung Ihres Kontos erfolgt mit dem Versand der Ware.', 'Your bank account will be charged when the order is shipped.', '', '', 0, ''),
@@ -1933,12 +1933,12 @@ CREATE TABLE `oxselectlist` (
   `OXTITLE` varchar(254) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXIDENT` varchar(255) NOT NULL default '' COMMENT 'Working Title',
   `OXVALDESC` text NOT NULL COMMENT 'List fields, separated by "[field_name]!P![price]__@@[field_name]__@@" (multilanguage)',
-  `OXTITLE_1` varchar(255) NOT NULL default '',
-  `OXVALDESC_1` text NOT NULL,
-  `OXTITLE_2` varchar(255) NOT NULL default '',
-  `OXVALDESC_2` text NOT NULL,
-  `OXTITLE_3` varchar(255) NOT NULL default '',
-  `OXVALDESC_3` text NOT NULL,
+  `OXTITLE_de` varchar(255) NOT NULL default '',
+  `OXVALDESC_de` text NOT NULL,
+  `OXTITLE_en` varchar(255) NOT NULL default '',
+  `OXVALDESC_en` text NOT NULL,
+  `OXTITLE_fr` varchar(255) NOT NULL default '',
+  `OXVALDESC_fr` text NOT NULL,
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`)
 ) ENGINE=MyISAM COMMENT 'Selection lists';
@@ -1954,7 +1954,7 @@ CREATE TABLE `oxseo` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Object id',
   `OXIDENT`    char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Hashed seo url (md5)',
   `OXSHOPID`   char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (multilanguage)',
-  `OXLANG`     int(2) NOT NULL default 0 COMMENT 'Language id',
+  `OXLANG`     char(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXSTDURL`   varchar(2048) NOT NULL COMMENT 'Primary url, not seo encoded',
   `OXSEOURL`   varchar(2048) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL COMMENT 'Old seo url',
   `OXTYPE`     enum('static', 'oxarticle', 'oxcategory', 'oxvendor', 'oxcontent', 'dynamic', 'oxmanufacturer') NOT NULL COMMENT 'Record type',
@@ -1973,64 +1973,64 @@ CREATE TABLE `oxseo` (
 # Data for table `oxseo`
 #
 INSERT INTO `oxseo` (`OXOBJECTID`, `OXIDENT`, `OXSHOPID`, `OXLANG`, `OXSTDURL`, `OXSEOURL`, `OXTYPE`, `OXFIXED`, `OXEXPIRED`, `OXPARAMS`) VALUES
-('c855234180a3b4056b496120d229ea68', '023abc17c853f9bccc201c5afd549a92', 'oxbaseshop', 1, 'index.php?cl=account_wishlist', 'en/my-gift-registry/', 'static', 0, 0, ''),
-('e5340b054530ea779fb1802e93c8183e', '02b4c1e4049b1baffba090c95a7edbf7', 'oxbaseshop', 0, 'index.php?cl=invite', 'Laden-Sie-Ihre-Freunde/', 'static', 0, 0, ''),
-('2e17757c0aaf8ed9ef2ba30317fa1faf', '0469752d03d80da379a679aaef4c0546', 'oxbaseshop', 1, 'index.php?cl=suggest', 'en/recommend/', 'static', 0, 0, ''),
-('057ef382f23bdbb84991d049af2baba9', '063c82502d9dd528ce2cc40ceb76ade7', 'oxbaseshop', 1, 'index.php?cl=compare', 'en/my-product-comparison/', 'static', 0, 0, ''),
-('67c5bcf75ee346bd9566bce6c8', '0d2f22b49c64eaa138d717ec752e3be3', 'oxbaseshop', 0, 'index.php?cl=credits&amp;oxcid=67c5bcf75ee346bd9566bce6c8', 'Credits/', 'oxcontent', 1, 0, ''),
-('7bc8a506bbca225a2f95b6eac66020bf', '1368f5e45468ca1e1c7c84f174785c35', 'oxbaseshop', 1, 'index.php?cl=account_noticelist', 'en/my-wish-list/', 'static', 0, 0, ''),
-('c855234180a3b4056b496120d229ea68', '1f30ae9b1c78b7dc89d3e5fe9eb0de59', 'oxbaseshop', 0, 'index.php?cl=account_wishlist', 'mein-wunschzettel/', 'static', 0, 0, ''),
-('e56acdd347b0516f68a0afdd811e2382', '3a41965fb36fb45df7f4f9a4377f6364', 'oxbaseshop', 1, 'index.php?cl=newsletter', 'en/newsletter/', 'static', 0, 0, ''),
-('ab459c0dc911137e9cc024d9fba5a68b', '3bdd64bd8073d044d8fd60334ed9b725', 'oxbaseshop', 1, 'index.php?cl=start', 'en/home/', 'static', 0, 0, ''),
-('efaf9266cf7de3a8c84cea167285eb83', '4a70a4cd11d63fdce96fbe4ba8e714e6', 'oxbaseshop', 1, 'index.php?cnid=oxmore&amp;cl=alist', 'en/more/', 'static', 0, 0, ''),
-('efaf9266cf7de3a8c84cea167285eb83', '4d3d4d70b09b5d2bd992991361374c67', 'oxbaseshop', 0, 'index.php?cnid=oxmore&amp;cl=alist', 'mehr/', 'static', 0, 0, ''),
-('18f64cbbc296a32fb84b3bbe31dfed09', '510fef34e5d9b86f6a77af949d15950e', 'oxbaseshop', 1, 'index.php?cl=account', 'en/my-account/', 'static', 0, 0, ''),
-('ace1e168a1e8183a2aa79c2243171a29', '5668048844927ca2767140c219e04efc', 'oxbaseshop', 1, 'index.php?cl=account_user', 'en/my-address/', 'static', 0, 0, ''),
-('0563ce7f6a400737ce0e1c2b2c733e49', '5cc081514a72b0ce3d7eec4fb1e6f1dd', 'oxbaseshop', 1, 'index.php?cl=forgotpwd', 'en/forgot-password/', 'static', 0, 0, ''),
-('f6bd7f77caae70afad276584caa6450a', '5d752e9e8302eeb21df24d1aee573234', 'oxbaseshop', 0, 'index.php?cl=wishlist', 'wunschzettel/', 'static', 0, 0, ''),
-('6d9b5b3ee58bca1bd7be188f71e80ef2', '5eb126725ba500e6bbf1aecaa876dc48', 'oxbaseshop', 1, 'index.php?cl=review', 'en/product-review/', 'static', 0, 0, ''),
-('57cb6b2fafc870810cd48b8e1d28cf91', '63794023f46c56d329e2ee6a1462e8c2', 'oxbaseshop', 0, 'index.php?cl=tags', 'stichworte/', 'static', 0, 0, ''),
-('56ebd65f4a7cc25de1dc1f7cf15591fb', '637daadf1eaad2b9641333c2b1572883', 'oxbaseshop', 0, 'index.php?cl=news', 'news/', 'static', 0, 0, ''),
-('f560b18b547bca23752a154b45120980', '6b30b01fe01b80894efc0f29610e5215', 'oxbaseshop', 0, 'index.php?cl=account_password', 'mein-passwort/', 'static', 0, 0, ''),
-('f560b18b547bca23752a154b45120980', '6c890ac1255a99f8d1eb46f1193843d6', 'oxbaseshop', 1, 'index.php?cl=account_password', 'en/my-password/', 'static', 0, 0, ''),
-('04abcb465a8d3a4441df4c480838d23d', '7685924d3f3fb7e9bda421c57f665af4', 'oxbaseshop', 1, 'index.php?cl=contact', 'en/contact/', 'static', 0, 0, ''),
-('d12b7badee1037e7c1a5a7a245a14e11', '7c8aa72aa16b7d4a859b22d8b8328412', 'oxbaseshop', 0, 'index.php?cl=guestbook', 'gaestebuch/', 'static', 0, 0, ''),
-('2e17757c0aaf8ed9ef2ba30317fa1faf', '82dd672d68d8f6c943f98ccdaecda691', 'oxbaseshop', 0, 'index.php?cl=suggest', 'empfehlen/', 'static', 0, 0, ''),
-('18f64cbbc296a32fb84b3bbe31dfed09', '89c5e6bf1b5441599c4815281debe8df', 'oxbaseshop', 0, 'index.php?cl=account', 'mein-konto/', 'static', 0, 0, ''),
-('c71c50f5443d85b37a013420857e83e7', '8afe769d3de8b5db0a872b23f959dd36', 'oxbaseshop', 1, 'index.php?cl=download', 'en/download/', 'static', 0, 0, ''),
-('05c0f9a36dc4eaf3df528f0da18664d8', '8e7ebaebb0a810576453082e1f8f2fa3', 'oxbaseshop', 1, 'index.php?cl=account_recommlist', 'en/my-listmania-list/', 'static', 0, 0, ''),
-('61c5d6965b480012aabb3a6701254b75', '9372b6be2d98021fb93302a6a34bfc8c', 'oxbaseshop', 1, 'index.php?cl=recommlist', 'en/Recommendation-Lists/', 'static', 0, 0, ''),
-('343c043546b3d653647e75d2e246ce94', '9508bb0d70121d49e4d4554c5b1af81d', 'oxbaseshop', 0, 'index.php?cl=links', 'links/', 'static', 0, 0, ''),
-('610f7fc243c7409cb5448b30029431fe', '9ff5c21cbc84dbfe815013236e132baf', 'oxbaseshop', 1, 'index.php?cl=account_order', 'en/order-history/', 'static', 0, 0, ''),
-('67c5bcf75ee346bd9566bce6c8', 'a150a7b6945213daa7f138e1a042cbb4', 'oxbaseshop', 1, 'index.php?cl=credits&amp;oxcid=67c5bcf75ee346bd9566bce6c8', 'en/Credits/', 'oxcontent', 1, 0, ''),
-('98964bf04c7edae2d658c5f3b3233ca1', 'a1b330b85c6f51fd9b50b1eb19707d84', 'oxbaseshop', 1, 'index.php?cl=register', 'en/open-account/', 'static', 0, 0, ''),
-('7bc8a506bbca225a2f95b6eac66020bf', 'a24b03f1a3f73c325a7647e6039e2359', 'oxbaseshop', 0, 'index.php?cl=account_noticelist', 'mein-merkzettel/', 'static', 0, 0, ''),
-('61c5d6965b480012aabb3a6701254b75', 'a4e5995182ade3cf039800c0ec2d512d', 'oxbaseshop', 0, 'index.php?cl=recommlist', 'Empfehlungslisten/', 'static', 0, 0, ''),
-('e5340b054530ea779fb1802e93c8183e', 'a6b775aec57d06b46a958efbafdc7875', 'oxbaseshop', 1, 'index.php?cl=invite', 'en/Invite-your-friends/', 'static', 0, 0, ''),
-('ace1e168a1e8183a2aa79c2243171a29', 'a7d5ab5a4e87693998c5aec066dda6e6', 'oxbaseshop', 0, 'index.php?cl=account_user', 'meine-adressen/', 'static', 0, 0, ''),
-('0563ce7f6a400737ce0e1c2b2c733e49', 'a9afb500184c584fb5ab2ad9b4162e96', 'oxbaseshop', 0, 'index.php?cl=forgotpwd', 'passwort-vergessen/', 'static', 0, 0, ''),
-('98964bf04c7edae2d658c5f3b3233ca1', 'acddcfef9c25bcae3b96eb00669541ff', 'oxbaseshop', 0, 'index.php?cl=register', 'konto-eroeffnen/', 'static', 0, 0, ''),
-('f6bd7f77caae70afad276584caa6450a', 'b93b703d313e89662773cffaab750f1d', 'oxbaseshop', 1, 'index.php?cl=wishlist', 'en/gift-registry/', 'static', 0, 0, ''),
-('05c0f9a36dc4eaf3df528f0da18664d8', 'baa3b653a618696b06c70a6dda95ebde', 'oxbaseshop', 0, 'index.php?cl=account_recommlist', 'meine-lieblingslisten/', 'static', 0, 0, ''),
-('c71c50f5443d85b37a013420857e83e7', 'c552cb8718cde5cb792e181f78f5fde1', 'oxbaseshop', 0, 'index.php?cl=download', 'download/', 'static', 0, 0, ''),
-('882acc7454f973844d4917515181dcba', 'c74bbaf961498de897ba7eb98fea8274', 'oxbaseshop', 1, 'index.php?cl=account_downloads', 'en/my-downloads/', 'static', 0, 0, ''),
-('6d9b5b3ee58bca1bd7be188f71e80ef2', 'cc28156a4f728c1b33e7e02fd846628e', 'oxbaseshop', 0, 'index.php?cl=review', 'bewertungen/', 'static', 0, 0, ''),
-('ab459c0dc911137e9cc024d9fba5a68b', 'ccca27059506a916fb64d673a5dd676b', 'oxbaseshop', 0, 'index.php?cl=start', 'startseite/', 'static', 0, 0, ''),
-('57cb6b2fafc870810cd48b8e1d28cf91', 'da6c5523f7c91d108cadb0be7757c27f', 'oxbaseshop', 1, 'index.php?cl=tags', 'en/tags/', 'static', 0, 0, ''),
-('d12b7badee1037e7c1a5a7a245a14e11', 'ded4f3786c6f4d6d14e3034834ebdcaf', 'oxbaseshop', 1, 'index.php?cl=guestbook', 'en/guestbook/', 'static', 0, 0, ''),
-('057ef382f23bdbb84991d049af2baba9', 'e0dd29a75947539da6b1924d31c9849f', 'oxbaseshop', 0, 'index.php?cl=compare', 'mein-produktvergleich/', 'static', 0, 0, ''),
-('56ebd65f4a7cc25de1dc1f7cf15591fb', 'e5a8de0e49e91c5728eadfcb233bdbd1', 'oxbaseshop', 1, 'index.php?cl=news', 'en/news/', 'static', 0, 0, ''),
-('e56acdd347b0516f68a0afdd811e2382', 'e604233c5a2804d21ec0252a445e93d3', 'oxbaseshop', 0, 'index.php?cl=newsletter', 'newsletter/', 'static', 0, 0, ''),
-('38efc02f0f6b6a6d54cfef1fcdb99d70', 'e6331d115f5323610c639ef2f0369f8a', 'oxbaseshop', 0, 'index.php?cl=basket', 'warenkorb/', 'static', 0, 0, ''),
-('610f7fc243c7409cb5448b30029431fe', 'eb692d07ec8608d943db0a3bca29c4ce', 'oxbaseshop', 0, 'index.php?cl=account_order', 'bestellhistorie/', 'static', 0, 0, ''),
-('38efc02f0f6b6a6d54cfef1fcdb99d70', 'ecaf0240f9f46bbee5ffc6dd73d0b7f0', 'oxbaseshop', 1, 'index.php?cl=basket', 'en/cart/', 'static', 0, 0, ''),
-('882acc7454f973844d4917515181dcba', 'f1c7ccb53fc8d6f239b39d2fc2b76829', 'oxbaseshop', 0, 'index.php?cl=account_downloads', 'de/my-downloads/', 'static', 0, 0, ''),
-('343c043546b3d653647e75d2e246ce94', 'f80ace8f87e1d7f446ab1fa58f275f4c', 'oxbaseshop', 1, 'index.php?cl=links', 'en/links/', 'static', 0, 0, ''),
-('943173edecf6d6870a0f357b8ac84d32', 'f8335c84c1daa5b13657124f45c0e08b', 'oxbaseshop', 0, 'index.php?cl=alist&amp;cnid=943173edecf6d6870a0f357b8ac84d32', 'Wakeboarding/', 'oxcategory', 0, 0, ''),
-('04abcb465a8d3a4441df4c480838d23d', 'f9d1a02ab749dc360c4e21f21de1beaf', 'oxbaseshop', 0, 'index.php?cl=contact', 'kontakt/', 'static', 0, 0, ''),
-('0f4270b89fbef1481958381410a0dbca', 'fad614c0f4922228623ae0696b55481f', 'oxbaseshop', 1, 'index.php?cl=alist&amp;cnid=0f4270b89fbef1481958381410a0dbca', 'en/Wakeboarding/Wakeboards/', 'oxcategory', 1, 0, ''),
-('965acb9a653478a186e55468c6df7406', 'd50c753d406338d92f52fe55de1e98dd', 'oxbaseshop', 1, 'index.php?cl=clearcookies', 'en/cookies/', 'static', 0, 0, ''),
-('965acb9a653478a186e55468c6df7406', '295d6617dc22b6d8186667ecd6e3ae87', 'oxbaseshop', 0, 'index.php?cl=clearcookies', 'cookies/', 'static', 0, 0, '');
+('c855234180a3b4056b496120d229ea68', '023abc17c853f9bccc201c5afd549a92', 'oxbaseshop', 'en', 'index.php?cl=account_wishlist', 'en/my-gift-registry/', 'static', 0, 0, ''),
+('e5340b054530ea779fb1802e93c8183e', '02b4c1e4049b1baffba090c95a7edbf7', 'oxbaseshop', 'de', 'index.php?cl=invite', 'Laden-Sie-Ihre-Freunde/', 'static', 0, 0, ''),
+('2e17757c0aaf8ed9ef2ba30317fa1faf', '0469752d03d80da379a679aaef4c0546', 'oxbaseshop', 'en', 'index.php?cl=suggest', 'en/recommend/', 'static', 0, 0, ''),
+('057ef382f23bdbb84991d049af2baba9', '063c82502d9dd528ce2cc40ceb76ade7', 'oxbaseshop', 'en', 'index.php?cl=compare', 'en/my-product-comparison/', 'static', 0, 0, ''),
+('67c5bcf75ee346bd9566bce6c8', '0d2f22b49c64eaa138d717ec752e3be3', 'oxbaseshop', 'de', 'index.php?cl=credits&amp;oxcid=67c5bcf75ee346bd9566bce6c8', 'Credits/', 'oxcontent', 1, 0, ''),
+('7bc8a506bbca225a2f95b6eac66020bf', '1368f5e45468ca1e1c7c84f174785c35', 'oxbaseshop', 'en', 'index.php?cl=account_noticelist', 'en/my-wish-list/', 'static', 0, 0, ''),
+('c855234180a3b4056b496120d229ea68', '1f30ae9b1c78b7dc89d3e5fe9eb0de59', 'oxbaseshop', 'de', 'index.php?cl=account_wishlist', 'mein-wunschzettel/', 'static', 0, 0, ''),
+('e56acdd347b0516f68a0afdd811e2382', '3a41965fb36fb45df7f4f9a4377f6364', 'oxbaseshop', 'en', 'index.php?cl=newsletter', 'en/newsletter/', 'static', 0, 0, ''),
+('ab459c0dc911137e9cc024d9fba5a68b', '3bdd64bd8073d044d8fd60334ed9b725', 'oxbaseshop', 'en', 'index.php?cl=start', 'en/home/', 'static', 0, 0, ''),
+('efaf9266cf7de3a8c84cea167285eb83', '4a70a4cd11d63fdce96fbe4ba8e714e6', 'oxbaseshop', 'en', 'index.php?cnid=oxmore&amp;cl=alist', 'en/more/', 'static', 0, 0, ''),
+('efaf9266cf7de3a8c84cea167285eb83', '4d3d4d70b09b5d2bd992991361374c67', 'oxbaseshop', 'de', 'index.php?cnid=oxmore&amp;cl=alist', 'mehr/', 'static', 0, 0, ''),
+('18f64cbbc296a32fb84b3bbe31dfed09', '510fef34e5d9b86f6a77af949d15950e', 'oxbaseshop', 'en', 'index.php?cl=account', 'en/my-account/', 'static', 0, 0, ''),
+('ace1e168a1e8183a2aa79c2243171a29', '5668048844927ca2767140c219e04efc', 'oxbaseshop', 'en', 'index.php?cl=account_user', 'en/my-address/', 'static', 0, 0, ''),
+('0563ce7f6a400737ce0e1c2b2c733e49', '5cc081514a72b0ce3d7eec4fb1e6f1dd', 'oxbaseshop', 'en', 'index.php?cl=forgotpwd', 'en/forgot-password/', 'static', 0, 0, ''),
+('f6bd7f77caae70afad276584caa6450a', '5d752e9e8302eeb21df24d1aee573234', 'oxbaseshop', 'de', 'index.php?cl=wishlist', 'wunschzettel/', 'static', 0, 0, ''),
+('6d9b5b3ee58bca1bd7be188f71e80ef2', '5eb126725ba500e6bbf1aecaa876dc48', 'oxbaseshop', 'en', 'index.php?cl=review', 'en/product-review/', 'static', 0, 0, ''),
+('57cb6b2fafc870810cd48b8e1d28cf91', '63794023f46c56d329e2ee6a1462e8c2', 'oxbaseshop', 'de', 'index.php?cl=tags', 'stichworte/', 'static', 0, 0, ''),
+('56ebd65f4a7cc25de1dc1f7cf15591fb', '637daadf1eaad2b9641333c2b1572883', 'oxbaseshop', 'de', 'index.php?cl=news', 'news/', 'static', 0, 0, ''),
+('f560b18b547bca23752a154b45120980', '6b30b01fe01b80894efc0f29610e5215', 'oxbaseshop', 'de', 'index.php?cl=account_password', 'mein-passwort/', 'static', 0, 0, ''),
+('f560b18b547bca23752a154b45120980', '6c890ac1255a99f8d1eb46f1193843d6', 'oxbaseshop', 'en', 'index.php?cl=account_password', 'en/my-password/', 'static', 0, 0, ''),
+('04abcb465a8d3a4441df4c480838d23d', '7685924d3f3fb7e9bda421c57f665af4', 'oxbaseshop', 'en', 'index.php?cl=contact', 'en/contact/', 'static', 0, 0, ''),
+('d12b7badee1037e7c1a5a7a245a14e11', '7c8aa72aa16b7d4a859b22d8b8328412', 'oxbaseshop', 'de', 'index.php?cl=guestbook', 'gaestebuch/', 'static', 0, 0, ''),
+('2e17757c0aaf8ed9ef2ba30317fa1faf', '82dd672d68d8f6c943f98ccdaecda691', 'oxbaseshop', 'de', 'index.php?cl=suggest', 'empfehlen/', 'static', 0, 0, ''),
+('18f64cbbc296a32fb84b3bbe31dfed09', '89c5e6bf1b5441599c4815281debe8df', 'oxbaseshop', 'de', 'index.php?cl=account', 'mein-konto/', 'static', 0, 0, ''),
+('c71c50f5443d85b37a013420857e83e7', '8afe769d3de8b5db0a872b23f959dd36', 'oxbaseshop', 'en', 'index.php?cl=download', 'en/download/', 'static', 0, 0, ''),
+('05c0f9a36dc4eaf3df528f0da18664d8', '8e7ebaebb0a810576453082e1f8f2fa3', 'oxbaseshop', 'en', 'index.php?cl=account_recommlist', 'en/my-listmania-list/', 'static', 0, 0, ''),
+('61c5d6965b480012aabb3a6701254b75', '9372b6be2d98021fb93302a6a34bfc8c', 'oxbaseshop', 'en', 'index.php?cl=recommlist', 'en/Recommendation-Lists/', 'static', 0, 0, ''),
+('343c043546b3d653647e75d2e246ce94', '9508bb0d70121d49e4d4554c5b1af81d', 'oxbaseshop', 'de', 'index.php?cl=links', 'links/', 'static', 0, 0, ''),
+('610f7fc243c7409cb5448b30029431fe', '9ff5c21cbc84dbfe815013236e132baf', 'oxbaseshop', 'en', 'index.php?cl=account_order', 'en/order-history/', 'static', 0, 0, ''),
+('67c5bcf75ee346bd9566bce6c8', 'a150a7b6945213daa7f138e1a042cbb4', 'oxbaseshop', 'en', 'index.php?cl=credits&amp;oxcid=67c5bcf75ee346bd9566bce6c8', 'en/Credits/', 'oxcontent', 1, 0, ''),
+('98964bf04c7edae2d658c5f3b3233ca1', 'a1b330b85c6f51fd9b50b1eb19707d84', 'oxbaseshop', 'en', 'index.php?cl=register', 'en/open-account/', 'static', 0, 0, ''),
+('7bc8a506bbca225a2f95b6eac66020bf', 'a24b03f1a3f73c325a7647e6039e2359', 'oxbaseshop', 'de', 'index.php?cl=account_noticelist', 'mein-merkzettel/', 'static', 0, 0, ''),
+('61c5d6965b480012aabb3a6701254b75', 'a4e5995182ade3cf039800c0ec2d512d', 'oxbaseshop', 'de', 'index.php?cl=recommlist', 'Empfehlungslisten/', 'static', 0, 0, ''),
+('e5340b054530ea779fb1802e93c8183e', 'a6b775aec57d06b46a958efbafdc7875', 'oxbaseshop', 'en', 'index.php?cl=invite', 'en/Invite-your-friends/', 'static', 0, 0, ''),
+('ace1e168a1e8183a2aa79c2243171a29', 'a7d5ab5a4e87693998c5aec066dda6e6', 'oxbaseshop', 'de', 'index.php?cl=account_user', 'meine-adressen/', 'static', 0, 0, ''),
+('0563ce7f6a400737ce0e1c2b2c733e49', 'a9afb500184c584fb5ab2ad9b4162e96', 'oxbaseshop', 'de', 'index.php?cl=forgotpwd', 'passwort-vergessen/', 'static', 0, 0, ''),
+('98964bf04c7edae2d658c5f3b3233ca1', 'acddcfef9c25bcae3b96eb00669541ff', 'oxbaseshop', 'de', 'index.php?cl=register', 'konto-eroeffnen/', 'static', 0, 0, ''),
+('f6bd7f77caae70afad276584caa6450a', 'b93b703d313e89662773cffaab750f1d', 'oxbaseshop', 'en', 'index.php?cl=wishlist', 'en/gift-registry/', 'static', 0, 0, ''),
+('05c0f9a36dc4eaf3df528f0da18664d8', 'baa3b653a618696b06c70a6dda95ebde', 'oxbaseshop', 'de', 'index.php?cl=account_recommlist', 'meine-lieblingslisten/', 'static', 0, 0, ''),
+('c71c50f5443d85b37a013420857e83e7', 'c552cb8718cde5cb792e181f78f5fde1', 'oxbaseshop', 'de', 'index.php?cl=download', 'download/', 'static', 0, 0, ''),
+('882acc7454f973844d4917515181dcba', 'c74bbaf961498de897ba7eb98fea8274', 'oxbaseshop', 'en', 'index.php?cl=account_downloads', 'en/my-downloads/', 'static', 0, 0, ''),
+('6d9b5b3ee58bca1bd7be188f71e80ef2', 'cc28156a4f728c1b33e7e02fd846628e', 'oxbaseshop', 'de', 'index.php?cl=review', 'bewertungen/', 'static', 0, 0, ''),
+('ab459c0dc911137e9cc024d9fba5a68b', 'ccca27059506a916fb64d673a5dd676b', 'oxbaseshop', 'de', 'index.php?cl=start', 'startseite/', 'static', 0, 0, ''),
+('57cb6b2fafc870810cd48b8e1d28cf91', 'da6c5523f7c91d108cadb0be7757c27f', 'oxbaseshop', 'en', 'index.php?cl=tags', 'en/tags/', 'static', 0, 0, ''),
+('d12b7badee1037e7c1a5a7a245a14e11', 'ded4f3786c6f4d6d14e3034834ebdcaf', 'oxbaseshop', 'en', 'index.php?cl=guestbook', 'en/guestbook/', 'static', 0, 0, ''),
+('057ef382f23bdbb84991d049af2baba9', 'e0dd29a75947539da6b1924d31c9849f', 'oxbaseshop', 'de', 'index.php?cl=compare', 'mein-produktvergleich/', 'static', 0, 0, ''),
+('56ebd65f4a7cc25de1dc1f7cf15591fb', 'e5a8de0e49e91c5728eadfcb233bdbd1', 'oxbaseshop', 'en', 'index.php?cl=news', 'en/news/', 'static', 0, 0, ''),
+('e56acdd347b0516f68a0afdd811e2382', 'e604233c5a2804d21ec0252a445e93d3', 'oxbaseshop', 'de', 'index.php?cl=newsletter', 'newsletter/', 'static', 0, 0, ''),
+('38efc02f0f6b6a6d54cfef1fcdb99d70', 'e6331d115f5323610c639ef2f0369f8a', 'oxbaseshop', 'de', 'index.php?cl=basket', 'warenkorb/', 'static', 0, 0, ''),
+('610f7fc243c7409cb5448b30029431fe', 'eb692d07ec8608d943db0a3bca29c4ce', 'oxbaseshop', 'de', 'index.php?cl=account_order', 'bestellhistorie/', 'static', 0, 0, ''),
+('38efc02f0f6b6a6d54cfef1fcdb99d70', 'ecaf0240f9f46bbee5ffc6dd73d0b7f0', 'oxbaseshop', 'en', 'index.php?cl=basket', 'en/cart/', 'static', 0, 0, ''),
+('882acc7454f973844d4917515181dcba', 'f1c7ccb53fc8d6f239b39d2fc2b76829', 'oxbaseshop', 'de', 'index.php?cl=account_downloads', 'de/my-downloads/', 'static', 0, 0, ''),
+('343c043546b3d653647e75d2e246ce94', 'f80ace8f87e1d7f446ab1fa58f275f4c', 'oxbaseshop', 'en', 'index.php?cl=links', 'en/links/', 'static', 0, 0, ''),
+('943173edecf6d6870a0f357b8ac84d32', 'f8335c84c1daa5b13657124f45c0e08b', 'oxbaseshop', 'de', 'index.php?cl=alist&amp;cnid=943173edecf6d6870a0f357b8ac84d32', 'Wakeboarding/', 'oxcategory', 0, 0, ''),
+('04abcb465a8d3a4441df4c480838d23d', 'f9d1a02ab749dc360c4e21f21de1beaf', 'oxbaseshop', 'de', 'index.php?cl=contact', 'kontakt/', 'static', 0, 0, ''),
+('0f4270b89fbef1481958381410a0dbca', 'fad614c0f4922228623ae0696b55481f', 'oxbaseshop', 'en', 'index.php?cl=alist&amp;cnid=0f4270b89fbef1481958381410a0dbca', 'en/Wakeboarding/Wakeboards/', 'oxcategory', 1, 0, ''),
+('965acb9a653478a186e55468c6df7406', 'd50c753d406338d92f52fe55de1e98dd', 'oxbaseshop', 'en', 'index.php?cl=clearcookies', 'en/cookies/', 'static', 0, 0, ''),
+('965acb9a653478a186e55468c6df7406', '295d6617dc22b6d8186667ecd6e3ae87', 'oxbaseshop', 'de', 'index.php?cl=clearcookies', 'cookies/', 'static', 0, 0, '');
 
 #
 # Table structure for table `oxseohistory`
@@ -2044,7 +2044,7 @@ CREATE TABLE `oxseohistory` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Object id',
   `OXIDENT` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Hashed url (md5)',
   `OXSHOPID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id oxshops',
-  `OXLANG` int(2) NOT NULL default '0' COMMENT 'Language id',
+  `OXLANG` char(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXHITS` bigint(20) NOT NULL default '0' COMMENT 'Hits',
   `OXINSERT` timestamp NULL default NULL COMMENT 'Creation time',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -2064,7 +2064,7 @@ CREATE TABLE IF NOT EXISTS `oxseologs` (
   `OXSTDURL` text NOT NULL COMMENT 'Primary url, not seo encoded',
   `OXIDENT` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Hashed seo url',
   `OXSHOPID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (oxshops)',
-  `OXLANG` int(11) NOT NULL COMMENT 'Language id',
+  `OXLANG` char(32) NOT NULL COMMENT 'Language id',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXIDENT`,`OXSHOPID`,`OXLANG`)
 ) ENGINE=InnoDB COMMENT 'Seo logging. Logs bad requests';
@@ -2080,20 +2080,20 @@ CREATE TABLE `oxshops` (
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
   `OXPRODUCTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Productive Mode (if 0, debug info displayed)',
   `OXDEFCURRENCY` char(32) NOT NULL default '' COMMENT 'Default currency',
-  `OXDEFLANGUAGE` int(11) NOT NULL default '0' COMMENT 'Default language id',
+  `OXDEFLANGUAGE` char(32) NOT NULL default 'de' COMMENT 'Default language id',
   `OXNAME` varchar(255) NOT NULL default '' COMMENT 'Shop name',
   `OXTITLEPREFIX` varchar(255) NOT NULL default '' COMMENT 'Seo title prefix (multilanguage)',
-  `OXTITLEPREFIX_1` varchar(255) NOT NULL default '',
-  `OXTITLEPREFIX_2` varchar(255) NOT NULL default '',
-  `OXTITLEPREFIX_3` varchar(255) NOT NULL default '',
+  `OXTITLEPREFIX_de` varchar(255) NOT NULL default '',
+  `OXTITLEPREFIX_en` varchar(255) NOT NULL default '',
+  `OXTITLEPREFIX_fr` varchar(255) NOT NULL default '',
   `OXTITLESUFFIX` varchar(255) NOT NULL default '' COMMENT 'Seo title suffix (multilanguage)',
-  `OXTITLESUFFIX_1` varchar(255) NOT NULL default '',
-  `OXTITLESUFFIX_2` varchar(255) NOT NULL default '',
-  `OXTITLESUFFIX_3` varchar(255) NOT NULL default '',
+  `OXTITLESUFFIX_de` varchar(255) NOT NULL default '',
+  `OXTITLESUFFIX_en` varchar(255) NOT NULL default '',
+  `OXTITLESUFFIX_fr` varchar(255) NOT NULL default '',
   `OXSTARTTITLE` varchar(255) NOT NULL default '' COMMENT 'Start page title (multilanguage)',
-  `OXSTARTTITLE_1` varchar(255) NOT NULL default '',
-  `OXSTARTTITLE_2` varchar(255) NOT NULL default '',
-  `OXSTARTTITLE_3` varchar(255) NOT NULL default '',
+  `OXSTARTTITLE_de` varchar(255) NOT NULL default '',
+  `OXSTARTTITLE_en` varchar(255) NOT NULL default '',
+  `OXSTARTTITLE_fr` varchar(255) NOT NULL default '',
   `OXINFOEMAIL` varchar(255) NOT NULL default '' COMMENT 'Informational email address',
   `OXORDEREMAIL` varchar(255) NOT NULL default '' COMMENT 'Order email address',
   `OXOWNEREMAIL` varchar(255) NOT NULL default '' COMMENT 'Owner email address',
@@ -2101,18 +2101,18 @@ CREATE TABLE `oxshops` (
   `OXREGISTERSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Registration email subject (multilanguage)',
   `OXFORGOTPWDSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Forgot password email subject (multilanguage)',
   `OXSENDEDNOWSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Order sent email subject (multilanguage)',
-  `OXORDERSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXREGISTERSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXFORGOTPWDSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXSENDEDNOWSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXORDERSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXREGISTERSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXFORGOTPWDSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXSENDEDNOWSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXORDERSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXREGISTERSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXFORGOTPWDSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXSENDEDNOWSUBJECT_3` varchar(255) NOT NULL default '',
+  `OXORDERSUBJECT_de` varchar(255) NOT NULL default '',
+  `OXREGISTERSUBJECT_de` varchar(255) NOT NULL default '',
+  `OXFORGOTPWDSUBJECT_de` varchar(255) NOT NULL default '',
+  `OXSENDEDNOWSUBJECT_de` varchar(255) NOT NULL default '',
+  `OXORDERSUBJECT_en` varchar(255) NOT NULL default '',
+  `OXREGISTERSUBJECT_en` varchar(255) NOT NULL default '',
+  `OXFORGOTPWDSUBJECT_en` varchar(255) NOT NULL default '',
+  `OXSENDEDNOWSUBJECT_en` varchar(255) NOT NULL default '',
+  `OXORDERSUBJECT_fr` varchar(255) NOT NULL default '',
+  `OXREGISTERSUBJECT_fr` varchar(255) NOT NULL default '',
+  `OXFORGOTPWDSUBJECT_fr` varchar(255) NOT NULL default '',
+  `OXSENDEDNOWSUBJECT_fr` varchar(255) NOT NULL default '',
   `OXSMTP` varchar(255) NOT NULL default '' COMMENT 'SMTP server',
   `OXSMTPUSER` varchar(128) NOT NULL default '' COMMENT 'SMTP user',
   `OXSMTPPWD` varchar(128) NOT NULL default '' COMMENT 'SMTP password',
@@ -2144,9 +2144,9 @@ CREATE TABLE `oxshops` (
   `OXEDITION` CHAR( 2 ) NOT NULL COMMENT 'Shop Edition (CE,PE,EE)',
   `OXVERSION` CHAR( 16 ) NOT NULL COMMENT 'Shop Version',
   `OXSEOACTIVE` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Seo active (multilanguage)',
-  `OXSEOACTIVE_1` tinyint(1) NOT NULL DEFAULT '1',
-  `OXSEOACTIVE_2` tinyint(1) NOT NULL DEFAULT '1',
-  `OXSEOACTIVE_3` tinyint(1) NOT NULL DEFAULT '1',
+  `OXSEOACTIVE_de` tinyint(1) NOT NULL DEFAULT '1',
+  `OXSEOACTIVE_en` tinyint(1) NOT NULL DEFAULT '1',
+  `OXSEOACTIVE_fr` tinyint(1) NOT NULL DEFAULT '1',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   KEY `OXACTIVE` (`OXACTIVE`)
@@ -2155,8 +2155,8 @@ CREATE TABLE `oxshops` (
 #
 # Data for table `oxshops`
 #
-INSERT INTO `oxshops` (`OXID`, `OXACTIVE`, `OXPRODUCTIVE`, `OXDEFCURRENCY`, `OXDEFLANGUAGE`, `OXNAME`, `OXTITLEPREFIX`, `OXTITLEPREFIX_1`, `OXTITLEPREFIX_2`, `OXTITLEPREFIX_3`, `OXTITLESUFFIX`, `OXTITLESUFFIX_1`, `OXTITLESUFFIX_2`, `OXTITLESUFFIX_3`, `OXSTARTTITLE`, `OXSTARTTITLE_1`, `OXSTARTTITLE_2`, `OXSTARTTITLE_3`, `OXINFOEMAIL`, `OXORDEREMAIL`, `OXOWNEREMAIL`, `OXORDERSUBJECT`, `OXREGISTERSUBJECT`, `OXFORGOTPWDSUBJECT`, `OXSENDEDNOWSUBJECT`, `OXORDERSUBJECT_1`, `OXREGISTERSUBJECT_1`, `OXFORGOTPWDSUBJECT_1`, `OXSENDEDNOWSUBJECT_1`, `OXORDERSUBJECT_2`, `OXREGISTERSUBJECT_2`, `OXFORGOTPWDSUBJECT_2`, `OXSENDEDNOWSUBJECT_2`, `OXORDERSUBJECT_3`, `OXREGISTERSUBJECT_3`, `OXFORGOTPWDSUBJECT_3`, `OXSENDEDNOWSUBJECT_3`, `OXSMTP`, `OXSMTPUSER`, `OXSMTPPWD`, `OXCOMPANY`, `OXSTREET`, `OXZIP`, `OXCITY`, `OXCOUNTRY`, `OXBANKNAME`, `OXBANKNUMBER`, `OXBANKCODE`, `OXVATNUMBER`, `OXTAXNUMBER`, `OXBICCODE`, `OXIBANNUMBER`, `OXFNAME`, `OXLNAME`, `OXTELEFON`, `OXTELEFAX`, `OXURL`, `OXDEFCAT`, `OXHRBNR`, `OXCOURT`, `OXADBUTLERID`, `OXAFFILINETID`, `OXSUPERCLICKSID`, `OXAFFILIWELTID`, `OXAFFILI24ID`, `OXEDITION`, `OXVERSION`, `OXSEOACTIVE`, `OXSEOACTIVE_1`, `OXSEOACTIVE_2`, `OXSEOACTIVE_3`) VALUES
-('oxbaseshop', 1, 0, '', 0, 'OXID eShop 4', 'OXID eShop 4', 'OXID eShop 4', '', '', 'online kaufen', 'purchase online', '', '', 'Der Onlineshop', 'Online Shop', '', '', 'info@myoxideshop.com', 'reply@myoxideshop.com', 'order@myoxideshop.com', 'Ihre Bestellung bei OXID eSales', 'Vielen Dank für Ihre Registrierung im OXID eShop', 'Ihr Passwort im OXID eShop', 'Ihre OXID eSales Bestellung wurde versandt', 'Your order at OXID eShop', 'Thank you for your registration at OXID eShop', 'Your OXID eShop password', 'Your OXID eSales Order has been shipped', '', '', '', '', '', '', '', '', '', '', '', 'Your Company Name', '2425 Maple Street', '9041', 'Any City, CA', 'United States', 'Bank of America', '1234567890', '900 1234567', '', '', '', '', 'John', 'Doe', '217-8918712', '217-8918713', 'www.myoxideshop.com', '', '', '', '', '', '', '', '', 'CE', '4.9.0', 1, 1, 0, 0);
+INSERT INTO `oxshops` (`OXID`, `OXACTIVE`, `OXPRODUCTIVE`, `OXDEFCURRENCY`, `OXDEFLANGUAGE`, `OXNAME`, `OXTITLEPREFIX`, `OXTITLEPREFIX_de`, `OXTITLEPREFIX_en`, `OXTITLEPREFIX_fr`, `OXTITLESUFFIX`, `OXTITLESUFFIX_de`, `OXTITLESUFFIX_en`, `OXTITLESUFFIX_fr`, `OXSTARTTITLE`, `OXSTARTTITLE_de`, `OXSTARTTITLE_en`, `OXSTARTTITLE_fr`, `OXINFOEMAIL`, `OXORDEREMAIL`, `OXOWNEREMAIL`, `OXORDERSUBJECT`, `OXREGISTERSUBJECT`, `OXFORGOTPWDSUBJECT`, `OXSENDEDNOWSUBJECT`, `OXORDERSUBJECT_de`, `OXREGISTERSUBJECT_de`, `OXFORGOTPWDSUBJECT_de`, `OXSENDEDNOWSUBJECT_de`, `OXORDERSUBJECT_en`, `OXREGISTERSUBJECT_en`, `OXFORGOTPWDSUBJECT_en`, `OXSENDEDNOWSUBJECT_en`, `OXORDERSUBJECT_fr`, `OXREGISTERSUBJECT_fr`, `OXFORGOTPWDSUBJECT_fr`, `OXSENDEDNOWSUBJECT_fr`, `OXSMTP`, `OXSMTPUSER`, `OXSMTPPWD`, `OXCOMPANY`, `OXSTREET`, `OXZIP`, `OXCITY`, `OXCOUNTRY`, `OXBANKNAME`, `OXBANKNUMBER`, `OXBANKCODE`, `OXVATNUMBER`, `OXTAXNUMBER`, `OXBICCODE`, `OXIBANNUMBER`, `OXFNAME`, `OXLNAME`, `OXTELEFON`, `OXTELEFAX`, `OXURL`, `OXDEFCAT`, `OXHRBNR`, `OXCOURT`, `OXADBUTLERID`, `OXAFFILINETID`, `OXSUPERCLICKSID`, `OXAFFILIWELTID`, `OXAFFILI24ID`, `OXEDITION`, `OXVERSION`, `OXSEOACTIVE`, `OXSEOACTIVE_de`, `OXSEOACTIVE_en`, `OXSEOACTIVE_fr`) VALUES
+('oxbaseshop', 1, 0, '', 'de', 'OXID eShop 4', 'OXID eShop 4', 'OXID eShop 4', '', '', '', 'online kaufen', 'purchase online', '', '', 'Der Onlineshop', 'Online Shop', '', 'info@myoxideshop.com', 'reply@myoxideshop.com', 'order@myoxideshop.com', '', '', '', '', 'Ihre Bestellung bei OXID eSales', 'Vielen Dank für Ihre Registrierung im OXID eShop', 'Ihr Passwort im OXID eShop', 'Ihre OXID eSales Bestellung wurde versandt', 'Your order at OXID eShop', 'Thank you for your registration at OXID eShop', 'Your OXID eShop password', 'Your OXID eSales Order has been shipped', '', '', '', '', '', '', '', 'Your Company Name', '2425 Maple Street', '9041', 'Any City, CA', 'United States', 'Bank of America', '1234567890', '900 1234567', '', '', '', '', 'John', 'Doe', '217-8918712', '217-8918713', 'www.myoxideshop.com', '', '', '', '', '', '', '', '', 'CE', '4.9.0', 1, 1, 0, 0);
 
 #
 # Table structure for table `oxstates`
@@ -2171,9 +2171,9 @@ CREATE TABLE `oxstates` (
   `OXCOUNTRYID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Country id (oxcountry)',
   `OXTITLE` char(128) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXISOALPHA2` char(2) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'SEO short name',
-  `OXTITLE_1` char(128) NOT NULL default '',
-  `OXTITLE_2` char(128) NOT NULL default '',
-  `OXTITLE_3` char(128) NOT NULL default '',
+  `OXTITLE_de` char(128) NOT NULL default '',
+  `OXTITLE_en` char(128) NOT NULL default '',
+  `OXTITLE_fr` char(128) NOT NULL default '',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   KEY(`OXCOUNTRYID`)
@@ -2182,7 +2182,7 @@ CREATE TABLE `oxstates` (
 #
 # Data for table `oxstates`
 #
-INSERT INTO `oxstates` (`OXID`, `OXCOUNTRYID`, `OXTITLE`, `OXISOALPHA2`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`) VALUES
+INSERT INTO `oxstates` (`OXID`, `OXCOUNTRYID`, `OXTITLE`, `OXISOALPHA2`, `OXTITLE_de`, `OXTITLE_en`, `OXTITLE_fr`) VALUES
 ('AB', '8f241f11095649d18.02676059', 'Alberta', 'AB', 'Alberta', '', ''),
 ('BC', '8f241f11095649d18.02676059', 'Britisch-Kolumbien', 'BC', 'British Columbia', '', ''),
 ('MB', '8f241f11095649d18.02676059', 'Manitoba', 'MB', 'Manitoba', '', ''),
@@ -2406,12 +2406,12 @@ CREATE TABLE `oxvendor` (
   `OXICON` char(128) NOT NULL default '' COMMENT 'Icon filename',
   `OXTITLE` char(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXSHORTDESC` char(255) NOT NULL default '' COMMENT 'Short description (multilanguage)',
-  `OXTITLE_1` char(255) NOT NULL default '',
-  `OXSHORTDESC_1` char(255) NOT NULL default '',
-  `OXTITLE_2` char(255) NOT NULL default '',
-  `OXSHORTDESC_2` char(255) NOT NULL default '',
-  `OXTITLE_3` char(255) NOT NULL default '',
-  `OXSHORTDESC_3` char(255) NOT NULL default '',
+  `OXTITLE_de` char(255) NOT NULL default '',
+  `OXSHORTDESC_de` char(255) NOT NULL default '',
+  `OXTITLE_en` char(255) NOT NULL default '',
+  `OXSHORTDESC_en` char(255) NOT NULL default '',
+  `OXTITLE_fr` char(255) NOT NULL default '',
+  `OXSHORTDESC_fr` char(255) NOT NULL default '',
   `OXSHOWSUFFIX` tinyint(1) NOT NULL default '1' COMMENT 'Show SEO Suffix in Category',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
@@ -2477,14 +2477,14 @@ CREATE TABLE `oxwrapping` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Wrapping id',
   `OXSHOPID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active (multilanguage)',
-  `OXACTIVE_1` tinyint(1) NOT NULL default '1',
-  `OXACTIVE_2` tinyint(1) NOT NULL default '1',
-  `OXACTIVE_3` tinyint(1) NOT NULL default '1',
+  `OXACTIVE_de` tinyint(1) NOT NULL default '1',
+  `OXACTIVE_en` tinyint(1) NOT NULL default '1',
+  `OXACTIVE_fr` tinyint(1) NOT NULL default '1',
   `OXTYPE` varchar(4) NOT NULL default 'WRAP' COMMENT 'Wrapping type: WRAP,CARD',
   `OXNAME` varchar(128) NOT NULL default '' COMMENT 'Name (multilanguage)',
-  `OXNAME_1` varchar(128) NOT NULL default '',
-  `OXNAME_2` varchar(128) NOT NULL default '',
-  `OXNAME_3` varchar(128) NOT NULL default '',
+  `OXNAME_de` varchar(128) NOT NULL default '',
+  `OXNAME_en` varchar(128) NOT NULL default '',
+  `OXNAME_fr` varchar(128) NOT NULL default '',
   `OXPIC` varchar(128) NOT NULL default '' COMMENT 'Image filename',
   `OXPRICE` double NOT NULL default '0' COMMENT 'Price',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -2495,89 +2495,89 @@ CREATE TABLE `oxwrapping` (
 
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles AS SELECT oxarticles.* FROM oxarticles;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles_de AS SELECT OXID,OXSHOPID,OXPARENTID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXARTNUM,OXEAN,OXDISTEAN,OXMPN,OXTITLE,OXSHORTDESC,OXPRICE,OXBLFIXEDPRICE,OXPRICEA,OXPRICEB,OXPRICEC,OXBPRICE,OXTPRICE,OXUNITNAME,OXUNITQUANTITY,OXEXTURL,OXURLDESC,OXURLIMG,OXVAT,OXTHUMB,OXICON,OXPIC1,OXPIC2,OXPIC3,OXPIC4,OXPIC5,OXPIC6,OXPIC7,OXPIC8,OXPIC9,OXPIC10,OXPIC11,OXPIC12,OXWEIGHT,OXSTOCK,OXSTOCKFLAG,OXSTOCKTEXT,OXNOSTOCKTEXT,OXDELIVERY,OXINSERT,OXTIMESTAMP,OXLENGTH,OXWIDTH,OXHEIGHT,OXFILE,OXSEARCHKEYS,OXTEMPLATE,OXQUESTIONEMAIL,OXISSEARCH,OXISCONFIGURABLE,OXVARNAME,OXVARSTOCK,OXVARCOUNT,OXVARSELECT,OXVARMINPRICE,OXVARMAXPRICE,OXBUNDLEID,OXFOLDER,OXSUBCLASS,OXSORT,OXSOLDAMOUNT,OXNONMATERIAL,OXFREESHIPPING,OXREMINDACTIVE,OXREMINDAMOUNT,OXAMITEMID,OXAMTASKID,OXVENDORID,OXMANUFACTURERID,OXSKIPDISCOUNTS,OXRATING,OXRATINGCNT,OXMINDELTIME,OXMAXDELTIME,OXDELTIMEUNIT,OXUPDATEPRICE, OXUPDATEPRICEA, OXUPDATEPRICEB, OXUPDATEPRICEC, OXUPDATEPRICETIME, OXISDOWNLOADABLE, OXSHOWCUSTOMAGREEMENT FROM oxarticles;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles_en AS SELECT OXID,OXSHOPID,OXPARENTID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXARTNUM,OXEAN,OXDISTEAN,OXMPN,OXTITLE_1 AS OXTITLE,OXSHORTDESC_1 AS OXSHORTDESC,OXPRICE,OXBLFIXEDPRICE,OXPRICEA,OXPRICEB,OXPRICEC,OXBPRICE,OXTPRICE,OXUNITNAME,OXUNITQUANTITY,OXEXTURL,OXURLDESC_1 AS OXURLDESC,OXURLIMG,OXVAT,OXTHUMB,OXICON,OXPIC1,OXPIC2,OXPIC3,OXPIC4,OXPIC5,OXPIC6,OXPIC7,OXPIC8,OXPIC9,OXPIC10,OXPIC11,OXPIC12,OXWEIGHT,OXSTOCK,OXSTOCKFLAG,OXSTOCKTEXT_1 AS OXSTOCKTEXT,OXNOSTOCKTEXT_1 AS OXNOSTOCKTEXT,OXDELIVERY,OXINSERT,OXTIMESTAMP,OXLENGTH,OXWIDTH,OXHEIGHT,OXFILE,OXSEARCHKEYS_1 AS OXSEARCHKEYS,OXTEMPLATE,OXQUESTIONEMAIL,OXISSEARCH,OXISCONFIGURABLE,OXVARNAME_1 AS OXVARNAME,OXVARSTOCK,OXVARCOUNT,OXVARSELECT_1 AS OXVARSELECT,OXVARMINPRICE,OXVARMAXPRICE,OXBUNDLEID,OXFOLDER,OXSUBCLASS,OXSORT,OXSOLDAMOUNT,OXNONMATERIAL,OXFREESHIPPING,OXREMINDACTIVE,OXREMINDAMOUNT,OXAMITEMID,OXAMTASKID,OXVENDORID,OXMANUFACTURERID,OXSKIPDISCOUNTS,OXRATING,OXRATINGCNT,OXMINDELTIME,OXMAXDELTIME,OXDELTIMEUNIT,OXUPDATEPRICE, OXUPDATEPRICEA, OXUPDATEPRICEB, OXUPDATEPRICEC, OXUPDATEPRICETIME, OXISDOWNLOADABLE, OXSHOWCUSTOMAGREEMENT FROM oxarticles;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles_de AS SELECT OXID,OXSHOPID,OXPARENTID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXARTNUM,OXEAN,OXDISTEAN,OXMPN,OXTITLE_de AS OXTITLE,OXSHORTDESC_de AS OXSHORTDESC,OXPRICE,OXBLFIXEDPRICE,OXPRICEA,OXPRICEB,OXPRICEC,OXBPRICE,OXTPRICE,OXUNITNAME,OXUNITQUANTITY,OXEXTURL,OXURLDESC_de AS OXURLDESC,OXURLIMG,OXVAT,OXTHUMB,OXICON,OXPIC1,OXPIC2,OXPIC3,OXPIC4,OXPIC5,OXPIC6,OXPIC7,OXPIC8,OXPIC9,OXPIC10,OXPIC11,OXPIC12,OXWEIGHT,OXSTOCK,OXSTOCKFLAG,OXSTOCKTEXT_de AS OXSTOCKTEXT,OXNOSTOCKTEXT_de AS OXNOSTOCKTEXT,OXDELIVERY,OXINSERT,OXTIMESTAMP,OXLENGTH,OXWIDTH,OXHEIGHT,OXFILE,OXSEARCHKEYS_de AS OXSEARCHKEYS,OXTEMPLATE,OXQUESTIONEMAIL,OXISSEARCH,OXISCONFIGURABLE,OXVARNAME_de AS OXVARNAME,OXVARSTOCK,OXVARCOUNT,OXVARSELECT_de AS OXVARSELECT,OXVARMINPRICE,OXVARMAXPRICE,OXBUNDLEID,OXFOLDER,OXSUBCLASS,OXSORT,OXSOLDAMOUNT,OXNONMATERIAL,OXFREESHIPPING,OXREMINDACTIVE,OXREMINDAMOUNT,OXAMITEMID,OXAMTASKID,OXVENDORID,OXMANUFACTURERID,OXSKIPDISCOUNTS,OXRATING,OXRATINGCNT,OXMINDELTIME,OXMAXDELTIME,OXDELTIMEUNIT,OXUPDATEPRICE, OXUPDATEPRICEA, OXUPDATEPRICEB, OXUPDATEPRICEC, OXUPDATEPRICETIME, OXISDOWNLOADABLE, OXSHOWCUSTOMAGREEMENT FROM oxarticles;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles_en AS SELECT OXID,OXSHOPID,OXPARENTID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXARTNUM,OXEAN,OXDISTEAN,OXMPN,OXTITLE_en AS OXTITLE,OXSHORTDESC_en AS OXSHORTDESC,OXPRICE,OXBLFIXEDPRICE,OXPRICEA,OXPRICEB,OXPRICEC,OXBPRICE,OXTPRICE,OXUNITNAME,OXUNITQUANTITY,OXEXTURL,OXURLDESC_en AS OXURLDESC,OXURLIMG,OXVAT,OXTHUMB,OXICON,OXPIC1,OXPIC2,OXPIC3,OXPIC4,OXPIC5,OXPIC6,OXPIC7,OXPIC8,OXPIC9,OXPIC10,OXPIC11,OXPIC12,OXWEIGHT,OXSTOCK,OXSTOCKFLAG,OXSTOCKTEXT_en AS OXSTOCKTEXT,OXNOSTOCKTEXT_en AS OXNOSTOCKTEXT,OXDELIVERY,OXINSERT,OXTIMESTAMP,OXLENGTH,OXWIDTH,OXHEIGHT,OXFILE,OXSEARCHKEYS_en AS OXSEARCHKEYS,OXTEMPLATE,OXQUESTIONEMAIL,OXISSEARCH,OXISCONFIGURABLE,OXVARNAME_en AS OXVARNAME,OXVARSTOCK,OXVARCOUNT,OXVARSELECT_en AS OXVARSELECT,OXVARMINPRICE,OXVARMAXPRICE,OXBUNDLEID,OXFOLDER,OXSUBCLASS,OXSORT,OXSOLDAMOUNT,OXNONMATERIAL,OXFREESHIPPING,OXREMINDACTIVE,OXREMINDAMOUNT,OXAMITEMID,OXAMTASKID,OXVENDORID,OXMANUFACTURERID,OXSKIPDISCOUNTS,OXRATING,OXRATINGCNT,OXMINDELTIME,OXMAXDELTIME,OXDELTIMEUNIT,OXUPDATEPRICE, OXUPDATEPRICEA, OXUPDATEPRICEB, OXUPDATEPRICEC, OXUPDATEPRICETIME, OXISDOWNLOADABLE, OXSHOWCUSTOMAGREEMENT FROM oxarticles;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxartextends AS SELECT oxartextends.* FROM oxartextends;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxartextends_de AS SELECT OXID,OXLONGDESC,OXTAGS,OXTIMESTAMP FROM oxartextends;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxartextends_en AS SELECT OXID,OXLONGDESC_1 AS OXLONGDESC,OXTAGS_1 AS OXTAGS,OXTIMESTAMP FROM oxartextends;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxartextends_de AS SELECT OXID,OXLONGDESC_de AS OXLONGDESC,OXTAGS_de AS OXTAGS,OXTIMESTAMP FROM oxartextends;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxartextends_en AS SELECT OXID,OXLONGDESC_en AS OXLONGDESC,OXTAGS_en AS OXTAGS,OXTIMESTAMP FROM oxartextends;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxattribute AS SELECT oxattribute.* FROM oxattribute;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxattribute_de AS SELECT OXID,OXSHOPID,OXTITLE,OXPOS,OXTIMESTAMP, OXDISPLAYINBASKET FROM oxattribute;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxattribute_en AS SELECT OXID,OXSHOPID,OXTITLE_1 AS OXTITLE,OXPOS,OXTIMESTAMP, OXDISPLAYINBASKET FROM oxattribute;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxattribute_de AS SELECT OXID,OXSHOPID,OXTITLE_de AS OXTITLE,OXPOS,OXTIMESTAMP, OXDISPLAYINBASKET FROM oxattribute;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxattribute_en AS SELECT OXID,OXSHOPID,OXTITLE_en AS OXTITLE,OXPOS,OXTIMESTAMP, OXDISPLAYINBASKET FROM oxattribute;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcategories AS SELECT oxcategories.* FROM oxcategories;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcategories_de AS SELECT OXID,OXPARENTID,OXLEFT,OXRIGHT,OXROOTID,OXSORT,OXACTIVE,OXHIDDEN,OXSHOPID,OXTITLE,OXDESC,OXLONGDESC,OXTHUMB,OXEXTLINK,OXTEMPLATE,OXDEFSORT,OXDEFSORTMODE,OXPRICEFROM,OXPRICETO,OXICON,OXPROMOICON,OXVAT,OXSKIPDISCOUNTS,OXSHOWSUFFIX,OXTIMESTAMP FROM oxcategories;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcategories_en AS SELECT OXID,OXPARENTID,OXLEFT,OXRIGHT,OXROOTID,OXSORT,OXACTIVE_1 AS OXACTIVE,OXHIDDEN,OXSHOPID,OXTITLE_1 AS OXTITLE,OXDESC_1 AS OXDESC,OXLONGDESC_1 AS OXLONGDESC,OXTHUMB_1 AS OXTHUMB,OXEXTLINK,OXTEMPLATE,OXDEFSORT,OXDEFSORTMODE,OXPRICEFROM,OXPRICETO,OXICON,OXPROMOICON,OXVAT,OXSKIPDISCOUNTS,OXSHOWSUFFIX,OXTIMESTAMP FROM oxcategories;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcategories_de AS SELECT OXID,OXPARENTID,OXLEFT,OXRIGHT,OXROOTID,OXSORT,OXACTIVE_de AS OXACTIVE,OXHIDDEN,OXSHOPID,OXTITLE_de AS OXTITLE,OXDESC_de AS OXDESC,OXLONGDESC_de AS OXLONGDESC,OXTHUMB_de AS OXTHUMB,OXEXTLINK,OXTEMPLATE,OXDEFSORT,OXDEFSORTMODE,OXPRICEFROM,OXPRICETO,OXICON,OXPROMOICON,OXVAT,OXSKIPDISCOUNTS,OXSHOWSUFFIX,OXTIMESTAMP FROM oxcategories;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcategories_en AS SELECT OXID,OXPARENTID,OXLEFT,OXRIGHT,OXROOTID,OXSORT,OXACTIVE_en AS OXACTIVE,OXHIDDEN,OXSHOPID,OXTITLE_en AS OXTITLE,OXDESC_en AS OXDESC,OXLONGDESC_en AS OXLONGDESC,OXTHUMB_en AS OXTHUMB,OXEXTLINK,OXTEMPLATE,OXDEFSORT,OXDEFSORTMODE,OXPRICEFROM,OXPRICETO,OXICON,OXPROMOICON,OXVAT,OXSKIPDISCOUNTS,OXSHOWSUFFIX,OXTIMESTAMP FROM oxcategories;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcontents AS SELECT oxcontents.* FROM oxcontents;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcontents_de AS SELECT OXID,OXLOADID,OXSHOPID,OXSNIPPET,OXTYPE,OXACTIVE,OXPOSITION,OXTITLE,OXCONTENT,OXCATID,OXFOLDER,OXTERMVERSION,OXTIMESTAMP FROM oxcontents;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcontents_en AS SELECT OXID,OXLOADID,OXSHOPID,OXSNIPPET,OXTYPE,OXACTIVE_1 AS OXACTIVE,OXPOSITION,OXTITLE_1 AS OXTITLE,OXCONTENT_1 AS OXCONTENT,OXCATID,OXFOLDER,OXTERMVERSION,OXTIMESTAMP FROM oxcontents;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcontents_de AS SELECT OXID,OXLOADID,OXSHOPID,OXSNIPPET,OXTYPE,OXACTIVE_de AS OXACTIVE,OXPOSITION,OXTITLE_de AS OXTITLE,OXCONTENT_de AS OXCONTENT,OXCATID,OXFOLDER,OXTERMVERSION,OXTIMESTAMP FROM oxcontents;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcontents_en AS SELECT OXID,OXLOADID,OXSHOPID,OXSNIPPET,OXTYPE,OXACTIVE_en AS OXACTIVE,OXPOSITION,OXTITLE_en AS OXTITLE,OXCONTENT_en AS OXCONTENT,OXCATID,OXFOLDER,OXTERMVERSION,OXTIMESTAMP FROM oxcontents;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcountry AS SELECT oxcountry.* FROM oxcountry;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcountry_de AS SELECT OXID,OXACTIVE,OXTITLE,OXISOALPHA2,OXISOALPHA3,OXUNNUM3,OXVATINPREFIX,OXORDER,OXSHORTDESC,OXLONGDESC,OXVATSTATUS,OXTIMESTAMP FROM oxcountry;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcountry_en AS SELECT OXID,OXACTIVE,OXTITLE_1 AS OXTITLE,OXISOALPHA2,OXISOALPHA3,OXUNNUM3,OXVATINPREFIX,OXORDER,OXSHORTDESC_1 AS OXSHORTDESC,OXLONGDESC_1 AS OXLONGDESC,OXVATSTATUS,OXTIMESTAMP FROM oxcountry;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcountry_de AS SELECT OXID,OXACTIVE,OXTITLE_de AS OXTITLE,OXISOALPHA2,OXISOALPHA3,OXUNNUM3,OXVATINPREFIX,OXORDER,OXSHORTDESC_de AS OXSHORTDESC,OXLONGDESC_de AS OXLONGDESC,OXVATSTATUS,OXTIMESTAMP FROM oxcountry;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxcountry_en AS SELECT OXID,OXACTIVE,OXTITLE_en AS OXTITLE,OXISOALPHA2,OXISOALPHA3,OXUNNUM3,OXVATINPREFIX,OXORDER,OXSHORTDESC_en AS OXSHORTDESC,OXLONGDESC_en AS OXLONGDESC,OXVATSTATUS,OXTIMESTAMP FROM oxcountry;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdelivery AS SELECT oxdelivery.* FROM oxdelivery;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdelivery_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE,OXADDSUMTYPE,OXADDSUM,OXDELTYPE,OXPARAM,OXPARAMEND,OXFIXED,OXSORT,OXFINALIZE,OXTIMESTAMP FROM oxdelivery;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdelivery_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_1 AS OXTITLE,OXADDSUMTYPE,OXADDSUM,OXDELTYPE,OXPARAM,OXPARAMEND,OXFIXED,OXSORT,OXFINALIZE,OXTIMESTAMP FROM oxdelivery;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdelivery_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_de AS OXTITLE,OXADDSUMTYPE,OXADDSUM,OXDELTYPE,OXPARAM,OXPARAMEND,OXFIXED,OXSORT,OXFINALIZE,OXTIMESTAMP FROM oxdelivery;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdelivery_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_en AS OXTITLE,OXADDSUMTYPE,OXADDSUM,OXDELTYPE,OXPARAM,OXPARAMEND,OXFIXED,OXSORT,OXFINALIZE,OXTIMESTAMP FROM oxdelivery;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdiscount AS SELECT oxdiscount.* FROM oxdiscount;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdiscount_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE,OXAMOUNT,OXAMOUNTTO,OXPRICETO,OXPRICE,OXADDSUMTYPE,OXADDSUM,OXITMARTID,OXITMAMOUNT,OXITMMULTIPLE,OXTIMESTAMP FROM oxdiscount;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdiscount_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_1 AS OXTITLE,OXAMOUNT,OXAMOUNTTO,OXPRICETO,OXPRICE,OXADDSUMTYPE,OXADDSUM,OXITMARTID,OXITMAMOUNT,OXITMMULTIPLE,OXTIMESTAMP FROM oxdiscount;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdiscount_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_de AS OXTITLE,OXAMOUNT,OXAMOUNTTO,OXPRICETO,OXPRICE,OXADDSUMTYPE,OXADDSUM,OXITMARTID,OXITMAMOUNT,OXITMMULTIPLE,OXTIMESTAMP FROM oxdiscount;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdiscount_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_en AS OXTITLE,OXAMOUNT,OXAMOUNTTO,OXPRICETO,OXPRICE,OXADDSUMTYPE,OXADDSUM,OXITMARTID,OXITMAMOUNT,OXITMMULTIPLE,OXTIMESTAMP FROM oxdiscount;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxgroups AS SELECT oxgroups.* FROM oxgroups;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxgroups_de AS SELECT OXID,OXACTIVE,OXTITLE,OXTIMESTAMP FROM oxgroups;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxgroups_en AS SELECT OXID,OXACTIVE,OXTITLE_1 AS OXTITLE,OXTIMESTAMP FROM oxgroups;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxgroups_de AS SELECT OXID,OXACTIVE,OXTITLE_de AS OXTITLE,OXTIMESTAMP FROM oxgroups;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxgroups_en AS SELECT OXID,OXACTIVE,OXTITLE_en AS OXTITLE,OXTIMESTAMP FROM oxgroups;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxlinks AS SELECT oxlinks.* FROM oxlinks;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxlinks_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXURL,OXURLDESC,OXINSERT,OXTIMESTAMP FROM oxlinks;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxlinks_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXURL,OXURLDESC_1 AS OXURLDESC,OXINSERT,OXTIMESTAMP FROM oxlinks;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxlinks_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXURL,OXURLDESC_de AS OXURLDESC,OXINSERT,OXTIMESTAMP FROM oxlinks;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxlinks_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXURL,OXURLDESC_en AS OXURLDESC,OXINSERT,OXTIMESTAMP FROM oxlinks;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxnews AS SELECT oxnews.* FROM oxnews;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxnews_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXDATE,OXSHORTDESC,OXLONGDESC,OXTIMESTAMP FROM oxnews;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxnews_en AS SELECT OXID,OXSHOPID,OXACTIVE_1 AS OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXDATE,OXSHORTDESC_1 AS OXSHORTDESC,OXLONGDESC_1 AS OXLONGDESC,OXTIMESTAMP FROM oxnews;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxnews_de AS SELECT OXID,OXSHOPID,OXACTIVE_de AS OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXDATE,OXSHORTDESC_de AS OXSHORTDESC,OXLONGDESC_de AS OXLONGDESC,OXTIMESTAMP FROM oxnews;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxnews_en AS SELECT OXID,OXSHOPID,OXACTIVE_en AS OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXDATE,OXSHORTDESC_en AS OXSHORTDESC,OXLONGDESC_en AS OXLONGDESC,OXTIMESTAMP FROM oxnews;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxobject2attribute AS SELECT oxobject2attribute.* FROM oxobject2attribute;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxobject2attribute_de AS SELECT OXID,OXOBJECTID,OXATTRID,OXVALUE,OXPOS,OXTIMESTAMP FROM oxobject2attribute;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxobject2attribute_en AS SELECT OXID,OXOBJECTID,OXATTRID,OXVALUE_1 AS OXVALUE,OXPOS,OXTIMESTAMP FROM oxobject2attribute;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxobject2attribute_de AS SELECT OXID,OXOBJECTID,OXATTRID,OXVALUE_de AS OXVALUE,OXPOS,OXTIMESTAMP FROM oxobject2attribute;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxobject2attribute_en AS SELECT OXID,OXOBJECTID,OXATTRID,OXVALUE_en AS OXVALUE,OXPOS,OXTIMESTAMP FROM oxobject2attribute;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxpayments AS SELECT oxpayments.* FROM oxpayments;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxpayments_de AS SELECT OXID,OXACTIVE,OXDESC,OXADDSUM,OXADDSUMTYPE,OXADDSUMRULES,OXFROMBONI,OXFROMAMOUNT,OXTOAMOUNT,OXVALDESC,OXCHECKED,OXLONGDESC,OXSORT,OXTSPAYMENTID,OXTIMESTAMP FROM oxpayments;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxpayments_en AS SELECT OXID,OXACTIVE,OXDESC_1 AS OXDESC,OXADDSUM,OXADDSUMTYPE,OXADDSUMRULES,OXFROMBONI,OXFROMAMOUNT,OXTOAMOUNT,OXVALDESC_1 AS OXVALDESC,OXCHECKED,OXLONGDESC_1 AS OXLONGDESC,OXSORT,OXTSPAYMENTID,OXTIMESTAMP FROM oxpayments;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxpayments_de AS SELECT OXID,OXACTIVE,OXDESC_de AS OXDESC,OXADDSUM,OXADDSUMTYPE,OXADDSUMRULES,OXFROMBONI,OXFROMAMOUNT,OXTOAMOUNT,OXVALDESC_de AS OXVALDESC,OXCHECKED,OXLONGDESC_de AS OXLONGDESC,OXSORT,OXTSPAYMENTID,OXTIMESTAMP FROM oxpayments;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxpayments_en AS SELECT OXID,OXACTIVE,OXDESC_en AS OXDESC,OXADDSUM,OXADDSUMTYPE,OXADDSUMRULES,OXFROMBONI,OXFROMAMOUNT,OXTOAMOUNT,OXVALDESC_en AS OXVALDESC,OXCHECKED,OXLONGDESC_en AS OXLONGDESC,OXSORT,OXTSPAYMENTID,OXTIMESTAMP FROM oxpayments;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxselectlist AS SELECT oxselectlist.* FROM oxselectlist;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxselectlist_de AS SELECT OXID,OXSHOPID,OXTITLE,OXIDENT,OXVALDESC,OXTIMESTAMP FROM oxselectlist;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxselectlist_en AS SELECT OXID,OXSHOPID,OXTITLE_1 AS OXTITLE,OXIDENT,OXVALDESC_1 AS OXVALDESC,OXTIMESTAMP FROM oxselectlist;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxselectlist_de AS SELECT OXID,OXSHOPID,OXTITLE_de AS OXTITLE,OXIDENT,OXVALDESC_de AS OXVALDESC,OXTIMESTAMP FROM oxselectlist;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxselectlist_en AS SELECT OXID,OXSHOPID,OXTITLE_en AS OXTITLE,OXIDENT,OXVALDESC_en AS OXVALDESC,OXTIMESTAMP FROM oxselectlist;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxshops AS SELECT oxshops.* FROM oxshops;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxshops_de AS SELECT OXID,OXACTIVE,OXPRODUCTIVE,OXDEFCURRENCY,OXDEFLANGUAGE,OXNAME,OXTITLEPREFIX,OXTITLESUFFIX,OXSTARTTITLE,OXINFOEMAIL,OXORDEREMAIL,OXOWNEREMAIL,OXORDERSUBJECT,OXREGISTERSUBJECT,OXFORGOTPWDSUBJECT,OXSENDEDNOWSUBJECT,OXSMTP,OXSMTPUSER,OXSMTPPWD,OXCOMPANY,OXSTREET,OXZIP,OXCITY,OXCOUNTRY,OXBANKNAME,OXBANKNUMBER,OXBANKCODE,OXVATNUMBER,OXTAXNUMBER,OXBICCODE,OXIBANNUMBER,OXFNAME,OXLNAME,OXTELEFON,OXTELEFAX,OXURL,OXDEFCAT,OXHRBNR,OXCOURT,OXADBUTLERID,OXAFFILINETID,OXSUPERCLICKSID,OXAFFILIWELTID,OXAFFILI24ID,OXEDITION,OXVERSION,OXSEOACTIVE,OXTIMESTAMP FROM oxshops;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxshops_en AS SELECT OXID,OXACTIVE,OXPRODUCTIVE,OXDEFCURRENCY,OXDEFLANGUAGE,OXNAME,OXTITLEPREFIX_1 AS OXTITLEPREFIX,OXTITLESUFFIX_1 AS OXTITLESUFFIX,OXSTARTTITLE_1 AS OXSTARTTITLE,OXINFOEMAIL,OXORDEREMAIL,OXOWNEREMAIL,OXORDERSUBJECT_1 AS OXORDERSUBJECT,OXREGISTERSUBJECT_1 AS OXREGISTERSUBJECT,OXFORGOTPWDSUBJECT_1 AS OXFORGOTPWDSUBJECT,OXSENDEDNOWSUBJECT_1 AS OXSENDEDNOWSUBJECT,OXSMTP,OXSMTPUSER,OXSMTPPWD,OXCOMPANY,OXSTREET,OXZIP,OXCITY,OXCOUNTRY,OXBANKNAME,OXBANKNUMBER,OXBANKCODE,OXVATNUMBER,OXTAXNUMBER,OXBICCODE,OXIBANNUMBER,OXFNAME,OXLNAME,OXTELEFON,OXTELEFAX,OXURL,OXDEFCAT,OXHRBNR,OXCOURT,OXADBUTLERID,OXAFFILINETID,OXSUPERCLICKSID,OXAFFILIWELTID,OXAFFILI24ID,OXEDITION,OXVERSION,OXSEOACTIVE_1 AS OXSEOACTIVE,OXTIMESTAMP FROM oxshops;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxshops_de AS SELECT OXID,OXACTIVE,OXPRODUCTIVE,OXDEFCURRENCY,OXDEFLANGUAGE,OXNAME,OXTITLEPREFIX_de AS OXTITLEPREFIX,OXTITLESUFFIX_de AS OXTITLESUFFIX,OXSTARTTITLE_de AS OXSTARTTITLE,OXINFOEMAIL,OXORDEREMAIL,OXOWNEREMAIL,OXORDERSUBJECT_de AS OXORDERSUBJECT,OXREGISTERSUBJECT_de AS OXREGISTERSUBJECT,OXFORGOTPWDSUBJECT_de AS OXFORGOTPWDSUBJECT,OXSENDEDNOWSUBJECT_de AS OXSENDEDNOWSUBJECT,OXSMTP,OXSMTPUSER,OXSMTPPWD,OXCOMPANY,OXSTREET,OXZIP,OXCITY,OXCOUNTRY,OXBANKNAME,OXBANKNUMBER,OXBANKCODE,OXVATNUMBER,OXTAXNUMBER,OXBICCODE,OXIBANNUMBER,OXFNAME,OXLNAME,OXTELEFON,OXTELEFAX,OXURL,OXDEFCAT,OXHRBNR,OXCOURT,OXADBUTLERID,OXAFFILINETID,OXSUPERCLICKSID,OXAFFILIWELTID,OXAFFILI24ID,OXEDITION,OXVERSION,OXSEOACTIVE_de AS OXSEOACTIVE,OXTIMESTAMP FROM oxshops;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxshops_en AS SELECT OXID,OXACTIVE,OXPRODUCTIVE,OXDEFCURRENCY,OXDEFLANGUAGE,OXNAME,OXTITLEPREFIX_en AS OXTITLEPREFIX,OXTITLESUFFIX_en AS OXTITLESUFFIX,OXSTARTTITLE_en AS OXSTARTTITLE,OXINFOEMAIL,OXORDEREMAIL,OXOWNEREMAIL,OXORDERSUBJECT_en AS OXORDERSUBJECT,OXREGISTERSUBJECT_en AS OXREGISTERSUBJECT,OXFORGOTPWDSUBJECT_en AS OXFORGOTPWDSUBJECT,OXSENDEDNOWSUBJECT_en AS OXSENDEDNOWSUBJECT,OXSMTP,OXSMTPUSER,OXSMTPPWD,OXCOMPANY,OXSTREET,OXZIP,OXCITY,OXCOUNTRY,OXBANKNAME,OXBANKNUMBER,OXBANKCODE,OXVATNUMBER,OXTAXNUMBER,OXBICCODE,OXIBANNUMBER,OXFNAME,OXLNAME,OXTELEFON,OXTELEFAX,OXURL,OXDEFCAT,OXHRBNR,OXCOURT,OXADBUTLERID,OXAFFILINETID,OXSUPERCLICKSID,OXAFFILIWELTID,OXAFFILI24ID,OXEDITION,OXVERSION,OXSEOACTIVE_en AS OXSEOACTIVE,OXTIMESTAMP FROM oxshops;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxactions AS SELECT oxactions.* FROM oxactions;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxactions_de AS SELECT OXID,OXSHOPID,OXTYPE,OXTITLE,OXLONGDESC,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXPIC,OXLINK,OXSORT,OXTIMESTAMP FROM oxactions;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxactions_en AS SELECT OXID,OXSHOPID,OXTYPE,OXTITLE_1 AS OXTITLE,OXLONGDESC_1 AS OXLONGDESC,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXPIC_1 AS OXPIC,OXLINK_1 AS OXLINK,OXSORT,OXTIMESTAMP FROM oxactions;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxactions_de AS SELECT OXID,OXSHOPID,OXTYPE,OXTITLE_de AS OXTITLE,OXLONGDESC_de AS OXLONGDESC,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXPIC_de AS OXPIC,OXLINK_de AS OXLINK,OXSORT,OXTIMESTAMP FROM oxactions;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxactions_en AS SELECT OXID,OXSHOPID,OXTYPE,OXTITLE_en AS OXTITLE,OXLONGDESC_en AS OXLONGDESC,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXPIC_en AS OXPIC,OXLINK_en AS OXLINK,OXSORT,OXTIMESTAMP FROM oxactions;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxwrapping AS SELECT oxwrapping.* FROM oxwrapping;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxwrapping_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXTYPE,OXNAME,OXPIC,OXPRICE,OXTIMESTAMP FROM oxwrapping;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxwrapping_en AS SELECT OXID,OXSHOPID,OXACTIVE_1 AS OXACTIVE,OXTYPE,OXNAME_1 AS OXNAME,OXPIC,OXPRICE,OXTIMESTAMP FROM oxwrapping;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxwrapping_de AS SELECT OXID,OXSHOPID,OXACTIVE_de AS OXACTIVE,OXTYPE,OXNAME_de AS OXNAME,OXPIC,OXPRICE,OXTIMESTAMP FROM oxwrapping;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxwrapping_en AS SELECT OXID,OXSHOPID,OXACTIVE_en AS OXACTIVE,OXTYPE,OXNAME_en AS OXNAME,OXPIC,OXPRICE,OXTIMESTAMP FROM oxwrapping;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdeliveryset AS SELECT oxdeliveryset.* FROM oxdeliveryset;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdeliveryset_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE,OXPOS,OXTIMESTAMP FROM oxdeliveryset;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdeliveryset_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_1 AS OXTITLE,OXPOS,OXTIMESTAMP FROM oxdeliveryset;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdeliveryset_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_de AS OXTITLE,OXPOS,OXTIMESTAMP FROM oxdeliveryset;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxdeliveryset_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXACTIVEFROM,OXACTIVETO,OXTITLE_en AS OXTITLE,OXPOS,OXTIMESTAMP FROM oxdeliveryset;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxvendor AS SELECT oxvendor.* FROM oxvendor;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxvendor_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE,OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxvendor;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxvendor_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE_1 AS OXTITLE,OXSHORTDESC_1 AS OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxvendor;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxvendor_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE_de AS OXTITLE,OXSHORTDESC_de AS OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxvendor;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxvendor_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE_en AS OXTITLE,OXSHORTDESC_en AS OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxvendor;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmanufacturers AS SELECT oxmanufacturers.* FROM oxmanufacturers;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmanufacturers_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE,OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxmanufacturers;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmanufacturers_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE_1 AS OXTITLE,OXSHORTDESC_1 AS OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxmanufacturers;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmanufacturers_de AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE_de AS OXTITLE,OXSHORTDESC_de AS OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxmanufacturers;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmanufacturers_en AS SELECT OXID,OXSHOPID,OXACTIVE,OXICON,OXTITLE_en AS OXTITLE,OXSHORTDESC_en AS OXSHORTDESC,OXSHOWSUFFIX,OXTIMESTAMP FROM oxmanufacturers;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmediaurls AS SELECT oxmediaurls.* FROM oxmediaurls;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmediaurls_de AS SELECT OXID,OXOBJECTID,OXURL,OXDESC,OXISUPLOADED,OXTIMESTAMP FROM oxmediaurls;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmediaurls_en AS SELECT OXID,OXOBJECTID,OXURL,OXDESC_1 AS OXDESC,OXISUPLOADED,OXTIMESTAMP FROM oxmediaurls;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmediaurls_de AS SELECT OXID,OXOBJECTID,OXURL,OXDESC_de AS OXDESC,OXISUPLOADED,OXTIMESTAMP FROM oxmediaurls;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxmediaurls_en AS SELECT OXID,OXOBJECTID,OXURL,OXDESC_en AS OXDESC,OXISUPLOADED,OXTIMESTAMP FROM oxmediaurls;
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxstates AS SELECT oxstates.* FROM oxstates;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxstates_de AS SELECT OXID,OXCOUNTRYID,OXTITLE,OXISOALPHA2,OXTIMESTAMP FROM oxstates;
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxstates_en AS SELECT OXID,OXCOUNTRYID,OXTITLE_1 AS OXTITLE,OXISOALPHA2,OXTIMESTAMP FROM oxstates;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxstates_de AS SELECT OXID,OXCOUNTRYID,OXTITLE_de AS OXTITLE,OXISOALPHA2,OXTIMESTAMP FROM oxstates;
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxstates_en AS SELECT OXID,OXCOUNTRYID,OXTITLE_en AS OXTITLE,OXISOALPHA2,OXTIMESTAMP FROM oxstates;

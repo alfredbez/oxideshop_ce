@@ -20,10 +20,20 @@
  * @version   OXID eShop CE
  */
 
+use OxidEsales\TestingLibrary\UnitTestCase;
+
 require_once realpath(dirname(__FILE__)) . '/helpers/LanguageMainHelper.php';
 
-abstract class MultilanguageTestCase extends OxidTestCase
+abstract class MultilanguageTestCase extends UnitTestCase
 {
+    /**
+     * Original tables and fields.
+     *
+     * @var array
+     */
+    protected $originalTables = array();
+    protected $originalFields = array();
+
     /**
      * Fixture setUp.
      */
@@ -37,40 +47,14 @@ abstract class MultilanguageTestCase extends OxidTestCase
     }
 
     /**
-     * Additional multilanguage tables.
-     *
-     * @var array
-     */
-    protected $additionalTables = array();
-
-    /**
      * Fixture tearDown.
      */
     protected function tearDown()
     {
         $this->setConfigParam('aMultiLangTables', array());
-
-        foreach ($this->additionalTables as $name) {
-            $this->removeAdditionalTables($name);
-        }
-        $this->removeAdditionalTables('set1');
-        $this->removeAdditionalTables('set2');
-
-        $this->prepareDatabase();
+        $this->restoreDatabase();
 
         parent::tearDown();
-    }
-
-    /**
-     * This method is called after the last test of this test class is run.
-     */
-    public static function tearDownAfterClass()
-    {
-        $serviceCaller = new \OxidEsales\TestingLibrary\ServiceCaller();
-        $serviceCaller->setParameter('importSql', '@'. getShopBasePath() .'/Setup/Sql/database.sql');
-        $serviceCaller->callService('ShopPreparation', 1);
-
-        parent::tearDownAfterClass();
     }
 
     /**
@@ -212,16 +196,6 @@ abstract class MultilanguageTestCase extends OxidTestCase
     }
 
     /**
-     * Test helper to use non numeric language key database.
-     */
-    protected function prepareDatabase()
-    {
-        $serviceCaller = new \OxidEsales\TestingLibrary\ServiceCaller();
-        $serviceCaller->setParameter('importSql', '@'. __DIR__ .'/testData/languageids_database.sql');
-        $serviceCaller->callService('ShopPreparation', 1);
-    }
-
-    /**
      * Create additional multilanguage table.
      *
      * @param string $name
@@ -253,5 +227,44 @@ abstract class MultilanguageTestCase extends OxidTestCase
             oxDb::getDb()->query("DROP TABLE IF EXISTS `" . $sub['TABLE_NAME'] . "`");
         }
     }
+
+    /**
+     * Restore database to whatever state it was in at beginning of this test.
+     */
+    protected function restoreDatabase()
+    {
+        $dbMetaDataHandler = oxNew('oxDbMetaDataHandler');
+        $allTables = $dbMetaDataHandler->getAllTables();
+        $excessTables = array_diff($allTables, $this->originalTables);
+
+        foreach ($excessTables as $table) {
+            $query = "DROP TABLE " . $table;
+            oxDb::getDb()->execute($query);
+        }
+
+        foreach ($this->originalTables as $table) {
+            $fields = array_keys($dbMetaDataHandler->getFields($table));
+            $excessFields = array_diff($fields, $this->originalFields[$table]);
+
+            if (!empty($excessFields)) {
+                $query = "ALTER TABLE $table DROP COLUMN " . implode(', DROP COLUMN ', $excessFields);
+                oxDb::getDb()->execute($query);
+            }
+        }
+    }
+
+    /**
+     * Restore database to whatever state it was in at beginning of this test.
+     */
+    protected function prepareDatabase()
+    {
+        $dbMetaDataHandler = oxNew('oxDbMetaDataHandler');
+        $this->originalTables = $dbMetaDataHandler->getAllTables();
+
+        foreach ($this->originalTables as $table) {
+            $this->originalFields[$table] = array_keys($dbMetaDataHandler->getFields($table));
+        }
+    }
+
 }
 

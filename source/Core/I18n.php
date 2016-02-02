@@ -208,16 +208,16 @@ class I18n extends \oxBase
         foreach ($aObjFields as $sKey => $sValue) {
 
             //skipping oxactive field
-            if (preg_match('/^oxactive(_(\d{1,2}))?$/', $sKey)) {
+            if (preg_match('/^oxactive(_([a-zA-Z1-9_]+))?$/', $sKey)) {
                 continue;
             }
 
             $iFieldLang = $this->_getFieldLang($sKey);
 
             //checking, if field is multilanguage
-            if ($this->isMultilingualField($sKey) || $iFieldLang > 0) {
-                $sNewKey = preg_replace('/_(\d{1,2})$/', '', $sKey);
-                $aMultiLangFields[$sNewKey][] = (int) $iFieldLang;
+            if ($this->isMultilingualField($sKey) || !empty($iFieldLang)) {
+                $temp = explode('_', $sKey);
+                $aMultiLangFields[$temp[0]][] = $iFieldLang;
             }
         }
 
@@ -239,8 +239,9 @@ class I18n extends \oxBase
             foreach ($aMultiLangFields as $sFieldId => $aMultiLangIds) {
 
                 foreach ($aMultiLangIds as $sMultiLangId) {
-                    $sFieldName = ($sMultiLangId == 0) ? $sFieldId : $sFieldId . '_' . $sMultiLangId;
-                    if ($rs['0'][strtoupper($sFieldName)]) {
+                    $sFieldName = empty($sMultiLangId) ? strtoupper($sFieldId) : strtoupper($sFieldId) . '_' . $sMultiLangId;
+
+                    if ($rs['0'][$sFieldName]) {
                         unset($aNotInLang[$sMultiLangId]);
                         continue;
                     }
@@ -336,8 +337,9 @@ class I18n extends \oxBase
      */
     protected function _getFieldLang($fieldName)
     {
-        $temp = explode('_', $fieldName);
-        $return = ($fieldName != $temp[count($temp)-1]) ? $temp[count($temp)-1] : null;
+        $raw = explode('_', $fieldName);
+        $temp = explode($raw[0] . '_', $fieldName);
+        $return = (1 < count($temp)) ? $temp[count($temp)-1] : null;
 
         return $return;
     }
@@ -531,7 +533,7 @@ class I18n extends \oxBase
      *
      * @return mixed
      */
-    protected function getLanguageTableName($table, $languageI)
+    protected function getLanguageTableName($table, $languageId)
     {
         $metaDataHandler = oxNew('oxDbMetaDataHandler');
         $tableSet = $metaDataHandler->getTableSetForLanguageAbbreviation($languageId, $table);

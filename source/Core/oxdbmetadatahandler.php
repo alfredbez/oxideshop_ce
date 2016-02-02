@@ -265,6 +265,8 @@ class oxDbMetaDataHandler extends oxSuperCfg
     }
 
     /**
+     * @deprecated in b-dev
+     *
      * Get max language ID used in shop. For checking is used table "oxarticle"
      * field "oxtitle"
      *
@@ -291,6 +293,8 @@ class oxDbMetaDataHandler extends oxSuperCfg
     }
 
     /**
+     * @deprecated in b-dev
+     *
      * Get next available language ID
      *
      * @return int
@@ -325,48 +329,6 @@ class oxDbMetaDataHandler extends oxSuperCfg
         }
 
         return $multiLanguageFields;
-    }
-
-    /**
-     * Get single language fields
-     *
-     * @param string $sTable table name
-     * @param int    $languageId  language id
-     *
-     * @return array
-     */
-    public function OLDgetSinglelangFields($table, $languageId)
-    {
-        $languageTable = $this->getTableSetForLanguageAbbreviation($languageId, $table);
-
-        $baseFields = $this->getFields($table);
-        $languageFields = $this->getFields($languageTable);
-
-        //Some fields (for example OXID) must be taken from core table.
-        $languageFields = $this->filterCoreFields($languageFields);
-
-        $fields = array_merge($baseFields, $languageFields);
-        $singleLanguageFields = array();
-
-        $language = oxRegistry::getLang();
-        $languageIds = $language->getLanguageIds();
-        $check = implode('|', $languageIds);
-
-        foreach ($fields as $fieldName => $field) {
-
-            if (preg_match("/(({$table}|{$languageTable})\.)?(?<field>.+)_(?<lang>[{$check}]+)$/", $field, $matches)) {
-                if ($matches['lang'] == $languageId) {
-                    $singleLanguageFields[$matches['field']] = $field;
-                }
-            } else {
-                $tmp = explode('.', $field);
-                if (false === strpos($tmp[1], '_')) {
-                    $singleLanguageFields[$fieldName] = $field;
-                }
-            }
-        }
-
-        return $singleLanguageFields;
     }
 
     public function getSinglelangFields($table, $languageId)
@@ -404,6 +366,8 @@ class oxDbMetaDataHandler extends oxSuperCfg
     }
 
     /**
+     * @deprecated in b-dev
+     *
      * Add new multi-languages fields to table. Duplicates all multi-language
      * fields and fields indexes with next available language ID
      *
@@ -426,12 +390,6 @@ class oxDbMetaDataHandler extends oxSuperCfg
      */
     public function resetMultilangFields($iLangId, $sTableName)
     {
-        $iLangId = (int) $iLangId;
-
-        if ($iLangId === 0) {
-            return;
-        }
-
         $aSql = array();
 
         $aFields = $this->getMultilangFields($sTableName);
@@ -452,6 +410,8 @@ class oxDbMetaDataHandler extends oxSuperCfg
     }
 
     /**
+     * @deprecated in b-dev
+     *
      * Add new language to database. Scans all tables and adds new
      * multi-language fields
      */
@@ -499,10 +459,6 @@ class oxDbMetaDataHandler extends oxSuperCfg
      */
     public function resetLanguage($iLangId)
     {
-        if ((int) $iLangId === 0) {
-            return;
-        }
-
         $aTables = $this->getAllTables();
 
         // removing tables which does not requires reset

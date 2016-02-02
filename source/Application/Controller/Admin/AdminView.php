@@ -71,7 +71,7 @@ class AdminView extends \oxView
      *
      * @var integer
      */
-    protected $_iEditLang = 0;
+    protected $_iEditLang = 'de';
 
     /**
      * Active shop title
