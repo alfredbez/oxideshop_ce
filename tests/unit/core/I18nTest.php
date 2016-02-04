@@ -1042,7 +1042,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
     /**
      * Testing how multilanguage objects are deleted..
      */
-    public function _testMultilangObjectDeletion()
+    public function testMultilangObjectDeletion()
     {
         $sId = "_testRecordForTest";
         $oDb = oxDb::getDb(oxDB::FETCH_MODE_ASSOC);

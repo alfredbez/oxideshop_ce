@@ -105,6 +105,27 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
     /**
      * Test getting the correct table set for given language abbreviation.
      */
+    public function testDbMetaDataHandlerGetMultilangFields()
+    {
+        $metaDataHandler = oxNew('oxDbMetaDataHandler');
+
+        $expected = array(
+            'OXVARNAME',
+            'OXVARSELECT',
+            'OXTITLE',
+            'OXSHORTDESC',
+            'OXURLDESC',
+            'OXSEARCHKEYS',
+            'OXSTOCKTEXT',
+            'OXNOSTOCKTEXT'
+        );
+
+        $this->assertSame($expected, $metaDataHandler->getMultilangFields('oxarticles'));
+    }
+
+    /**
+     * Test getting the correct table set for given language abbreviation.
+     */
     public function testDbMetaDataHandlerGetTableSetForLanguageAbbreviation()
     {
         $this->createTestTables('addtest');
@@ -113,9 +134,11 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
 
         $this->assertSame('oxarticles', $metaDataHandler->getTableSetForLanguageAbbreviation('en'));
         $this->assertSame('addtest', $metaDataHandler->getTableSetForLanguageAbbreviation('de', 'addtest'));
+        $this->assertSame('addtest', $metaDataHandler->getTableSetForLanguageAbbreviation('De', 'addtest'));
         $this->assertSame('addtest', $metaDataHandler->getTableSetForLanguageAbbreviation('en', 'addtest'));
         $this->assertSame('addtest_set1', $metaDataHandler->getTableSetForLanguageAbbreviation('hh', 'addtest'));
         $this->assertSame('addtest_set2', $metaDataHandler->getTableSetForLanguageAbbreviation('qq', 'addtest'));
+        $this->assertSame('addtest_set2', $metaDataHandler->getTableSetForLanguageAbbreviation('QQ', 'addtest'));
 
     }
 
@@ -167,13 +190,13 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
         $this->setTestLanguages();
 
         $metaDataHandler = oxNew('oxDbMetaDataHandler');
-        $this->assertSame('TITLEXXX_ff', $metaDataHandler->getPreviousMultilanguageField('addtest', 'titleXXX'));
-        $this->assertSame('TITLEXXX_ff', $metaDataHandler->getPreviousMultilanguageField('addtest', 'TITLEXXX'));
-        $this->assertSame('TITLE_ff', $metaDataHandler->getPreviousMultilanguageField('addtest', 'TITLE'));
-        $this->assertSame('TITLEXXX_nn', $metaDataHandler->getPreviousMultilanguageField('addtest_set1', 'titleXXX'));
-        $this->assertSame('TITLEXXX_nn', $metaDataHandler->getPreviousMultilanguageField('addtest_set1', 'TITLEXXX'));
-        $this->assertSame('TITLEXXX_qq', $metaDataHandler->getPreviousMultilanguageField('addtest_set2', 'titleXXX'));
-        $this->assertSame('TITLE_qq', $metaDataHandler->getPreviousMultilanguageField('addtest_set2', 'TITLE'));
+        $this->assertSame('TITLEXXX_FF', $metaDataHandler->getPreviousMultilanguageField('addtest', 'titleXXX'));
+        $this->assertSame('TITLEXXX_FF', $metaDataHandler->getPreviousMultilanguageField('addtest', 'TITLEXXX'));
+        $this->assertSame('TITLE_FF', $metaDataHandler->getPreviousMultilanguageField('addtest', 'TITLE'));
+        $this->assertSame('TITLEXXX_NN', $metaDataHandler->getPreviousMultilanguageField('addtest_set1', 'titleXXX'));
+        $this->assertSame('TITLEXXX_NN', $metaDataHandler->getPreviousMultilanguageField('addtest_set1', 'TITLEXXX'));
+        $this->assertSame('TITLEXXX_QQ', $metaDataHandler->getPreviousMultilanguageField('addtest_set2', 'titleXXX'));
+        $this->assertSame('TITLE_QQ', $metaDataHandler->getPreviousMultilanguageField('addtest_set2', 'TITLE'));
         $this->assertNull($metaDataHandler->getPreviousMultilanguageField('addtest_set2', 'YYY'));
         $this->assertNull($metaDataHandler->getPreviousMultilanguageField('notexistingtable', 'YYY'));
     }
@@ -247,14 +270,14 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
         //check if fields were generated in the desired order
         $expected = array(
             'OXID'        => 'addtest_set2.OXID',
-            'TITLE_oo'    => 'addtest_set2.TITLE_oo',
-            'TITLE_pp'    => 'addtest_set2.TITLE_pp',
-            'TITLE_qq'    => 'addtest_set2.TITLE_qq',
-            'TITLE_rr'    => 'addtest_set2.TITLE_rr',
-            'TITLEXXX_oo' => 'addtest_set2.TITLEXXX_oo',
-            'TITLEXXX_pp' => 'addtest_set2.TITLEXXX_pp',
-            'TITLEXXX_qq' => 'addtest_set2.TITLEXXX_qq',
-            'TITLEXXX_rr' => 'addtest_set2.TITLEXXX_rr'
+            'TITLE_OO'    => 'addtest_set2.TITLE_OO',
+            'TITLE_PP'    => 'addtest_set2.TITLE_PP',
+            'TITLE_QQ'    => 'addtest_set2.TITLE_QQ',
+            'TITLE_RR'    => 'addtest_set2.TITLE_RR',
+            'TITLEXXX_OO' => 'addtest_set2.TITLEXXX_OO',
+            'TITLEXXX_PP' => 'addtest_set2.TITLEXXX_PP',
+            'TITLEXXX_QQ' => 'addtest_set2.TITLEXXX_QQ',
+            'TITLEXXX_RR' => 'addtest_set2.TITLEXXX_RR'
         );
 
         $this->assertSame($expected, $metaDataHandler->getFields('addtest_set2'));
@@ -295,27 +318,27 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
 
         //core table
         $fields = $metaDataHandler->getSinglelangFields('oxshops', 'de');
-        $this->assertFalse(isset($fields['OXTITLEPREFIX_fr']));
-        $this->assertSame($fields['OXTITLEPREFIX'], 'oxshops.OXTITLEPREFIX_de');
+        $this->assertFalse(isset($fields['OXTITLEPREFIX_FR']));
+        $this->assertSame($fields['OXTITLEPREFIX'], 'oxshops.OXTITLEPREFIX_DE');
 
         //generic view
         $fields = $metaDataHandler->getSinglelangFields('oxv_oxshops', 'de');
-        $this->assertSame($fields['OXTITLEPREFIX'], 'oxv_oxshops.OXTITLEPREFIX_de');
+        $this->assertSame($fields['OXTITLEPREFIX'], 'oxv_oxshops.OXTITLEPREFIX_DE');
 
         //language specific view
-        $fields = $metaDataHandler->getSinglelangFields('oxv_oxshops_de', 'de');
+        $fields = $metaDataHandler->getSinglelangFields('oxv_oxshops_DE', 'de');
         $this->assertSame($fields['OXTITLEPREFIX'], 'oxv_oxshops_de.OXTITLEPREFIX');
 
         //core table
         $fields = $metaDataHandler->getSinglelangFields('oxshops', 'en');
-        $this->assertSame($fields['OXTITLEPREFIX'], 'oxshops.OXTITLEPREFIX_en');
+        $this->assertSame($fields['OXTITLEPREFIX'], 'oxshops.OXTITLEPREFIX_EN');
 
         //generic view
         $fields = $metaDataHandler->getSinglelangFields('oxv_oxshops', 'en');
-        $this->assertSame($fields['OXTITLEPREFIX'], 'oxv_oxshops.OXTITLEPREFIX_en');
+        $this->assertSame($fields['OXTITLEPREFIX'], 'oxv_oxshops.OXTITLEPREFIX_EN');
 
         //language specific view
-        $fields = $metaDataHandler->getSinglelangFields('oxv_oxshops_en', 'en');
+        $fields = $metaDataHandler->getSinglelangFields('oxv_oxshops_EN', 'en');
         $this->assertSame($fields['OXTITLEPREFIX'], 'oxv_oxshops_en.OXTITLEPREFIX');
 
     }
@@ -468,6 +491,35 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
         $this->assertTrue($dbMetaDataHandler->tableExists('oxv_oxarticles_aa'));
         $this->assertTrue($dbMetaDataHandler->fieldExists('oxtitle_aa', 'oxv_oxarticles'));
         $this->assertTrue($dbMetaDataHandler->fieldExists('oxtitle', 'oxv_oxarticles_aa'));
+    }
+
+    /**
+     * Test adding language abbreviation again but ucfirst.
+     */
+    public function testLanguageMainAddSameLanguageAbbreviationAgainCaseInsensitive()
+    {
+        $expectedException = oxNew('oxExceptionToDisplay');
+        $expectedException->setMessage('LANGUAGE_ALREADYEXISTS_ERROR');
+
+        $utilsView = $this->getMock('oxUtilsView', array('addErrorToDisplay'));
+        $utilsView->expects($this->once())->method('addErrorToDisplay')->with($this->equalTo($expectedException));
+        oxRegistry::set('oxUtilsView', $utilsView);
+
+        $languageMain = oxNew('language_main');
+
+        $parameters = array(
+            'oxid'       => 'De',
+            'active'     => '1',
+            'abbr'       => 'De',
+            'desc'       => 'German',
+            'baseurl'    => '',
+            'basesslurl' => '',
+            'sort'       => ''
+        );
+
+        $this->setRequestParameter('oxid', '-1');
+        $this->setRequestParameter('editval', $parameters);
+        $languageMain->save();
     }
 
     /**
@@ -640,7 +692,7 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
         $metaDataHandler = oxNew('oxDbMetaDataHandler');
 
         $expected = array('OXID'  => 'addtest.OXID',
-                          'TITLE' => 'addtest_set1.TITLE_ii');
+                          'TITLE' => 'addtest_set1.TITLE_II');
 
         $this->assertSame($expected, $metaDataHandler->getSinglelangFields('addtest', 'ii'));
 
@@ -665,7 +717,7 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
         $this->assertSame($expected, $metaDataHandler->getLanguage2TableSetMap('addtest', 'title'));
 
         $expected = array('OXID'  => 'addtest.OXID',
-                          'TITLE' => 'addtest.TITLE_xy_yx');
+                          'TITLE' => 'addtest.TITLE_XY_YX');
 
         $this->assertSame($expected, $metaDataHandler->getSinglelangFields('addtest', 'xy_yx'));
     }
@@ -683,7 +735,7 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
         $metaDataHandler = oxNew('oxDbMetaDataHandler');
 
         $expected = array('OXID'  => 'addtest.OXID',
-                          'TITLE' => 'addtest_set1.TITLE_xy_yx');
+                          'TITLE' => 'addtest_set1.TITLE_XY_YX');
 
         $this->assertSame($expected, $metaDataHandler->getSinglelangFields('addtest', 'xy_yx'));
     }
@@ -703,58 +755,58 @@ class Integration_Multilanguage_NonNumericLanguageIdsTest extends MultilanguageT
 
         $queries[0] = "CREATE TABLE `" . $tableName . "` (" .
                       "`OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Item id'," .
-                      "`" . $fieldName . "_de` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
-                      "`" . $fieldName . "_en` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_aa` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_bb` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_cc` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_dd` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_ee` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_ff` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_de` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
-                      "`" . $fieldName . "XXX_en` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_aa` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_bb` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_cc` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_dd` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_ee` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_ff` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_DE` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
+                      "`" . $fieldName . "_EN` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_AA` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_BB` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_CC` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_DD` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_EE` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_FF` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_DE` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
+                      "`" . $fieldName . "XXX_EN` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_AA` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_BB` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_CC` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_DD` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_EE` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_FF` varchar(128) NOT NULL DEFAULT ''," .
                       "PRIMARY KEY (`OXID`)" .
                       ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='for testing'";
 
         $queries[1] = "CREATE TABLE `" . $tableName . "_set1` (" .
                       "`OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Item id'," .
-                      "`" . $fieldName . "_gg` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)',";
+                      "`" . $fieldName . "_GG` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)',";
         if (!$leaveOneOut) {
-            $queries[1] .= "`" . $fieldName . "_hh` varchar(128) NOT NULL DEFAULT ''," ;
+            $queries[1] .= "`" . $fieldName . "_HH` varchar(128) NOT NULL DEFAULT ''," ;
         }
-        $queries[1] .= "`" . $fieldName . "_ii` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "_jj` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "_kk` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "_ll` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "_mm` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "_nn` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "XXX_gg` varchar(128) NOT NULL DEFAULT '',";
+        $queries[1] .= "`" . $fieldName . "_II` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "_JJ` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "_KK` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "_LL` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "_MM` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "_NN` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "XXX_GG` varchar(128) NOT NULL DEFAULT '',";
         if (!$leaveOneOut) {
-            $queries[1] .= "`" . $fieldName . "XXX_hh` varchar(128) NOT NULL DEFAULT ''," ;
+            $queries[1] .= "`" . $fieldName . "XXX_HH` varchar(128) NOT NULL DEFAULT ''," ;
         }
-        $queries[1] .= "`" . $fieldName . "XXX_ii` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "XXX_jj` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "XXX_kk` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "XXX_ll` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "XXX_mm` varchar(128) NOT NULL DEFAULT ''," .
-                       "`" . $fieldName . "XXX_nn` varchar(128) NOT NULL DEFAULT ''," .
+        $queries[1] .= "`" . $fieldName . "XXX_II` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "XXX_JJ` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "XXX_KK` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "XXX_LL` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "XXX_MM` varchar(128) NOT NULL DEFAULT ''," .
+                       "`" . $fieldName . "XXX_NN` varchar(128) NOT NULL DEFAULT ''," .
                        "PRIMARY KEY (`OXID`)" .
                        ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='for testing'";
 
         $queries[2] = "CREATE TABLE `" . $tableName . "_set2` (" .
                       "`OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Item id'," .
-                      "`" . $fieldName . "_oo` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
-                      "`" . $fieldName . "_pp` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "_qq` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_oo` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
-                      "`" . $fieldName . "XXX_pp` varchar(128) NOT NULL DEFAULT ''," .
-                      "`" . $fieldName . "XXX_qq` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_OO` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
+                      "`" . $fieldName . "_PP` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "_QQ` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_OO` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
+                      "`" . $fieldName . "XXX_PP` varchar(128) NOT NULL DEFAULT ''," .
+                      "`" . $fieldName . "XXX_QQ` varchar(128) NOT NULL DEFAULT ''," .
                       "PRIMARY KEY (`OXID`)" .
                       ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='for testing'";
 

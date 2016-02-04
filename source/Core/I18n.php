@@ -239,7 +239,7 @@ class I18n extends \oxBase
             foreach ($aMultiLangFields as $sFieldId => $aMultiLangIds) {
 
                 foreach ($aMultiLangIds as $sMultiLangId) {
-                    $sFieldName = empty($sMultiLangId) ? strtoupper($sFieldId) : strtoupper($sFieldId) . '_' . $sMultiLangId;
+                    $sFieldName = empty($sMultiLangId) ? strtoupper($sFieldId) : strtoupper($sFieldId . '_' . $sMultiLangId);
 
                     if ($rs['0'][$sFieldName]) {
                         unset($aNotInLang[$sMultiLangId]);

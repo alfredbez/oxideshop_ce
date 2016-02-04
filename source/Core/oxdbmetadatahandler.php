@@ -316,23 +316,19 @@ class oxDbMetaDataHandler extends oxSuperCfg
         $fields = $this->getFields($table);
         $multiLanguageFields = array();
 
-        //get first abbreviation,
-        //TODO: make sure we check the right set table for its multilanguage fields, given language
-        //might reside in one of the set tables and not the original table
-        $languageAbbreviations = oxRegistry::getLang()->getLanguageIds();
-        $searchFor = array_shift($languageAbbreviations);
-
         foreach ($fields as $field) {
-            if (preg_match("/({$table}\.)?(?<field>.+)_" . $searchFor . "$/", $field, $matches)) {
-                $multiLanguageFields[] = $matches['field'];
+            if (preg_match("/({$table}\.)?(?<field>[^_]+)_([a-zA-Z1-9_]+)?$/", $field, $matches)) {
+                $multiLanguageFields[$matches['field']] = $matches['field'];
             }
         }
+        $multiLanguageFields = array_keys($multiLanguageFields);
 
         return $multiLanguageFields;
     }
 
     public function getSinglelangFields($table, $languageId)
     {
+        $table = strtolower($table);
         $languageTable = $this->getTableSetForLanguageAbbreviation($languageId, $table);
 
         $baseFields = $this->getFields($table);
@@ -346,12 +342,12 @@ class oxDbMetaDataHandler extends oxSuperCfg
 
         $language = oxRegistry::getLang();
         $languageIds = $language->getLanguageIds();
-        $check = '_' . implode('|_', $languageIds);
+        $check = strtoupper('_' . implode('|_', $languageIds));
 
         foreach ($fields as $fieldName => $field) {
 
             if (preg_match("/(({$table}|{$languageTable})\.)?(?<field>.+)(?<lang>{$check})$/", $field, $matches)) {
-                if (ltrim($matches['lang'], '_') == $languageId) {
+                if (ltrim($matches['lang'], '_') == strtoupper($languageId)) {
                     $singleLanguageFields[$matches['field']] = $field;
                 }
             } else {
@@ -599,6 +595,7 @@ class oxDbMetaDataHandler extends oxSuperCfg
         $return = null;
         $multilanguageFields = $this->getMultilangFields($table);
         $field = strtolower($multilanguageFields[0]);
+        $languageAbbreviation = strtolower($languageAbbreviation);
 
         $map = $this->getLanguage2TableSetMap($table, $field);
         if (isset($map[$languageAbbreviation])) {
@@ -623,8 +620,8 @@ class oxDbMetaDataHandler extends oxSuperCfg
     public function getLanguage2TableSetMap($coreTable = 'oxarticles', $coreField = 'oxtitle')
     {
         $language2TableSet = array();
-
         $existingTableSets = $this->getLanguageSetTables($coreTable);
+        $coreField = strtolower($coreField);
 
         foreach ($existingTableSets as $tableSet) {
             $language2TableSet = array_merge($language2TableSet, $this->getTableSetLanguages($tableSet, $coreField));
@@ -759,7 +756,7 @@ class oxDbMetaDataHandler extends oxSuperCfg
     {
         $multilanguageFields = $this->getMultilangFields($table);
         $tableSet = $this->getTableSetForLanguageAbbreviation($languageAbbreviation, $table);
-        $abbreviations = oxRegistry::getLang()->getLanguageIds();
+        $abbreviations = array_keys($this->getLanguage2TableSetMap($table, $multilanguageFields[0]));
         $firstAbbreviation = array_shift($abbreviations);
         $queries = array();
 
@@ -770,9 +767,9 @@ class oxDbMetaDataHandler extends oxSuperCfg
             }
 
             foreach ($multilanguageFields as $field) {
-                $newFieldName = $field . "_" . $languageAbbreviation;
+                $newFieldName = strtoupper($field . "_" . $languageAbbreviation);
                 $previousField = $this->getPreviousMultilanguageField($tableSet, $field);
-                $templateField = $field . "_" . $firstAbbreviation;
+                $templateField = strtoupper($field . "_" . $firstAbbreviation);
 
                 if (!$this->tableExists($tableSet) || !$this->fieldExists($newFieldName, $tableSet)) {
 

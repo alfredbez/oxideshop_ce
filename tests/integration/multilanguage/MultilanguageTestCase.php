@@ -205,7 +205,7 @@ abstract class MultilanguageTestCase extends UnitTestCase
         $sql = "CREATE TABLE `" . $name . "` (" .
                "`OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Item id'," .
                "`TITLE` varchar(128) NOT NULL DEFAULT '' COMMENT 'Title (multilanguage)'," .
-               "`TITLE_de` varchar(128) NOT NULL DEFAULT ''," .
+               "`TITLE_DE` varchar(128) NOT NULL DEFAULT ''," .
                "PRIMARY KEY (`OXID`)" .
                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='for testing'";
 

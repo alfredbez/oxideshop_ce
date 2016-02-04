@@ -414,17 +414,19 @@ class Language_Main extends oxAdminDetails
     /**
      * Check if language already exists
      *
-     * @param string $sAbbr language abbervation
+     * @param string $abbreviation language abbreviation
      *
      * @return bool
      */
-    protected function _checkLangExists($sAbbr)
+    protected function _checkLangExists($abbreviation)
     {
         $myConfig = $this->getConfig();
-        $aAbbrs = array_keys($this->_aLangData['lang']);
+        $abbreviations = array_keys($this->_aLangData['lang']);
 
-        if (in_array($sAbbr, $aAbbrs)) {
-            return true;
+        foreach ($abbreviations as $key) {
+           if (strtolower($key) == strtolower($abbreviation)) {
+               return true;
+           }
         }
 
         return false;
