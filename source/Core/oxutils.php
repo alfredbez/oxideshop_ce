@@ -1027,7 +1027,7 @@ class oxUtils extends oxSuperCfg
 
             $aSeoModes = $myConfig->getconfigParam('aSeoModes');
             $sActShopId = $sShopId ? $sShopId : $myConfig->getActiveShop()->getId();
-            $iActLang = $iActLang ? $iActLang : (int) oxRegistry::getLang()->getBaseLanguage();
+            $iActLang = $iActLang ? $iActLang : oxRegistry::getLang()->getBaseLanguage();
 
             // checking special config param for active shop and language
             if (is_array($aSeoModes) && isset($aSeoModes[$sActShopId]) && isset($aSeoModes[$sActShopId][$iActLang])) {

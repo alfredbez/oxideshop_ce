@@ -938,7 +938,7 @@ class oxEmail extends PHPMailer
         $oShop = $this->_getShop($iCurrLang);
 
         //sets language to article
-        if ($oProduct->getLanguage() != $iCurrLang) {
+        if ($oProduct->getLanguage() !== $iCurrLang) {
             $oProduct->setLanguage($iCurrLang);
             $oProduct->load($oProduct->getId());
         }
@@ -1052,7 +1052,7 @@ class oxEmail extends PHPMailer
     {
         $myConfig = $this->getConfig();
 
-        $iOrderLang = (int) (isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : 0);
+        $iOrderLang = (isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : $myConfig->getConfigParam('sDefaultLang'));
 
         // shop info
         $oShop = $this->_getShop($iOrderLang);
@@ -1118,7 +1118,7 @@ class oxEmail extends PHPMailer
     {
         $myConfig = $this->getConfig();
 
-        $iOrderLang = (int) (isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : 0);
+        $iOrderLang = (isset($oOrder->oxorder__oxlang->value) ? $oOrder->oxorder__oxlang->value : $myConfig->getConfigParam('sDefaultLang'));
 
         // shop info
         $oShop = $this->_getShop($iOrderLang);
@@ -1352,7 +1352,7 @@ class oxEmail extends PHPMailer
         //set mail params (from, fromName, smtp)
         $this->_setMailParams($oShop);
 
-        $iAlarmLang = $oAlarm->oxpricealarm__oxlang->value;
+        $iAlarmLang = !empty($oAlarm->oxpricealarm__oxlang->value) ? $oAlarm->oxpricealarm__oxlang->value : oxRegistry::getConfig()->getConfigParam('sDefaultLang');
 
         $oArticle = oxNew("oxArticle");
         //$oArticle->setSkipAbPrice( true );

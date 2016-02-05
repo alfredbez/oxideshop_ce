@@ -172,11 +172,11 @@ class Unit_Core_oxModuleTest extends OxidTestCase
         $oModule->setModuleData($aModule);
 
         $this->assertEquals('testModuleTitle', $oModule->getInfo("title"));
-        $this->assertEquals('testModuleTitle', $oModule->getInfo("title", 1));
+        $this->assertEquals('testModuleTitle', $oModule->getInfo("title", 'en'));
 
-        $this->assertEquals("test DE value", $oModule->getInfo("description", 0));
-        $this->assertEquals("test EN value", $oModule->getInfo("description", 1));
-        $this->assertEquals("test EN value", $oModule->getInfo("description", 2));
+        $this->assertEquals("test DE value", $oModule->getInfo("description", 'de'));
+        $this->assertEquals("test EN value", $oModule->getInfo("description", 'en'));
+        $this->assertEquals("test EN value", $oModule->getInfo("description", 'xx'));
     }
 
     /**

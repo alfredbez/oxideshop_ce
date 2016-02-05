@@ -874,10 +874,12 @@ class oxLang extends oxSuperCfg
      *
      * @return array
      */
-    protected function _getLanguageFileData($blAdmin = false, $iLang = 0, $aLangFiles = null)
+    protected function _getLanguageFileData($blAdmin = false, $iLang = null, $aLangFiles = null)
     {
         $myConfig = $this->getConfig();
         $myUtils = oxRegistry::getUtils();
+
+        $iLang = empty($iLang) ? $myConfig->getConfigParam('sDefaultLang') : $iLang;
 
         $sCacheName = $this->_getLangFileCacheName($blAdmin, $iLang, $aLangFiles);
         $aLangCache = $myUtils->getLangCache($sCacheName);
@@ -1102,15 +1104,15 @@ class oxLang extends oxSuperCfg
     public function processUrl($sUrl, $iLang = null)
     {
         $iLang = isset($iLang) ? $iLang : $this->getBaseLanguage();
-        $iDefaultLang = intval(oxRegistry::getConfig()->getConfigParam('sDefaultLang'));
-        $iBrowserLanguage = intval($this->detectLanguageByBrowser());
+        $iDefaultLang = oxRegistry::getConfig()->getConfigParam('sDefaultLang');
+        $iBrowserLanguage = $this->detectLanguageByBrowser();
         /** @var oxStrRegular $oStr */
         $oStr = getStr();
 
         if (!$this->isAdmin()) {
             $sParam = $this->getUrlLang($iLang);
-            if (!$oStr->preg_match('/(\?|&(amp;)?)lang=[0-9]+/', $sUrl) &&
-                ($iLang != $iDefaultLang || $iDefaultLang != $iBrowserLanguage)
+            if (!$oStr->preg_match('/(\?|&(amp;)?)lang=[a-zA-Z0-9_]+/', $sUrl) &&
+                ($iLang != $iDefaultLang || (!empty($iBrowserLanguage) && $iDefaultLang != $iBrowserLanguage))
             ) {
                 if ($sUrl) {
                     if ($oStr->strpos($sUrl, '?') === false) {
@@ -1121,7 +1123,7 @@ class oxLang extends oxSuperCfg
                 }
                 $sUrl .= $sParam . "&amp;";
             } else {
-                $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)lang=[0-9]+/', '\1' . $sParam, $sUrl);
+                $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)lang=[a-zA-Z0-9_]+/', '\1' . $sParam, $sUrl);
             }
         }
 

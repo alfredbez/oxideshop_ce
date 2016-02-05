@@ -64,16 +64,19 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $myConfig = $this->getConfig();
 
         $iDefL = $myConfig->getConfigParam('sDefaultLang');
-        $oLang = oxNew('oxLang');
-        $this->assertEquals("url", $oLang->processUrl("url", $iDefL));
-        $this->assertEquals("url?lang=9&amp;", $oLang->processUrl("url", 9));
-        $this->assertEquals("url?lang=9&amp;", $oLang->processUrl("url?", 9));
-        $this->assertEquals("url?lang=$iDefL&amp;", $oLang->processUrl("url?lang=15&amp;", $iDefL));
-        $this->assertEquals("url?lang=9", $oLang->processUrl("url?lang=3", 9));
+        $oLang = $this->getMock('oxLang', array('detectLanguageByBrowser'));
+        $oLang->expects($this->any())->method('detectLanguageByBrowser')->will($this->returnValue('de'));
 
-        $this->assertEquals("url?x&amp;lang=9&amp;", $oLang->processUrl("url?x&amp;", 9));
+        $this->assertEquals("url", $oLang->processUrl("url", null));
+        $this->assertEquals("url", $oLang->processUrl("url", $iDefL));
+        $this->assertEquals("url?lang=xy_yx&amp;", $oLang->processUrl("url", xy_yx));
+        $this->assertEquals("url?lang=xy_yx&amp;", $oLang->processUrl("url?", xy_yx));
+        $this->assertEquals("url?lang=$iDefL&amp;", $oLang->processUrl("url?lang=15&amp;", $iDefL));
+        $this->assertEquals("url?lang=xy_yx", $oLang->processUrl("url?lang=3", xy_yx));
+
+        $this->assertEquals("url?x&amp;lang=xy_yx&amp;", $oLang->processUrl("url?x&amp;", xy_yx));
         $this->assertEquals("url?x&amp;", $oLang->processUrl("url?x&amp;", $iDefL));
-        $this->assertEquals("url?x&amp;lang=9", $oLang->processUrl("url?x&amp;lang=3", 9));
+        $this->assertEquals("url?x&amp;lang=xy_yx", $oLang->processUrl("url?x&amp;lang=3", xy_yx));
         $this->assertEquals("url?x&amp;lang=$iDefL&amp;", $oLang->processUrl("url?x&amp;lang=5&amp;", $iDefL));
     }
 
@@ -95,10 +98,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetFormLang()
     {
-        $sFormLang = "<input type=\"hidden\" name=\"lang\" value=\"9\" />";
+        $sFormLang = "<input type=\"hidden\" name=\"lang\" value=\"xy_yx\" />";
 
         $oLang = $this->getMock("oxLang", array("getBaseLanguage"));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(9));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(xy_yx));
         $this->assertEquals($sFormLang, $oLang->getFormLang());
     }
 
@@ -109,10 +112,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testgetUrlLang()
     {
-        $sUrlLang = "lang=9";
+        $sUrlLang = "lang=xy_yx";
 
         $oLang = $this->getMock("oxLang", array("getBaseLanguage"));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(9));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(xy_yx));
         $this->assertEquals($sUrlLang, $oLang->getUrlLang());
     }
 
@@ -131,7 +134,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         );
 
         $oLang = oxNew('oxLang');
-        $this->assertEquals($aPathArray, $oLang->UNITgetLangFilesPathArray(0));
+        $this->assertEquals($aPathArray, $oLang->UNITgetLangFilesPathArray('de'));
     }
 
     public function testGetLangFilesPathForModules()
@@ -162,7 +165,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock("oxLang", array("_getActiveModuleInfo"));
         $oLang->expects($this->any())->method('_getActiveModuleInfo')->will($this->returnValue($aInfo));
 
-        $this->assertEquals($aPathArray, $oLang->UNITgetLangFilesPathArray(0));
+        $this->assertEquals($aPathArray, $oLang->UNITgetLangFilesPathArray('de'));
 
         unlink($sShopPath . "modules/oxlangTestModule/translations/de/test_lang.php");
         rmdir($sShopPath . "modules/oxlangTestModule/translations/de/");
@@ -198,7 +201,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock("oxLang", array("_getActiveModuleInfo"));
         $oLang->expects($this->any())->method('_getActiveModuleInfo')->will($this->returnValue($aInfo));
 
-        $this->assertEquals($aPathArray, $oLang->UNITgetLangFilesPathArray(0));
+        $this->assertEquals($aPathArray, $oLang->UNITgetLangFilesPathArray('de'));
 
         unlink($sShopPath . "modules/oxlangTestModule/Application/translations/de/test_lang.php");
         rmdir($sShopPath . "modules/oxlangTestModule/Application/translations/de/");
@@ -237,7 +240,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock("oxLang", array("_getActiveModuleInfo"));
         $oLang->expects($this->any())->method('_getActiveModuleInfo')->will($this->returnValue($aInfo));
 
-        $aResult = $oLang->UNITgetAdminLangFilesPathArray(0);
+        $aResult = $oLang->UNITgetAdminLangFilesPathArray('de');
 
         foreach ($aPathArray as $sPath) {
             $this->assertTrue(array_search($sPath, $aResult) !== false, "Language file '$sPath' was not found as registered");
@@ -462,11 +465,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock('oxlang', array('isAdmin'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
 
-        $this->assertEquals('Aktiv', $oLang->translateString("GENERAL_ACTIVE", 0));
-        $this->assertEquals('Active', $oLang->translateString("GENERAL_ACTIVE", 1));
+        $this->assertEquals('Aktiv', $oLang->translateString("GENERAL_ACTIVE", 'de'));
+        $this->assertEquals('Active', $oLang->translateString("GENERAL_ACTIVE", 'en'));
 
-        $this->assertEquals('Dieser Benutzer existiert bereits!', $oLang->translateString("EXCEPTION_USER_USEREXISTS", 0));
-        $this->assertEquals('This user allready exists!', $oLang->translateString("EXCEPTION_USER_USEREXISTS", 1));
+        $this->assertEquals('Dieser Benutzer existiert bereits!', $oLang->translateString("EXCEPTION_USER_USEREXISTS", 'de'));
+        $this->assertEquals('This user allready exists!', $oLang->translateString("EXCEPTION_USER_USEREXISTS", 'en'));
 
         $this->assertEquals('blafoowashere123', $oLang->translateString("blafoowashere123"));
         $this->assertEquals('', $oLang->translateString(""));
@@ -523,42 +526,42 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testGetLanguageTagEmulatedLang()
     {
         $oLang = $this->getMock('oxlang', array('getBaseLanguage'));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(1));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('en'));
 
-        $this->assertEquals('_1', $oLang->getLanguageTag());
+        $this->assertEquals('_en', $oLang->getLanguageTag());
     }
 
     // default lang 0
     public function testGetLanguageTagDefaultLang()
     {
         $oLang = $this->getMock('oxlang', array('getBaseLanguage'));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('de'));
 
-        $this->assertEquals('', $oLang->getLanguageTag());
+        $this->assertEquals('_de', $oLang->getLanguageTag());
     }
 
     // passing language ids
     public function testGetLanguageTagPassedLang()
     {
         $oLang = oxNew('oxLang');
-        $this->assertEquals('', $oLang->getLanguageTag(0));
-        $this->assertEquals('_1', $oLang->getLanguageTag(1));
+        $this->assertEquals('_de', $oLang->getLanguageTag('de'));
+        $this->assertEquals('_en', $oLang->getLanguageTag('en'));
     }
 
     public function testResetBaseLanguage()
     {
-        $this->setRequestParameter('lang', '1');
+        $this->setRequestParameter('lang', 'en');
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
-        $this->setRequestParameter('lang', '0');
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
+        $this->setRequestParameter('lang', 'de');
+        $this->assertEquals('en', $oLang->getBaseLanguage());
         $oLang->resetBaseLanguage();
-        $this->assertEquals(0, $oLang->getBaseLanguage());
-        $this->setRequestParameter('lang', '1');
-        $this->assertEquals(0, $oLang->getBaseLanguage());
+        $this->assertEquals('de', $oLang->getBaseLanguage());
+        $this->setRequestParameter('lang', 'en');
+        $this->assertEquals('de', $oLang->getBaseLanguage());
         $oLang->resetBaseLanguage();
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
     }
 
     /**
@@ -566,26 +569,26 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetBaseLanguageTestingRequest()
     {
-        $this->setRequestParameter('changelang', 1);
+        $this->setRequestParameter('changelang', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
 
         $this->setRequestParameter('changelang', null);
-        $this->setRequestParameter('lang', 1);
+        $this->setRequestParameter('lang', 'en');
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
 
         $this->setRequestParameter('changelang', null);
         $this->setRequestParameter('lang', null);
         $this->setRequestParameter('tpllanguage', null);
-        $this->setRequestParameter('language', 1);
+        $this->setRequestParameter('language', 'en');
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
 
         $this->setRequestParameter('changelang', null);
         $this->setRequestParameter('lang', null);
@@ -593,9 +596,9 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $this->setRequestParameter('language', null);
         $oLang = oxNew('oxLang');
 
-        $this->getConfig()->setConfigParam('sDefaultLang', 1);
+        $this->getConfig()->setConfigParam('sDefaultLang', 'en');
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
     }
 
     /**
@@ -606,7 +609,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $this->setRequestParameter('changelang', 'xxx');
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals(0, $oLang->getBaseLanguage());
+        $this->assertEquals('de', $oLang->getBaseLanguage());
     }
 
     /**
@@ -614,18 +617,18 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetBaseLanguageIgnoresSettedTemplateLanguageParam()
     {
-        $this->setRequestParameter('changelang', 1);
+        $this->setRequestParameter('changelang', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
 
         $this->setRequestParameter('changelang', null);
         $this->setRequestParameter('lang', null);
-        $this->setRequestParameter('tpllanguage', 1);
+        $this->setRequestParameter('tpllanguage', 'en');
 
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals(0, $oLang->getBaseLanguage());
+        $this->assertEquals('de', $oLang->getBaseLanguage());
     }
 
     /**
@@ -633,15 +636,15 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetBaseLanguageCaching()
     {
-        $this->setRequestParameter('language', 1);
+        $this->setRequestParameter('language', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
 
-        $this->setRequestParameter('language', 0);
-        $this->assertEquals(1, $oLang->getTplLanguage());
+        $this->setRequestParameter('language', 'de');
+        $this->assertEquals('en', $oLang->getTplLanguage());
     }
 
     /**
@@ -656,10 +659,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $this->setRequestParameter('aLanguageURLs', null);
 
         $oLang = $this->getMock('oxlang', array('detectLanguageByBrowser', 'validateLanguage'));
-        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo(1))->will($this->returnValue(1));
-        $oLang->expects($this->once())->method('detectLanguageByBrowser')->will($this->returnValue(1));
+        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo('en'))->will($this->returnValue('en'));
+        $oLang->expects($this->once())->method('detectLanguageByBrowser')->will($this->returnValue('en'));
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
     }
 
     /**
@@ -680,10 +683,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         oxTestModules::addModuleObject('oxUtils', $oUtils);
 
         $oLang = $this->getMock('oxlang', array('detectLanguageByBrowser', 'validateLanguage'));
-        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo(0))->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo('de'))->will($this->returnValue('de'));
         $oLang->expects($this->never())->method('detectLanguageByBrowser');
 
-        $this->assertEquals(0, $oLang->getBaseLanguage());
+        $this->assertEquals('de', $oLang->getBaseLanguage());
     }
 
     /**
@@ -700,10 +703,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
 
         $oLang = $this->getMock('oxlang', array('detectLanguageByBrowser', 'isAdmin', 'validateLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo(0))->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo('de'))->will($this->returnValue('de'));
         $oLang->expects($this->never())->method('detectLanguageByBrowser');
 
-        $this->assertEquals(0, $oLang->getBaseLanguage());
+        $this->assertEquals('de', $oLang->getBaseLanguage());
     }
 
     /**
@@ -711,13 +714,13 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetTplLanguageInNonAdminMode()
     {
-        $this->setRequestParameter('tpllanguage', 1);
+        $this->setRequestParameter('tpllanguage', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('de'));
 
-        $this->assertEquals(0, $oLang->getTplLanguage());
+        $this->assertEquals('de', $oLang->getTplLanguage());
     }
 
     /**
@@ -726,13 +729,13 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testGetTplLanguageInAdminMode()
     {
         //$this->setRequestParameter( 'tpllanguage', 1 );
-        $this->getSession()->setVariable('tpllanguage', 1);
+        $this->getSession()->setVariable('tpllanguage', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('de'));
 
-        $this->assertEquals(1, $oLang->getTplLanguage());
+        $this->assertEquals('en', $oLang->getTplLanguage());
     }
 
     /**
@@ -740,14 +743,14 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetTplLanguageInAdmin()
     {
-        $this->getSession()->setVariable('tpllanguage', 999);
+        $this->getSession()->setVariable('tpllanguage', 'xy_yx');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'setTplLanguage', 'getBaseLanguage'));
         $oLang->expects($this->once())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->once())->method('setTplLanguage')->with($this->equalTo(999))->will($this->returnValue(777));
+        $oLang->expects($this->once())->method('setTplLanguage')->with($this->equalTo('xy_yx'))->will($this->returnValue('ab_cd'));
         $oLang->expects($this->never())->method('getBaseLanguage');
 
-        $this->assertEquals(777, $oLang->getTplLanguage());
+        $this->assertEquals('ab_cd', $oLang->getTplLanguage());
     }
 
     /**
@@ -755,14 +758,14 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetTplLanguageNonAdmin()
     {
-        $this->getSession()->setVariable('tpllanguage', 999);
+        $this->getSession()->setVariable('tpllanguage', 'xy_yx');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'setTplLanguage', 'getBaseLanguage'));
         $oLang->expects($this->once())->method('isAdmin')->will($this->returnValue(false));
         $oLang->expects($this->never())->method('setTplLanguage');
-        $oLang->expects($this->once())->method('getBaseLanguage')->will($this->returnValue(555));
+        $oLang->expects($this->once())->method('getBaseLanguage')->will($this->returnValue('aa'));
 
-        $this->assertEquals(555, $oLang->getTplLanguage());
+        $this->assertEquals('aa', $oLang->getTplLanguage());
     }
 
     /**
@@ -771,16 +774,16 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testGetTplLanguageCaching()
     {
         //$this->setRequestParameter( 'tpllanguage', 1 );
-        $this->getSession()->setVariable('tpllanguage', 1);
+        $this->getSession()->setVariable('tpllanguage', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('de'));
 
-        $this->assertEquals(1, $oLang->getTplLanguage());
+        $this->assertEquals('en', $oLang->getTplLanguage());
 
-        $this->setRequestParameter('tpllanguage', 0);
-        $this->assertEquals(1, $oLang->getTplLanguage());
+        $this->setRequestParameter('tpllanguage', 'de');
+        $this->assertEquals('en', $oLang->getTplLanguage());
     }
 
     /**
@@ -793,7 +796,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
 
-        $this->assertEquals(0, $oLang->getTplLanguage());
+        $this->assertEquals('de', $oLang->getTplLanguage());
     }
 
     /**
@@ -801,13 +804,13 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetEditLanguageInAdminMode()
     {
-        $this->setRequestParameter('editlanguage', 1);
+        $this->setRequestParameter('editlanguage', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('de'));
 
-        $this->assertEquals(1, $oLang->getEditLanguage());
+        $this->assertEquals('en', $oLang->getEditLanguage());
     }
 
     /**
@@ -815,13 +818,13 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetEditLanguageinNonAdminMode()
     {
-        $this->setRequestParameter('editlanguage', 1);
+        $this->setRequestParameter('editlanguage', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(0));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('de'));
 
-        $this->assertEquals(0, $oLang->getEditLanguage());
+        $this->assertEquals('de', $oLang->getEditLanguage());
     }
 
     /**
@@ -833,9 +836,9 @@ class Unit_Core_oxLangTest extends OxidTestCase
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(1));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('en'));
 
-        $this->assertEquals(1, $oLang->getEditLanguage());
+        $this->assertEquals('en', $oLang->getEditLanguage());
     }
 
     /**
@@ -844,8 +847,8 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetEditLanguageNewLangParamOveridesEditLangParam()
     {
-        $this->setRequestParameter('editlanguage', 0);
-        $this->setRequestParameter('new_lang', 1);
+        $this->setRequestParameter('editlanguage', 'de');
+        $this->setRequestParameter('new_lang', 'en');
 
         $oView = oxNew('oxView');
         $oView->setFncName('saveinnlang');
@@ -856,10 +859,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage', 'getConfig'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(2));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('fr'));
         $oLang->expects($this->any())->method('getConfig')->will($this->returnValue($oConfig));
 
-        $this->assertEquals(1, $oLang->getEditLanguage());
+        $this->assertEquals('en', $oLang->getEditLanguage());
     }
 
     /**
@@ -867,16 +870,16 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetEditLanguageCaching()
     {
-        $this->setRequestParameter('editlanguage', 1);
+        $this->setRequestParameter('editlanguage', 'en');
 
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(2));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('fr'));
 
-        $this->assertEquals(1, $oLang->getEditLanguage());
+        $this->assertEquals('en', $oLang->getEditLanguage());
 
-        $this->setRequestParameter('editlanguage', 0);
-        $this->assertEquals(1, $oLang->getEditLanguage());
+        $this->setRequestParameter('editlanguage', 'de');
+        $this->assertEquals('en', $oLang->getEditLanguage());
     }
 
     /**
@@ -889,7 +892,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
 
-        $this->assertEquals(0, $oLang->getEditLanguage());
+        $this->assertEquals('de', $oLang->getEditLanguage());
     }
 
     /**
@@ -897,12 +900,12 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetBaseLanguageLanguageURLs()
     {
-        $this->setRequestParameter('changelang', 1);
+        $this->setRequestParameter('changelang', 'en');
         $oConfig = $this->getMock('oxConfig', array('isCurrentUrl'));
         $oConfig->expects($this->any())->method('isCurrentUrl')->will($this->returnValue(true));
         $oConfig->init();
 
-        $oConfig->setConfigParam('aLanguageURLs', array(1 => 'xxx'));
+        $oConfig->setConfigParam('aLanguageURLs', array('en' => 'xxx'));
 
         $oLang = $this->getMock('oxLang', array('isAdmin'));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
@@ -910,7 +913,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang->setConfig($oConfig);
 
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
     }
 
     /**
@@ -920,7 +923,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         // preparing fixture
         $oDe = new stdClass();
-        $oDe->id = 0;
+        $oDe->id = 'de';
         $oDe->abbr = 'de';
         $oDe->oxid = 'de';
         $oDe->name = 'Deutsch';
@@ -929,7 +932,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oDe->selected = 1;
 
         $oEng = clone $oDe;
-        $oEng->id = 1;
+        $oEng->id = 'en';
         $oEng->abbr = 'en';
         $oEng->oxid = 'en';
         $oEng->name = 'English';
@@ -937,10 +940,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oEng->sort = '2';
         $oEng->selected = 0;
 
-        $aLangArray = array($oDe, $oEng);
+        $aLangArray = array('de' => $oDe, 'en' => $oEng);
 
         $oLang = oxNew('oxLang');
-        $this->assertEquals($aLangArray, $oLang->getLanguageArray(0, true, true));
+        $this->assertEquals($aLangArray, $oLang->getLanguageArray('de', true, true));
     }
 
     /**
@@ -950,11 +953,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         $aLanguages = array('de' => 'Deutsch', 'ru' => 'Russian');
         $this->getConfig()->setConfigParam('aLanguages', $aLanguages);
-        $aLangParams['de']['baseId'] = 0;
+        $aLangParams['de']['baseId'] = 'de';
         $aLangParams['de']['abbr'] = 'de';
         $aLangParams['de']['sort'] = '1';
         $aLangParams['de']['active'] = '1';
-        $aLangParams['ru']['baseId'] = 2;
+        $aLangParams['ru']['baseId'] = 'ru';
         $aLangParams['ru']['abbr'] = 'ru';
         $aLangParams['ru']['sort'] = '2';
         $aLangParams['ru']['active'] = '1';
@@ -963,7 +966,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
 
         // preparing fixture
         $oDe = new stdClass();
-        $oDe->id = 0;
+        $oDe->id = 'de';
         $oDe->abbr = 'de';
         $oDe->oxid = 'de';
         $oDe->name = 'Deutsch';
@@ -972,7 +975,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oDe->selected = 0;
 
         $oRus = clone $oDe;
-        $oRus->id = 2;
+        $oRus->id = 'ru';
         $oRus->abbr = 'ru';
         $oRus->oxid = 'ru';
         $oRus->name = 'Russian';
@@ -980,22 +983,22 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oRus->sort = '2';
         $oRus->selected = 1;
 
-        $aLangArray = array(0 => $oDe, 2 => $oRus);
+        $aLangArray = array('de' => $oDe, 'ru' => $oRus);
 
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals($aLangArray, $oLang->getLanguageArray(2));
+        $this->assertEquals($aLangArray, $oLang->getLanguageArray('ru'));
     }
 
     /**
      * Testing language names getter when one language is inactive
      * (M:1027)
      */
-    public function testGetLanguageArray_withIncacitiveLang()
+    public function testGetLanguageArray_withInactiveLang()
     {
         // preparing fixture
         $oEng = new stdClass();
-        $oEng->id = 1;
+        $oEng->id = 'en';
         $oEng->abbr = 'en';
         $oEng->oxid = 'en';
         $oEng->name = 'English';
@@ -1003,7 +1006,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oEng->sort = '2';
         $oEng->selected = 1;
 
-        $aLangArray = array(1 => $oEng);
+        $aLangArray = array('en' => $oEng);
 
         $oConfig = $this->getConfig();
         $aLangParams = $oConfig->getConfigParam('aLanguageParams');
@@ -1011,10 +1014,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $aLangParams = $oConfig->setConfigParam('aLanguageParams', $aLangParams);
 
         $oLang = oxNew('oxLang');
-        $aLanguages = $oLang->getLanguageArray(1, true);
+        $aLanguages = $oLang->getLanguageArray('en', true);
         $this->assertEquals($aLangArray, $aLanguages);
 
-        $this->assertEquals(1, $aLanguages[1]->selected);
+        $this->assertEquals(1, $aLanguages['en']->selected);
     }
 
     /**
@@ -1025,11 +1028,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $this->getConfig()->setConfigParam('aLanguageParams', null);
 
         $oLang = $this->getProxyClass("oxLang");
-        $oLang->setNonPublicVar('_iBaseLanguageId', 0);
+        $oLang->setNonPublicVar('_iBaseLanguageId', 'de');
 
-        $this->assertEquals('de', $oLang->getLanguageAbbr(0));
-        $this->assertEquals('en', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(3, $oLang->getLanguageAbbr(3));
+        $this->assertEquals('de', $oLang->getLanguageAbbr('de'));
+        $this->assertEquals('en', $oLang->getLanguageAbbr('en'));
+        $this->assertEquals('xx', $oLang->getLanguageAbbr('xx'));
         $this->assertEquals('de', $oLang->getLanguageAbbr(null));
     }
 
@@ -1038,22 +1041,22 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetLanguageAbbrWhenLangParamsArrayExists()
     {
-        $aLangParams['de']['baseId'] = 0;
+        $aLangParams['de']['baseId'] = 'de';
         $aLangParams['de']['abbr'] = 'de';
-        $aLangParams['ru']['baseId'] = 1;
+        $aLangParams['ru']['baseId'] = 'ru';
         $aLangParams['ru']['abbr'] = 'ru';
-        $aLangParams['en']['baseId'] = 3;
+        $aLangParams['en']['baseId'] = 'en';
         $aLangParams['en']['abbr'] = 'ru';
 
         $this->getConfig()->setConfigParam('aLanguageParams', $aLangParams);
 
         $oLang = $this->getProxyClass("oxLang");
-        $oLang->setNonPublicVar('_iBaseLanguageId', 0);
+        $oLang->setNonPublicVar('_iBaseLanguageId', 'de');
 
-        $this->assertEquals('de', $oLang->getLanguageAbbr(0));
-        $this->assertEquals('ru', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(2, $oLang->getLanguageAbbr(2));
-        $this->assertEquals('en', $oLang->getLanguageAbbr(3));
+        $this->assertEquals('de', $oLang->getLanguageAbbr('de'));
+        $this->assertEquals('ru', $oLang->getLanguageAbbr('ru'));
+        $this->assertEquals('xx', $oLang->getLanguageAbbr('xx'));
+        $this->assertEquals('en', $oLang->getLanguageAbbr('en'));
         $this->assertEquals('de', $oLang->getLanguageAbbr(null));
     }
 
@@ -1063,11 +1066,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testGetLanguageAbbr()
     {
         $oLang = $this->getProxyClass("oxLang");
-        $oLang->setNonPublicVar('_iBaseLanguageId', 0);
+        $oLang->setNonPublicVar('_iBaseLanguageId', 'de');
 
-        $this->assertEquals('de', $oLang->getLanguageAbbr(0));
-        $this->assertEquals('en', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(3, $oLang->getLanguageAbbr(3));
+        $this->assertEquals('de', $oLang->getLanguageAbbr('de'));
+        $this->assertEquals('en', $oLang->getLanguageAbbr('en'));
+        $this->assertEquals('ru', $oLang->getLanguageAbbr('ru'));
         $this->assertEquals('de', $oLang->getLanguageAbbr(null));
     }
 
@@ -1078,18 +1081,18 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         $oLang1 = new stdClass();
         $oLang1->abbr = 'test1';
-        $oLang1->id = 0;
+        $oLang1->id = 'de';
         $oLang2 = new stdClass();
         $oLang2->abbr = 'test2';
-        $oLang2->id = 1;
+        $oLang2->id = 'en';
 
         $oLang = $this->getMock("oxLang", array("isAdmin", "getAdminTplLanguageArray"));
         $oLang->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
         $oLang->expects($this->any())->method('getAdminTplLanguageArray')->will($this->returnValue(array($oLang1, $oLang2)));
 
-        $this->assertEquals('de', $oLang->getLanguageAbbr(0));
-        $this->assertEquals('en', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(2, $oLang->getLanguageAbbr(2));
+        $this->assertEquals('de', $oLang->getLanguageAbbr('de'));
+        $this->assertEquals('en', $oLang->getLanguageAbbr('en'));
+        $this->assertEquals('xx', $oLang->getLanguageAbbr('xx'));
     }
 
     /**
@@ -1098,9 +1101,9 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testGetBaseLanguageReturnsAlreadySettedValue()
     {
         $oLang = $this->getProxyClass("oxLang");
-        $oLang->setNonPublicVar('_iBaseLanguageId', 2);
+        $oLang->setNonPublicVar('_iBaseLanguageId', 'xx');
 
-        $this->assertEquals(2, $oLang->getBaseLanguage());
+        $this->assertEquals('xx', $oLang->getBaseLanguage());
     }
 
     /**
@@ -1109,19 +1112,19 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testSetBaseLanguage()
     {
         $oLang = oxNew('oxLang');
-        $oLang->setBaseLanguage(2);
+        $oLang->setBaseLanguage('xx');
 
-        $this->assertEquals(2, $oLang->getBaseLanguage());
-        $this->assertEquals(2, $this->getSession()->getVariable('language'));
+        $this->assertEquals('xx', $oLang->getBaseLanguage());
+        $this->assertEquals('xx', $this->getSession()->getVariable('language'));
     }
 
     public function testSetBaseLanguageWithoutParams()
     {
         $oLang = $this->getMock('oxLang', array('getBaseLanguage'));
-        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(1));
+        $oLang->expects($this->any())->method('getBaseLanguage')->will($this->returnValue('en'));
         $oLang->setBaseLanguage();
 
-        $this->assertEquals(1, $this->getSession()->getVariable('language'));
+        $this->assertEquals('en', $this->getSession()->getVariable('language'));
     }
 
     /**
@@ -1130,7 +1133,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testSetTplLanguageIsAdmin()
     {
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage', 'getAdminTplLanguageArray'));
-        $oLang->expects($this->once())->method('getBaseLanguage')->will($this->returnValue(777));
+        $oLang->expects($this->once())->method('getBaseLanguage')->will($this->returnValue('yx'));
         $oLang->expects($this->once())->method('isAdmin')->will($this->returnValue(true));
         $oLang->expects($this->once())->method('getAdminTplLanguageArray')->will($this->returnValue(array(2 => 1)));
         $this->assertEquals(2, $oLang->setTplLanguage());
@@ -1143,11 +1146,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testSetTplLanguageNonAdmin()
     {
         $oLang = $this->getMock('oxLang', array('isAdmin', 'getBaseLanguage', 'getAdminTplLanguageArray'));
-        $oLang->expects($this->once())->method('getBaseLanguage')->will($this->returnValue(777));
+        $oLang->expects($this->once())->method('getBaseLanguage')->will($this->returnValue('yx'));
         $oLang->expects($this->once())->method('isAdmin')->will($this->returnValue(false));
         $oLang->expects($this->never())->method('getAdminTplLanguageArray');
-        $this->assertEquals(777, $oLang->setTplLanguage());
-        $this->assertEquals(777, $this->getSession()->getVariable('tpllanguage'));
+        $this->assertEquals('yx', $oLang->setTplLanguage());
+        $this->assertEquals('yx', $this->getSession()->getVariable('tpllanguage'));
     }
 
     /**
@@ -1157,14 +1160,14 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         $oLang = oxNew('oxLang');
 
-        $this->assertEquals(1, $oLang->validateLanguage(1));
-        $this->assertEquals(0, $oLang->validateLanguage(3));
-        $this->assertEquals(0, $oLang->validateLanguage('xxx'));
+        $this->assertEquals('en', $oLang->validateLanguage('en'));
+        $this->assertEquals('de', $oLang->validateLanguage('xy_yx'));
+        $this->assertEquals('de', $oLang->validateLanguage('xxx'));
     }
 
     public function testGetLanguageNames()
     {
-        $this->assertEquals(array(0 => 'Deutsch', 1 => 'English'), oxRegistry::getLang()->getLanguageNames());
+        $this->assertEquals(array('de' => 'Deutsch', 'en' => 'English'), oxRegistry::getLang()->getLanguageNames());
     }
 
     //#1290: impossible to switch languages in admin, if third language is created as default and only one active
@@ -1172,11 +1175,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         $aLanguages = array('de' => 'Deutsch', 'ru' => 'Russian');
         $this->getConfig()->setConfigParam('aLanguages', $aLanguages);
-        $oLangIds = array(0 => 'de', 2 => 'ru');
+        $oLangIds = array('de' => 'de', 'ru' => 'ru');
         $oLang = $this->getMock('oxlang', array('getLanguageIds'));
         $oLang->expects($this->any())->method('getLanguageIds')->will($this->returnValue($oLangIds));
 
-        $this->assertEquals(array(0 => 'Deutsch', 2 => 'Russian'), $oLang->getLanguageNames());
+        $this->assertEquals(array('de' => 'Deutsch', 'ru' => 'Russian'), $oLang->getLanguageNames());
     }
 
 
@@ -1188,10 +1191,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $this->assertEquals($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"], "[?] Sie haben Fragen zu diesem Artikel?");
     }
 
-    public function testGetLangTranslationArrayLang1()
+    public function testGetLangTranslationArrayLangEn()
     {
         $oSubj = $this->getProxyClass("oxLang");
-        $aTrArray = $oSubj->UNITgetLangTranslationArray(1);
+        $aTrArray = $oSubj->UNITgetLangTranslationArray('en');
         $this->assertTrue(isset($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"]));
         $this->assertEquals($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"], "[?] Have questions about this product?");
     }
@@ -1199,8 +1202,8 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testGetLangTranslationArrayIsSetInCache()
     {
         $oSubj = $this->getProxyClass("oxLang");
-        $oSubj->setNonPublicVar('_aLangCache', array('langcache_0_1_' . $this->getConfig()->getShopId() . '_basic_default' => array('1' => array("ACCOUNT_LOGIN" => "Login"))));
-        $aTrArray = $oSubj->UNITgetLangTranslationArray(1);
+        $oSubj->setNonPublicVar('_aLangCache', array('langcache_0_en_' . $this->getConfig()->getShopId() . '_basic_default' => array('1' => array("ACCOUNT_LOGIN" => "Login"))));
+        $aTrArray = $oSubj->UNITgetLangTranslationArray('en');
         $this->assertTrue(isset($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"]));
         $this->assertEquals($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"], "[?] Have questions about this product?");
     }
@@ -1209,9 +1212,9 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         $oSubj = $this->getMock('oxLang', array('getBaseLanguage'));
         $oSubj->expects($this->any())->method('getBaseLanguage')->will($this->returnValue(null));
-        $aTrArray = $oSubj->UNITgetLangTranslationArray();
-        $this->assertTrue(isset($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"]));
-        $this->assertEquals($aTrArray["QUESTIONS_ABOUT_THIS_PRODUCT_2"], "[?] Sie haben Fragen zu diesem Artikel?");
+
+        $this->setExpectedException('oxLanguageException', 'no base language found, please check');
+        $oSubj->UNITgetLangTranslationArray();
     }
 
     public function testGetLangTranslationArrayModuleFile()
@@ -1250,17 +1253,17 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $aLanguages = array('de' => 'Deutch', 'en' => 'English', 'ru' => 'Russian');
         $this->getConfig()->setConfigParam('aLanguages', $aLanguages);
 
-        $aLangParams['de']['baseId'] = 0;
+        $aLangParams['de']['baseId'] = 'de';
         $aLangParams['de']['abbr'] = 'de';
-        $aLangParams['ru']['baseId'] = 1;
+        $aLangParams['ru']['baseId'] = 'ru';
         $aLangParams['ru']['abbr'] = 'ru';
-        $aLangParams['en']['baseId'] = 3;
+        $aLangParams['en']['baseId'] = 'en';
         $aLangParams['en']['abbr'] = 'ru';
 
         $this->getConfig()->setConfigParam('aLanguageParams', $aLangParams);
 
         $oLang = oxNew('oxLang');
-        $aKeys = array(0, 3, 1);
+        $aKeys = array('de', 'en', 'ru');
 
         $this->assertEquals($aKeys, array_keys($oLang->getLanguageArray()));
     }
@@ -1274,17 +1277,17 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $aLanguages = array('de' => 'Deutch', 'en' => 'English', 'ru' => 'Russian');
         $this->getConfig()->setConfigParam('aLanguages', $aLanguages);
 
-        $aLangParams['de']['baseId'] = 0;
+        $aLangParams['de']['baseId'] = 'de';
         $aLangParams['de']['abbr'] = 'de';
-        $aLangParams['ru']['baseId'] = 1;
+        $aLangParams['ru']['baseId'] = 'ru';
         $aLangParams['ru']['abbr'] = 'ru';
-        $aLangParams['en']['baseId'] = 3;
+        $aLangParams['en']['baseId'] = 'en';
         $aLangParams['en']['abbr'] = 'ru';
 
         $this->getConfig()->setConfigParam('aLanguageParams', $aLangParams);
 
         $oLang = new  oxLang();
-        $aLangIds = array(0 => 'de', 1 => 'ru', 3 => 'en');
+        $aLangIds = array('de' => 'de', 'ru' => 'ru', 'en' => 'en');
 
         $this->assertEquals($aLangIds, $oLang->getLanguageIds());
     }
@@ -1295,7 +1298,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
      */
     public function testGetLanguageIdsWhenLangParamsNotExists()
     {
-        $aLangIds = array(0 => 'de', 1 => 'en');
+        $aLangIds = array('de' => 'de', 'en' => 'en');
 
         $oConfig = $this->getMock("oxConfig", array("getConfigParam"));
         $oConfig->expects($this->at(0))->method('getConfigParam')->with($this->equalTo('aLanguageParams'))->will($this->returnValue(null));
@@ -1304,7 +1307,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = $this->getMock("oxLang", array("getConfig"));
         $oLang->expects($this->any())->method('getConfig')->will($this->returnValue($oConfig));
 
-        $this->assertEquals(array(0, 1), $oLang->getLanguageIds());
+        $this->assertEquals(array('de', 'en'), $oLang->getLanguageIds());
     }
 
     /**
@@ -1314,12 +1317,12 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         // preparing fixture
         $oDe = new stdClass();
-        $oDe->id = 0;
+        $oDe->id = 'de';
         $oDe->abbr = 'de';
         $oDe->active = '1';
 
         $oEng = clone $oDe;
-        $oEng->id = 1;
+        $oEng->id = 'en';
         $oEng->abbr = 'en';
         $oEng->active = '1';
 
@@ -1329,10 +1332,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang->expects($this->any())->method('getLanguageArray')->with($this->equalTo(null), $this->equalTo(true))->will($this->returnValue($aLangArray));
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-EN';
-        $this->assertEquals(1, $oLang->detectLanguageByBrowser());
+        $this->assertEquals('en', $oLang->detectLanguageByBrowser());
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
-        $this->assertEquals(1, $oLang->detectLanguageByBrowser());
+        $this->assertEquals('en', $oLang->detectLanguageByBrowser());
     }
 
     /**
@@ -1342,11 +1345,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
     {
         // preparing fixture
         $oDe = new stdClass();
-        $oDe->id = 0;
+        $oDe->id = 'de';
         $oDe->abbr = 'de';
 
         $oEng = clone $oDe;
-        $oEng->id = 1;
+        $oEng->id = 'en';
         $oEng->abbr = 'en';
 
         $aLangArray = array($oDe, $oEng);
@@ -1382,16 +1385,16 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $this->setRequestParameter('aLanguageURLs', null);
 
         $oUtilsServer = $this->getMock('oxUtilsServer', array('getOxCookie'));
-        $oUtilsServer->expects($this->exactly(2))->method('getOxCookie')->with($this->equalTo('language'))->will($this->returnValue(1));
+        $oUtilsServer->expects($this->exactly(2))->method('getOxCookie')->with($this->equalTo('language'))->will($this->returnValue('en'));
 
         oxTestModules::addModuleObject('oxUtilsServer', $oUtilsServer);
 
         $oLang = $this->getMock('oxlang', array('detectLanguageByBrowser', 'validateLanguage'));
-        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo(1))->will($this->returnValue(1));
+        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo('en'))->will($this->returnValue('en'));
         $oLang->expects($this->never('detectLanguageByBrowser'))->method('detectLanguageByBrowser');
 
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
     }
 
     /**
@@ -1400,20 +1403,20 @@ class Unit_Core_oxLangTest extends OxidTestCase
     public function testBaseLanguage_setsToCookie()
     {
         $this->setRequestParameter('changelang', null);
-        $this->setRequestParameter('lang', 1);
+        $this->setRequestParameter('lang', 'en');
         $this->setRequestParameter('tpllanguage', null);
         $this->setRequestParameter('language', null);
         $this->setRequestParameter('aLanguageURLs', null);
 
         $oUtilsServer = $this->getMock('oxUtilsServer', array('setOxCookie'));
-        $oUtilsServer->expects($this->once())->method('setOxCookie')->with($this->equalTo('language'), $this->equalTo(1));
+        $oUtilsServer->expects($this->once())->method('setOxCookie')->with($this->equalTo('language'), $this->equalTo('en'));
 
         oxTestModules::addModuleObject('oxUtilsServer', $oUtilsServer);
 
         $oLang = $this->getMock('oxlang', array('validateLanguage'));
-        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo(1))->will($this->returnValue(1));
+        $oLang->expects($this->any())->method('validateLanguage')->with($this->equalTo('en'))->will($this->returnValue('en'));
 
-        $this->assertEquals(1, $oLang->getBaseLanguage());
+        $this->assertEquals('en', $oLang->getBaseLanguage());
     }
 
     /**
@@ -1427,10 +1430,10 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oStdLang->active = 0;
 
         $oLang = $this->getMock('oxlang', array('getTplLanguage', 'getAdminTplLanguageArray'));
-        $oLang->expects($this->once())->method('getTplLanguage')->will($this->returnValue(555));
-        $oLang->expects($this->once())->method('getAdminTplLanguageArray')->will($this->returnValue(array(444 => $oStdLang, 555 => $oStdLang)));
+        $oLang->expects($this->once())->method('getTplLanguage')->will($this->returnValue('aa'));
+        $oLang->expects($this->once())->method('getAdminTplLanguageArray')->will($this->returnValue(array('bb' => $oStdLang, 'aa' => $oStdLang)));
 
-        $this->assertEquals(444, $oLang->getObjectTplLanguage());
+        $this->assertEquals('bb', $oLang->getObjectTplLanguage());
     }
 
     /**
@@ -1444,7 +1447,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLt->name = 'Lithuanian';
         $oLt->abbr = 'lt';
         $oLt->sort = 0;
-        $oLt->id = 0;
+        $oLt->id = 'lt';
         $oLt->selected = 0;
         $oLt->active = 0;
 
@@ -1452,7 +1455,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLv->name = 'Latvian';
         $oLv->abbr = 'lv';
         $oLv->sort = 1;
-        $oLv->id = 1;
+        $oLv->id = 'lv';
         $oLv->selected = 0;
         $oLv->active = 0;
 
@@ -1460,7 +1463,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oDe->name = 'Deutsch';
         $oDe->abbr = 'de';
         $oDe->sort = 2;
-        $oDe->id = 2;
+        $oDe->id = 'de';
         $oDe->selected = 0;
         $oDe->active = 0;
 
@@ -1468,14 +1471,14 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oEn->name = 'English';
         $oEn->abbr = 'en';
         $oEn->sort = 3;
-        $oEn->id = 3;
+        $oEn->id = 'en';
         $oEn->selected = 0;
         $oEn->active = 0;
 
         $oLang = $this->getMock('oxlang', array('getLanguageIds', 'getLanguageArray'));
-        $oLang->expects($this->once())->method('getLanguageArray')->will($this->returnValue(array($oLt, $oDe, $oEn)));
+        $oLang->expects($this->once())->method('getLanguageArray')->will($this->returnValue(array('lt' => $oLt, 'de' => $oDe, 'en' => $oEn)));
 
-        $this->assertEquals(array(1 => $oDe, 2 => $oEn), $oLang->getAdminTplLanguageArray());
+        $this->assertEquals(array('de' => $oDe, 'en' => $oEn), $oLang->getAdminTplLanguageArray());
     }
 
 
@@ -1485,7 +1488,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         oxTestModules::addFunction("oxUtils", "setLangCache", "{}");
 
         $oLang = oxNew('oxLang');
-        $aMapData = $oLang->UNITgetLanguageMap(1);
+        $aMapData = $oLang->UNITgetLanguageMap('en');
 
         $this->assertTrue(count($aMapData) > 0);
     }
@@ -1557,11 +1560,11 @@ class Unit_Core_oxLangTest extends OxidTestCase
         $oLang = oxNew('oxLang');
 
         // non admin
-        $aRes = $oLang->getSimilarByKey("DETAILS_VPE_MESSAGE", 0, false);
+        $aRes = $oLang->getSimilarByKey("DETAILS_VPE_MESSAGE", 'de', false);
         $this->assertEquals(1, count($aRes));
         $this->assertTrue(isset($aRes["DETAILS_VPE_MESSAGE"]));
 
-        $aRes = $oLang->getSimilarByKey("DETAILS_VPE_MESSAGE", 1, false);
+        $aRes = $oLang->getSimilarByKey("DETAILS_VPE_MESSAGE", 'en', false);
         $this->assertEquals(1, count($aRes));
         $this->assertTrue(isset($aRes["DETAILS_VPE_MESSAGE"]));
 
@@ -1576,12 +1579,12 @@ class Unit_Core_oxLangTest extends OxidTestCase
 //        $this->assertTrue( isset( $aRes["ADD_RECOMM_ADDRECOMMLINK1"] ) );
 
         // admin
-        $aRes = $oLang->getSimilarByKey("GENERAL_FIELDS_", 0, true);
+        $aRes = $oLang->getSimilarByKey("GENERAL_FIELDS_", 'de', true);
         $this->assertEquals(3, count($aRes));
         $this->assertTrue(isset($aRes["GENERAL_FIELDS_ADD"]));
         $this->assertTrue(isset($aRes["GENERAL_FIELDS_DELETE"]));
 
-        $aRes = $oLang->getSimilarByKey("GENERAL_FIELDS_", 1, true);
+        $aRes = $oLang->getSimilarByKey("GENERAL_FIELDS_", 'en', true);
         $this->assertEquals(3, count($aRes));
         $this->assertTrue(isset($aRes["GENERAL_FIELDS_ADD"]));
         $this->assertTrue(isset($aRes["GENERAL_FIELDS_DELETE"]));
@@ -1650,7 +1653,7 @@ class Unit_Core_oxLangTest extends OxidTestCase
         // disable language config parameter because we are testing each language parameter separately
         $oDb->execute("delete from `oxconfig` WHERE `oxvarname` = '{$sLanguageParamNameDisabled}' ");
 
-        $aAssertLanguageIds = array(0 => 'de', 1 => 'ru', 3 => 'en');
+        $aAssertLanguageIds = array('de' => 'de', 'ru' => 'ru', 'en' => 'en');
 
         /** @var oxLang $oLang */
         $oLang = oxNew('oxLang');
@@ -1730,8 +1733,8 @@ class Unit_Core_oxLangTest extends OxidTestCase
         );
 
         $aLanguageParams = array(
-            'de' => array('baseId' => 0, 'abbr' => 'de', 'active' => true),
-            'en' => array('baseId' => 1, 'abbr' => 'en', 'active' => true),
+            'de' => array('baseId' => 'de', 'abbr' => 'de', 'active' => true),
+            'en' => array('baseId' => 'en', 'abbr' => 'en', 'active' => true),
         );
 
         $this->getConfig()->saveShopConfVar('aarr', 'aLanguages', $aLanguages);
@@ -1745,14 +1748,14 @@ class Unit_Core_oxLangTest extends OxidTestCase
         );
 
         // Set default language to german
-        $this->getConfig()->setConfigParam('sDefaultLang', 0);
+        $this->getConfig()->setConfigParam('sDefaultLang', 'de');
 
         // Fake language selection in frontend to shop default language
-        $oLang->setBaseLanguage(0);
+        $oLang->setBaseLanguage('de');
 
         $shopURL = $this->getConfig()->getShopHomeUrl();
         $processURL = $shopURL . "cl=account&amp;";
-        $expectingURL = $shopURL . "cl=account&amp;lang=0&amp;";
+        $expectingURL = $shopURL . "cl=account&amp;lang=de&amp;";
 
         $processedURL = $oLang->processUrl($processURL);
 

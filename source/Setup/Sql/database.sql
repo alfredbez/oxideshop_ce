@@ -679,8 +679,7 @@ CREATE TABLE `oxcontents` (
 #
 # Table structure for table `oxcontents`
 #
-
-INSERT INTO `oxcontents` (`OXID`, `OXLOADID`, `OXSHOPID`, `OXSNIPPET`, `OXTYPE`, `OXACTIVE`, `OXACTIVE_DE`, `OXPOSITION`, `OXTITLE`, `OXCONTENT`, `OXTITLE_DE`, `OXCONTENT_DE`, `OXACTIVE_EN`, `OXTITLE_EN`, `OXCONTENT_EN`, `OXACTIVE_FR`, `OXTITLE_FR`, `OXCONTENT_FR`, `OXCATID`, `OXFOLDER`, `OXTERMVERSION`) VALUES
+INSERT INTO `oxcontents` (`OXID`, `OXLOADID`, `OXSHOPID`, `OXSNIPPET`, `OXTYPE`, `OXACTIVE_DE`, `OXACTIVE_EN`, `OXPOSITION`, `OXTITLE_DE`, `OXCONTENT_DE`, `OXTITLE_EN`, `OXCONTENT_EN`, `OXACTIVE_FR`, `OXTITLE_FR`, `OXCONTENT_FR`, `OXACTIVE`, `OXTITLE`, `OXCONTENT`, `OXCATID`, `OXFOLDER`, `OXTERMVERSION`) VALUES
 ('8709e45f31a86909e9f999222e80b1d0', 'oxstdfooter', 'oxbaseshop', 1, 0, 1, 1, '', 'Standard Footer', '<div>OXID Online Shop - Alles rund um das Thema Wassersport, Sportbekleidung und Mode </div>', 'standard footer', '<div>OXID Online Shop - All about watersports, sportswear and fashion </div>', 1, '', '', 1, '', '', '30e44ab83fdee7564.23264141', '', ''),
 ('ad542e49bff479009.64538090', 'oxadminorderemail', 'oxbaseshop', 1, 0, 1, 1, '', 'Ihre Bestellung Admin', 'Folgende Artikel wurden soeben unter [{ $shop->oxshops__oxname->value }] bestellt:<br>\r\n<br>', 'your order admin', 'The following products have been ordered in [{ $shop->oxshops__oxname->value }] right now:<br>\r\n<br>', 1, '', '', 1, '', '', '30e44ab83fdee7564.23264141', 'CMSFOLDER_EMAILS', ''),
 ('c8d45408c4998f421.15746968', 'oxadminordernpemail', 'oxbaseshop', 1, 0, 1, 1, '', 'Ihre Bestellung Admin (Fremdländer)', '<div>\r\n<p> <span style="color: #ff0000;"><strong>Hinweis:</strong></span> Derzeit ist keine Liefermethode für dieses Land bekannt. Bitte Liefermöglichkeiten suchen und den Besteller unter Angabe der <strong>Lieferkosten</strong> informieren!\r\n&nbsp;</p> </div>\r\n<div>Folgende Artikel wurden soeben unter [{ $shop->oxshops__oxname->value }] bestellt:<br>\r\n<br>\r\n</div>', 'your order admin (other country)', '<p> <span style="color: #ff0000"><strong>Information:</strong></span> Currently, there is no shipping method defined for this country. Please find a delivery option and inform the customer about the <strong>shipping costs</strong>.</p>\r\n<p>The following products have been ordered on [{ $shop->oxshops__oxname->value }]:<br />\r\n<br /></p>', 1, '', '', 1, '', '', '30e44ab83fdee7564.23264141', 'CMSFOLDER_EMAILS', ''),
@@ -774,9 +773,9 @@ CREATE TABLE `oxcountry` (
   `OXSHORTDESC_DE` char(128) NOT NULL default '',
   `OXSHORTDESC_EN` char(128) NOT NULL default '',
   `OXSHORTDESC_FR` char(128) NOT NULL default '',
-  `OXLONGDESC_DE` char(255) NOT NULL,
-  `OXLONGDESC_EN` char(255) NOT NULL,
-  `OXLONGDESC_FR` char(255) NOT NULL,
+  `OXLONGDESC_DE` char(255) NOT NULL default '',
+  `OXLONGDESC_EN` char(255) NOT NULL default '',
+  `OXLONGDESC_FR` char(255) NOT NULL default '',
   `OXVATSTATUS` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Vat status: 0 - Do not bill VAT, 1 - Do not bill VAT only if provided valid VAT ID',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
@@ -786,7 +785,7 @@ CREATE TABLE `oxcountry` (
 #
 # Data for table `oxcountry`
 #
-INSERT INTO `oxcountry` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXISOALPHA2`, `OXISOALPHA3`, `OXUNNUM3`, `OXVATINPREFIX`, `OXORDER`, `OXSHORTDESC`, `OXLONGDESC`, `OXTITLE_DE`, `OXTITLE_EN`, `OXTITLE_FR`, `OXSHORTDESC_DE`, `OXSHORTDESC_EN`, `OXSHORTDESC_FR`, `OXLONGDESC_DE`, `OXLONGDESC_EN`, `OXLONGDESC_FR`, `OXVATSTATUS`) VALUES
+INSERT INTO `oxcountry` (`OXID`, `OXACTIVE`, `OXTITLE_DE`, `OXISOALPHA2`, `OXISOALPHA3`, `OXUNNUM3`, `OXVATINPREFIX`, `OXORDER`, `OXSHORTDESC_DE`, `OXLONGDESC_DE`, `OXTITLE_EN`, `OXTITLE_FR`, `OXTITLE`, `OXSHORTDESC_EN`, `OXSHORTDESC_FR`, `OXSHORTDESC`, `OXLONGDESC_EN`, `OXLONGDESC_FR`, `OXLONGDESC`, `OXVATSTATUS`) VALUES
 ('2db455824e4a19cc7.14731328', 0, 'Anderes Land', '', '', '', '', 10000, '', 'Select this if you can not find your country.', 'Other country', '', '', '', '', '', 'Select this if you can not find your country.', '', '', 0),
 ('a7c40f631fc920687.20179984', 1, 'Deutschland', 'DE', 'DEU', '276', 'DE', 9999, 'EU1', '', 'Germany', '', '', 'EU1', '', '', '', '', '', 1),
 ('a7c40f6320aeb2ec2.72885259', 1, 'Österreich', 'AT', 'AUT', '40', 'AT', 9999, 'EU1', '', 'Austria', '', '', 'EU1', '', '', '', '', '', 1),

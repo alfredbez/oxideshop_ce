@@ -59,7 +59,7 @@ class Integration_RestrictedAddress_RestrictedAddressTest extends OxidTestCase
      *
      * @dataProvider providerRequestFunctionThatResultsInNoValidNewActionGetsRedirectedToStart
      */
-    public function _testRequestFunctionThatResultsInNoValidNewActionGetsRedirectedToStart($sForbiddenUrl)
+    public function testRequestFunctionThatResultsInNoValidNewActionGetsRedirectedToStart($sForbiddenUrl)
     {
         $shopUrl = $this->getConfig()->getShopMainUrl();
 

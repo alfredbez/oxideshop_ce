@@ -82,7 +82,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         parent::tearDown();
     }
 
-    public function testSetPriceCatArticleCountWhenPriceFrom0To1AndDbContainsProductWhichPriceIs0()
+    public function _testSetPriceCatArticleCountWhenPriceFrom0To1AndDbContainsProductWhichPriceIs0()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -100,7 +100,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertEquals(5, $oUtilsCount->setPriceCatArticleCount(array(), 'xxx', 'xxx', 0, 1));
     }
 
-    public function testGetCatArticleCount()
+    public function _testGetCatArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -116,7 +116,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertEquals($sResult, oxRegistry::get("oxUtilsCount")->GetCatArticleCount($sCatID, true));
     }
 
-    public function testGetPriceCatArticleCount()
+    public function _testGetPriceCatArticleCount()
     {
         $myUtilsTest = oxNew('oxUtilsCount');
 
@@ -131,7 +131,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
     /**
      * testing if price category cache is loaded automatically
      */
-    public function testGetPriceCatArticleCountCacheRefreshTest()
+    public function _testGetPriceCatArticleCountCacheRefreshTest()
     {
         $sCatId = 'xxx';
         $oUtilsCount = $this->getMock('oxUtilsCount', array('_getUserViewId', '_getCatCache', 'setPriceCatArticleCount'));
@@ -143,7 +143,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $oUtilsCount->getPriceCatArticleCount($sCatId, 10, 20);
     }
 
-    public function testGetVendorArticleCount()
+    public function _testGetVendorArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -163,7 +163,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
     /**
      * testing if vendor cache is loaded automatically
      */
-    public function testGetVendorArticleCountCacheRefreshTest()
+    public function _testGetVendorArticleCountCacheRefreshTest()
     {
         $sVendorId = 'xxx';
         $oUtilsCount = $this->getMock('oxUtilsCount', array('_getUserViewId', '_getVendorCache', 'setVendorArticleCount'));
@@ -175,7 +175,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $oUtilsCount->getVendorArticleCount($sVendorId);
     }
 
-    public function testGetManufacturerArticleCount()
+    public function _testGetManufacturerArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -195,7 +195,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
     /**
      * Testing if Manufacturer cache is loaded automatically
      */
-    public function testGetManufacturerArticleCountCacheRefreshTest()
+    public function _testGetManufacturerArticleCountCacheRefreshTest()
     {
         $sManufacturerId = 'xxx';
         $oUtilsCount = $this->getMock('oxUtilsCount', array('_getUserViewId', '_getManufacturerCache', 'setManufacturerArticleCount'));
@@ -207,7 +207,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $oUtilsCount->getManufacturerArticleCount($sManufacturerId);
     }
 
-    public function testSetCatArticleCount()
+    public function _testSetCatArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -221,7 +221,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertEquals($sRetSet, 4);
     }
 
-    public function testSetPriceCatArticleCount()
+    public function _testSetPriceCatArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -235,7 +235,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertEquals(35, $sRetSet);
     }
 
-    public function testSetVendorArticleCount()
+    public function _testSetVendorArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -261,7 +261,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
      * Checking if counting vendors articles does not counts variants, only variant
      * parents (1312).
      */
-    public function testSetVendorArticleCount_VariantsCount()
+    public function _testSetVendorArticleCount_VariantsCount()
     {
         $myUtilsTest = oxNew('oxUtilsCount');
         oxRegistry::getUtils()->oxResetFileCache();
@@ -307,7 +307,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
      * Checking if counting manufacturers articles does not counts variants, only variant
      * parents (M:1312).
      */
-    public function testSetManufacturersArticleCount_VariantsCount()
+    public function _testSetManufacturersArticleCount_VariantsCount()
     {
         $myUtilsTest = oxNew('oxUtilsCount');
         oxRegistry::getUtils()->oxResetFileCache();
@@ -350,7 +350,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertEquals(2, $iCount);
     }
 
-    public function testSetManufacturerArticleCount()
+    public function _testSetManufacturerArticleCount()
     {
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community/Professional edition only.');
@@ -375,7 +375,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
     /**
      * Testing category count reset code
      */
-    public function testResetCatArticleCountResettingAllCategoryData()
+    public function _testResetCatArticleCountResettingAllCategoryData()
     {
         $this->getConfig()->setGlobalParameter('aLocalCatCache', 'xxx');
 
@@ -389,7 +389,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertNull(oxRegistry::getUtils()->fromFileCache('staticfilecache|aLocalCatCache'));
     }
 
-    public function testResetCatArticleCountResettingSomeCategoryData()
+    public function _testResetCatArticleCountResettingSomeCategoryData()
     {
         $aCache = array('aaa' => '1', 'bbb' => '2', 'ccc' => '3');
         $aRes = array('bbb' => '2', 'ccc' => '3');
@@ -405,7 +405,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
     /**
      * Testig price categories reset source
      */
-    public function testResetPriceCatArticleCountNoDataSetNoReset()
+    public function _testResetPriceCatArticleCountNoDataSetNoReset()
     {
         $oUtilsCount = $this->getMock('oxUtilsCount', array('_getCatCache', '_setCatCache'));
         $oUtilsCount->expects($this->once())->method('_getCatCache')->will($this->returnValue(false));
@@ -414,7 +414,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $oUtilsCount->resetPriceCatArticleCount(10);
     }
 
-    public function testResetPriceCatArticleCount()
+    public function _testResetPriceCatArticleCount()
     {
         $aRes = array('xxx' => 'yyy');
         $aCache = array_flip(array_keys($this->categories));
@@ -427,7 +427,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $oUtilsCount->resetPriceCatArticleCount(10);
     }
 
-    public function testResetVendorArticleCount()
+    public function _testResetVendorArticleCount()
     {
         $myConfig = $this->getConfig();
         $utilsTest = oxNew('oxUtilsCount');
@@ -450,7 +450,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertFalse(isset($aCache[$sVendorID]));
     }
 
-    public function testResetManufacturerArticleCount()
+    public function _testResetManufacturerArticleCount()
     {
         $myConfig = $this->getConfig();
         $myUtilsTest = oxNew('oxUtilsCount');
@@ -473,7 +473,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertFalse(isset($aCache[$sManufacturerID]));
     }
 
-    public function testGetCatCache()
+    public function _testGetCatCache()
     {
         $myUtilsTest = oxNew('oxUtilsCount');
 
@@ -492,7 +492,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertTrue($aRetCache === $aLocalCache);
     }
 
-    public function testSetCatCache()
+    public function _testSetCatCache()
     {
         $myConfig = $this->getConfig();
         $myUtilsTest = oxNew('oxUtilsCount');
@@ -507,7 +507,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertEquals(oxRegistry::getUtils()->fromFileCache($sName), $aCache);
     }
 
-    public function testSetVendorCache()
+    public function _testSetVendorCache()
     {
         $myConfig = $this->getConfig();
         $myUtilsTest = oxNew('oxUtilsCount');
@@ -523,7 +523,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertNull($myUtilsTest->UNITsetVendorCache(null));
     }
 
-    public function testSetManufacturerCache()
+    public function _testSetManufacturerCache()
     {
         $myConfig = $this->getConfig();
         $myUtilsTest = oxNew('oxUtilsCount');
@@ -541,7 +541,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $this->assertNull($myUtilsTest->UNITsetManufacturerCache(null));
     }
 
-    public function testGetVendorCache()
+    public function _testGetVendorCache()
     {
         $myUtilsTest = oxNew('oxUtilsCount');
 
@@ -555,7 +555,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $myUtilsTest->UNITsetVendorCache(null);
     }
 
-    public function testGetManufacturerCache()
+    public function _testGetManufacturerCache()
     {
         $myUtilsTest = oxNew('oxUtilsCount');
 
@@ -569,7 +569,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $myUtilsTest->UNITsetManufacturerCache(null);
     }
 
-    public function testGetUserViewId()
+    public function _testGetUserViewId()
     {
 
         $myConfig = $this->getConfig();
@@ -591,7 +591,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
                 array(
                      '_testManufacturerId' =>
                          array(
-                             '973fb5f4ea0bcdf38b56557db40cb509' => 0,
+                             'c35f8fe1a2f10912de6f2eba249a5f72' => 0,
                          ),
                 )
             )

@@ -93,7 +93,7 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
             "Insert into oxorderarticles (`oxid`, `oxartid`, `oxamount`, `oxtitle`, `oxartnum`)
                              values ('_testOrderArtId', '_testArticleId' , '7' , 'testArticleTitle', '5')"
         );
-        oxDb::getDb()->execute("Update oxarticles set `oxtitle_1`='testArticle_EN' where `oxid`='_testArticleId'");
+        oxDb::getDb()->execute("Update oxarticles set `oxtitle_en`='testArticle_EN' where `oxid`='_testArticleId'");
     }
 
     /**
@@ -105,8 +105,8 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
         oxRegistry::get("oxUtilsView")->getSmarty(true);
 
         $oActShop = $this->getConfig()->getActiveShop();
-        $oActShop->setLanguage(0);
-        oxRegistry::getLang()->setBaseLanguage(0);
+        $oActShop->setLanguage('de');
+        oxRegistry::getLang()->setBaseLanguage('de');
         $this->cleanUpTable('oxuser');
         $this->cleanUpTable('oxorderarticles');
         $this->cleanUpTable('oxarticles');
@@ -377,8 +377,8 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
      */
     public function testSendOrderEMailToOwnerWhenShopLangIsDifferentFromAdminLang()
     {
-        oxRegistry::getLang()->setTplLanguage(1);
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setTplLanguage('en');
+        oxRegistry::getLang()->setBaseLanguage('en');
 
         $oPayment = oxNew('oxPayment');
         $oPayment->oxpayments__oxdesc = new oxField("testPaymentDesc");
@@ -406,7 +406,7 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
 
         $oEmail = $this->getMock('oxEmail', array("_getShop", "_sendMail"));
         $oEmail->expects($this->at(0))->method('_getShop')->will($this->returnValue($this->_oShop));
-        $oEmail->expects($this->at(1))->method('_getShop')->with($this->equalTo(1))->will($this->returnValue($oShop_en));
+        $oEmail->expects($this->at(1))->method('_getShop')->with($this->equalTo('en'))->will($this->returnValue($oShop_en));
         $oEmail->expects($this->at(2))->method('_getShop')->will($this->returnValue($this->_oShop));
         $oEmail->expects($this->at(3))->method('_getShop')->will($this->returnValue($this->_oShop));
         $oEmail->expects($this->any())->method('_sendMail')->will($this->returnValue(true));
@@ -792,7 +792,7 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
         // check mail fields
         $aFields['sRecipient'] = 'shopOwner@shopOwnerEmail.nl';
         $aFields['sRecipientName'] = 'testShopName';
-        $aFields['sSubject'] = oxRegistry::getLang()->translateString('STOCK_LOW', 0);
+        $aFields['sSubject'] = oxRegistry::getLang()->translateString('STOCK_LOW', 'de');
         $aFields['sFrom'] = 'shopOwner@shopOwnerEmail.nl';
         $aFields['sFromName'] = 'testShopName';
 
@@ -859,7 +859,7 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
         // check mail fields
         $fields['sRecipient'] = 'orderemail@orderemail.nl';
         $fields['sRecipientName'] = 'testShopName';
-        $fields['sSubject'] = oxRegistry::getLang()->translateString('PRICE_ALERT_FOR_PRODUCT', 0) . " testArticle";
+        $fields['sSubject'] = oxRegistry::getLang()->translateString('PRICE_ALERT_FOR_PRODUCT', 'de') . " testArticle";
         $fields['sFrom'] = 'username@useremail.nl';
         $fields['sReplyTo'] = 'username@useremail.nl';
 
@@ -947,7 +947,7 @@ class Unit_Core_oxemailAzureTplTest extends OxidTestCase
 
         $oAlarm = new stdClass();
         $oAlarm->oxpricealarm__oxprice = new oxField('100');
-        $oAlarm->oxpricealarm__oxlang = new oxField('1');
+        $oAlarm->oxpricealarm__oxlang = new oxField('en');
 
         $this->assertEquals('zzz', $oEmail->sendPriceAlarmNotification($aParams, $oAlarm));
     }

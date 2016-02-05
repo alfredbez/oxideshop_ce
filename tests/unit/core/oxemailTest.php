@@ -958,8 +958,8 @@ class Unit_Core_oxemailTest extends OxidTestCase
      */
     public function testGetShopWithLanguageId()
     {
-        $oShop = $this->_oEmail->UNITgetShop(1);
-        $this->assertEquals(1, $oShop->getLanguage());
+        $oShop = $this->_oEmail->UNITgetShop('en');
+        $this->assertEquals('en', $oShop->getLanguage());
         $this->assertEquals($this->getConfig()->getShopId(), $oShop->getShopId());
     }
 
@@ -972,8 +972,8 @@ class Unit_Core_oxemailTest extends OxidTestCase
 
         $sShopId = $this->getConfig()->getBaseShopId();
 
-        $oShop = $this->_oEmail->UNITgetShop(1, $sShopId);
-        $this->assertEquals(1, $oShop->getLanguage());
+        $oShop = $this->_oEmail->UNITgetShop('en', $sShopId);
+        $this->assertEquals('en', $oShop->getLanguage());
         $this->assertEquals($sShopId, $oShop->getShopId());
         $this->assertEquals($this->_oShop, $this->_oEmail->UNITgetShop());
     }
@@ -1046,7 +1046,7 @@ class Unit_Core_oxemailTest extends OxidTestCase
 
     public function testGetNewsSubsLink()
     {
-        $sUrl = $this->getConfig()->getShopHomeURL() . 'cl=newsletter&amp;fnc=addme&amp;uid=XXXX&amp;lang=0';
+        $sUrl = $this->getConfig()->getShopHomeURL() . 'cl=newsletter&amp;fnc=addme&amp;uid=XXXX&amp;lang=de';
         $this->assertEquals($sUrl, $this->_oEmail->UNITgetNewsSubsLink('XXXX'));
         $oActShop = $this->getConfig()->getActiveShop();
         $oActShop->setLanguage(1);
@@ -1055,7 +1055,7 @@ class Unit_Core_oxemailTest extends OxidTestCase
 
     public function testGetNewsSubsLinkWithConfirm()
     {
-        $sUrl = $this->getConfig()->getShopHomeURL() . 'cl=newsletter&amp;fnc=addme&amp;uid=XXXX&amp;lang=0&amp;confirm=AAAA';
+        $sUrl = $this->getConfig()->getShopHomeURL() . 'cl=newsletter&amp;fnc=addme&amp;uid=XXXX&amp;lang=de&amp;confirm=AAAA';
         $this->assertEquals($sUrl, $this->_oEmail->UNITgetNewsSubsLink('XXXX', 'AAAA'));
         $oActShop = $this->getConfig()->getActiveShop();
         $oActShop->setLanguage(1);

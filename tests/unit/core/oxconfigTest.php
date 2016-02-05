@@ -1068,9 +1068,9 @@ class Unit_Core_oxconfigTest extends OxidTestCase
         $this->assertEquals('yyy', $oConfig->getActiveShop()->xxx);
 
         // checking if different language forces reload
-        $iCurrLang = oxRegistry::getLang()->getBaseLanguage();
+        $this->assertSame('de', oxRegistry::getLang()->getBaseLanguage(), 'Update test, unexpected base language.');
         oxRegistry::getLang()->resetBaseLanguage();
-        $this->setRequestParameter('lang', $iCurrLang + 1);
+        $this->setRequestParameter('lang', 'en');
 
         $oShop = $oConfig->getActiveShop();
         $this->assertFalse(isset($oShop->xxx));
@@ -1884,7 +1884,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
 
         $sOutDir = $sTestDir . $this->_getOutPath($oConfig, 'test4', false);
 
-        $sDir = $oConfig->getDir('text.txt', 'test1', false, 0, 1, 'test4');
+        $sDir = $oConfig->getDir('text.txt', 'test1', false, 'de', 1, 'test4');
         $this->assertEquals($sOutDir . '1/de/test1/text.txt', $sDir);
     }
 
@@ -1918,7 +1918,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
 
         $sOutDir = $sTestDir . $this->_getOutPath($oConfig, 'test4', false);
 
-        $sDir = $oConfig->getDir('text.txt', 'test2a', false, 0, 1, 'test4');
+        $sDir = $oConfig->getDir('text.txt', 'test2a', false, 'de', 1, 'test4');
         $this->assertEquals($sOutDir . 'de/test2a/text.txt', $sDir);
     }
 
@@ -1935,7 +1935,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
 
         $sOutDir = $sTestDir . $this->_getOutPath($oConfig, 'test4', false);
 
-        $sDir = $oConfig->getDir('text.txt', 'test3', false, 0, 1, 'test4');
+        $sDir = $oConfig->getDir('text.txt', 'test3', false, 'de', 1, 'test4');
         $this->assertEquals($sOutDir . 'test3/text.txt', $sDir);
     }
 
@@ -1952,7 +1952,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
 
         $sOutDir = $sTestDir . $this->_getOutPath($oConfig, 'test4', false);
 
-        $sDir = $oConfig->getDir('text.txt', 'test4', false, 0, 1, 'test4');
+        $sDir = $oConfig->getDir('text.txt', 'test4', false, 'de', 1, 'test4');
         $this->assertEquals($sOutDir . 'text.txt', $sDir);
     }
 
@@ -1969,7 +1969,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
 
         $sOutDir = $sTestDir . "out/";
 
-        $sDir = $oConfig->getDir('text.txt', 'test5', false, 0, 1, 'test4');
+        $sDir = $oConfig->getDir('text.txt', 'test5', false, 'de', 1, 'test4');
         $this->assertEquals($sOutDir . 'de/test5/text.txt', $sDir);
     }
 

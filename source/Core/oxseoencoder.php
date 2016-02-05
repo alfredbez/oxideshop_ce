@@ -361,9 +361,8 @@ class oxSeoEncoder extends oxSuperCfg
         if ($iShopId === null) {
             $iShopId = $this->getConfig()->getShopId();
         }
-        $iLang = (int) $iLang;
 
-        if (!isset(self::$_aFixedCache[$sType][$sShopId][$sId][$iLang])) {
+        if (!isset(self::$_aFixedCache[$sType][$iShopId][$sId][$iLang])) {
             $oDb = oxDb::getDb();
 
             $sQ = "SELECT `oxfixed`
@@ -381,10 +380,10 @@ class oxSeoEncoder extends oxSuperCfg
             }
             $sQ .= " LIMIT 1";
 
-            self::$_aFixedCache[$sType][$sShopId][$sId][$iLang] = (bool) $oDb->getOne($sQ);
+            self::$_aFixedCache[$sType][$iShopId][$sId][$iLang] = (bool) $oDb->getOne($sQ);
         }
 
-        return self::$_aFixedCache[$sType][$sShopId][$sId][$iLang];
+        return self::$_aFixedCache[$sType][$iShopId][$sId][$iLang];
     }
 
     /**
@@ -401,7 +400,7 @@ class oxSeoEncoder extends oxSuperCfg
     {
         $blAdmin = $this->isAdmin();
         if (!$blAdmin && $sType !== "oxarticle") {
-            return $sType . ((int) $iLang) . ((int) $iShopId) . "seo";
+            return $sType . $iLang . ((int) $iShopId) . "seo";
         }
 
         // use cache in non admin mode
@@ -503,7 +502,6 @@ class oxSeoEncoder extends oxSuperCfg
             $iShopId = $this->getConfig()->getShopId();
         }
 
-        $iLang = (int) $iLang;
         $oDb = oxDb::getDb(oxDb::FETCH_MODE_ASSOC);
 
         $sQ = "
@@ -1003,8 +1001,6 @@ class oxSeoEncoder extends oxSuperCfg
 
         foreach ($aStaticUrl['oxseo__oxseourl'] as $iLang => $sSeoUrl) {
 
-            $iLang = (int) $iLang;
-
             // generating seo url
             $sSeoUrl = $this->_trimUrl($sSeoUrl);
             if ($sSeoUrl) {
@@ -1185,7 +1181,7 @@ class oxSeoEncoder extends oxSuperCfg
         $oDb = oxDb::getDb();
 
         $iShopId = (!isset($iShopId)) ? $this->getConfig()->getShopId() : $iShopId;
-        $iLang = (!isset($iLang)) ? oxRegistry::getLang()->getObjectTplLanguage() : ((int) $iLang);
+        $iLang = (!isset($iLang)) ? oxRegistry::getLang()->getObjectTplLanguage() : $iLang;
 
         return $oDb->getOne("select {$sMetaType} from oxobject2seodata where oxobjectid = " . $oDb->quote($sObjectId) . " and oxshopid = " . $oDb->quote($iShopId) . " and oxlang = '{$iLang}'");
     }
@@ -1223,7 +1219,7 @@ class oxSeoEncoder extends oxSuperCfg
     public function fetchSeoUrl($standardUrl, $languageId = null)
     {
         $database = oxDb::getDb();
-        $languageId = isset($languageId) ? ((int) $languageId) : oxRegistry::getLang()->getBaseLanguage();
+        $languageId = isset($languageId) ? $languageId : oxRegistry::getLang()->getBaseLanguage();
 
         $shopId = $this->getConfig()->getShopId();
 

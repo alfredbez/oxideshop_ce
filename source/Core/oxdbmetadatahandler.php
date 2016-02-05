@@ -317,7 +317,7 @@ class oxDbMetaDataHandler extends oxSuperCfg
         $multiLanguageFields = array();
 
         foreach ($fields as $field) {
-            if (preg_match("/({$table}\.)?(?<field>[^_]+)_([a-zA-Z1-9_]+)?$/", $field, $matches)) {
+            if (preg_match("/({$table}\.)?(?<field>[^_]+)_([a-zA-Z0-9_]+)?$/", $field, $matches)) {
                 $multiLanguageFields[$matches['field']] = $matches['field'];
             }
         }
@@ -340,13 +340,8 @@ class oxDbMetaDataHandler extends oxSuperCfg
         $fields = array_merge($baseFields, $languageFields);
         $singleLanguageFields = array();
 
-        $language = oxRegistry::getLang();
-        $languageIds = $language->getLanguageIds();
-        $check = strtoupper('_' . implode('|_', $languageIds));
-
         foreach ($fields as $fieldName => $field) {
-
-            if (preg_match("/(({$table}|{$languageTable})\.)?(?<field>.+)(?<lang>{$check})$/", $field, $matches)) {
+            if (preg_match("/(({$table}|{$languageTable})\.)?(?<field>[^_]+)_(?<lang>[a-zA-Z0-9_]+)$/", $field, $matches)) {
                 if (ltrim($matches['lang'], '_') == strtoupper($languageId)) {
                     $singleLanguageFields[$matches['field']] = $field;
                 }
@@ -455,6 +450,10 @@ class oxDbMetaDataHandler extends oxSuperCfg
      */
     public function resetLanguage($iLangId)
     {
+        if (empty($iLangId)) {
+            return;
+        }
+
         $aTables = $this->getAllTables();
 
         // removing tables which does not requires reset

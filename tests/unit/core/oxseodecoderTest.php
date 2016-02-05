@@ -138,7 +138,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('article.html'),
                 $this->equalTo('oxarticles'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxarticle')
             )
             ->will($this->returnValue('articleseourl'));
@@ -152,7 +152,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('category'),
                 $this->equalTo('oxcategories'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxcategory')
             )
             ->will($this->returnValue('categoryseourl'));
@@ -166,7 +166,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('manufacturer'),
                 $this->equalTo('oxcategories'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxcategory')
             )
             ->will($this->returnValue(null));
@@ -174,7 +174,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('manufacturer'),
                 $this->equalTo('oxmanufacturers'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxmanufacturer')
             )
             ->will($this->returnValue('manufacturerseourl'));
@@ -188,7 +188,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('vendor'),
                 $this->equalTo('oxcategories'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxcategory')
             )
             ->will($this->returnValue(null));
@@ -196,7 +196,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('vendor'),
                 $this->equalTo('oxmanufacturers'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxmanufacturer')
             )
             ->will($this->returnValue(null));
@@ -204,7 +204,7 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             ->with(
                 $this->equalTo('vendor'),
                 $this->equalTo('oxvendor'),
-                $this->equalTo(0),
+                $this->equalTo('de'),
                 $this->equalTo('oxvendor')
             )
             ->will($this->returnValue('vendorseourl'));
@@ -214,11 +214,13 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
     public function testGetObjectUrlColumnInDbIsMissing()
     {
         $oDecoder = oxNew('oxseodecoder');
-        $this->assertNull($oDecoder->UNITgetObjectUrl('someid', 'oxarticles', 0, 'oxarticle'));
+        $this->assertNull($oDecoder->UNITgetObjectUrl('someid', 'oxarticles', 'de', 'oxarticle'));
     }
 
     public function testGetObjectUrl()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
+
         oxTestModules::addFunction("oxUtils", "seoIsActive", "{ return true;}");
         oxTestModules::addFunction("oxUtils", "isSearchEngine", "{return false;}");
 
@@ -230,27 +232,27 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
 
         $oArticle = oxNew('oxArticle');
         $oArticle->disableLazyLoading();
-        $oArticle->loadInLang(1, '1127');
+        $oArticle->loadInLang('en', '1127');
         $oArticle->getLink();
 
         $oDb = oxDb::getDb();
 
         // adding old style seo columns
-        $oDb->execute("ALTER TABLE `oxarticles` ADD `OXSEOID` CHAR( 255 ) NOT NULL");
-        $oDb->execute("ALTER TABLE `oxarticles` ADD `OXSEOID_1` CHAR( 255 ) NOT NULL");
+        $oDb->execute("ALTER TABLE `oxarticles` ADD `OXSEOID_DE` CHAR( 255 ) NOT NULL");
+        $oDb->execute("ALTER TABLE `oxarticles` ADD `OXSEOID_EN` CHAR( 255 ) NOT NULL");
 
         // adding data
-        $oDb->execute("UPDATE `oxarticles` SET `OXSEOID` = 'someid1' WHERE `OXID` = '1126' ");
-        $oDb->execute("UPDATE `oxarticles` SET `OXSEOID_1` = 'someid2' WHERE `OXID` = '1127' ");
+        $oDb->execute("UPDATE `oxarticles` SET `OXSEOID_DE` = 'someid1' WHERE `OXID` = '1126' ");
+        $oDb->execute("UPDATE `oxarticles` SET `OXSEOID_EN` = 'someid2' WHERE `OXID` = '1127' ");
 
         $dataHandler = oxNew('oxDbMetaDataHandler');
         $dataHandler->updateViews();
 
-        $sColumnAdded = $oDb->getOne("show columns from oxarticles where field = 'oxseoid'");
-        $this->assertEquals('OXSEOID', $sColumnAdded);
+        $sColumnAdded = $oDb->getOne("show columns from oxarticles where field = 'oxseoid_de'");
+        $this->assertEquals('OXSEOID_DE', $sColumnAdded);
 
-        $sColumnAdded = $oDb->getOne("show columns from oxarticles where field = 'oxseoid_1'");
-        $this->assertEquals('OXSEOID_1', $sColumnAdded);
+        $sColumnAdded = $oDb->getOne("show columns from oxarticles where field = 'oxseoid_en'");
+        $this->assertEquals('OXSEOID_EN', $sColumnAdded);
 
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $sUrl1 = 'Party/Bar-Equipment/Bar-Set-ABSINTH.html';
@@ -261,8 +263,8 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
         }
 
         $oDecoder = oxNew('oxseodecoder');
-        $this->assertEquals($sUrl1, $oDecoder->UNITgetObjectUrl('someid1', 'oxarticles', 0, 'oxarticle'));
-        $this->assertEquals($sUrl2, $oDecoder->UNITgetObjectUrl('someid2', 'oxarticles', 1, 'oxarticle'));
+        $this->assertEquals($sUrl1, $oDecoder->UNITgetObjectUrl('someid1', 'oxarticles', 'de', 'oxarticle'));
+        $this->assertEquals($sUrl2, $oDecoder->UNITgetObjectUrl('someid2', 'oxarticles', 'en', 'oxarticle'));
     }
 
     public function testParseStdUrl()
