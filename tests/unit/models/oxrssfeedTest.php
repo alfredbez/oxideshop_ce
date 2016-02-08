@@ -639,7 +639,7 @@ class Unit_Models_oxrssfeedTest extends OxidTestCase
         if ($this->getConfig()->getEdition() === 'EE') {
             $sCatId = '30e44ab83159266c7.83602558';
         }
-        oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return 1;}');
+        oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return "en";}');
         oxTestModules::addFunction('oxLang', 'translateString', '{return $aA[0];}');
         $oRss = oxNew('oxRssFeed');
         $sTitle = '';
@@ -819,7 +819,7 @@ class Unit_Models_oxrssfeedTest extends OxidTestCase
         $oRss->setConfig($oConfig);
 
         $this->getConfig()->setConfigParam('iRssItemsCount', 50);
-        oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return 1;}');
+        oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return "en";}');
         oxTestModules::addFunction('oxLang', 'translateString', '{return $aA[0]."tr";}');
 
         oxTestModules::addFunction('oxrssfeed', '_loadData', '{ $this->_aChannel["data"] = $aA; }');
@@ -943,7 +943,7 @@ class Unit_Models_oxrssfeedTest extends OxidTestCase
     public function testGetRecommListsUrlSeoOn()
     {
         $oLang = oxRegistry::getLang();
-        $oLang->setBaseLanguage(1);
+        $oLang->setBaseLanguage('en');
         oxRegistry::set('oxLang', $oLang);
 
         $oConfig = $this->getConfig();
@@ -1094,7 +1094,7 @@ class Unit_Models_oxrssfeedTest extends OxidTestCase
     public function testGetRecommListArticlesUrlSeoOn()
     {
         $oLang = oxRegistry::getLang();
-        $oLang->setBaseLanguage(1);
+        $oLang->setBaseLanguage('en');
         oxRegistry::set('oxLang', $oLang);
 
         $oConfig = $this->getConfig();

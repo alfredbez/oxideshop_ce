@@ -741,13 +741,14 @@ class oxCategory extends oxI18n implements oxIUrl
     public function getCatInLang($oActCategory = null)
     {
         $oCategoryInDefaultLanguage = oxNew("oxCategory");
+        $baseLanguage = $this->getConfig()->getConfigParam('sDefaultLang');
         if ($this->isPriceCategory()) {
             // get it in base language
             $oCategoryInDefaultLanguage = oxNew("oxCategory");
-            $oCategoryInDefaultLanguage->loadInLang(0, $this->getId());
+            $oCategoryInDefaultLanguage->loadInLang($baseLanguage, $this->getId());
         } else {
             $oCategoryInDefaultLanguage = oxNew("oxCategory");
-            $oCategoryInDefaultLanguage->loadInLang(0, $oActCategory->getId());
+            $oCategoryInDefaultLanguage->loadInLang($baseLanguage, $oActCategory->getId());
         }
 
         return $oCategoryInDefaultLanguage;

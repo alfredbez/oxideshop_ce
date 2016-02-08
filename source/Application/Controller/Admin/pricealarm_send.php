@@ -158,7 +158,7 @@ class PriceAlarm_Send extends oxAdminList
         $alarm->load($priceAlarmId);
 
         $language = oxRegistry::getLang();
-        $languageId = (int) $alarm->oxpricealarm__oxlang->value;
+        $languageId = (string) $alarm->oxpricealarm__oxlang->value;
 
         $oldLanguageId = $language->getTplLanguage();
         $language->setTplLanguage($languageId);

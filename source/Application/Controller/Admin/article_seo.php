@@ -511,7 +511,7 @@ class Article_Seo extends Object_Seo
         $oDb = oxDb::getDb();
 
         $sId = $this->_getSaveObjectId();
-        $iLang = (int) $this->getEditLang();
+        $iLang = (string) $this->getEditLang();
         $iShopId = $this->getConfig()->getShopId();
         $sParam = $this->processParam($this->getActCatId());
 

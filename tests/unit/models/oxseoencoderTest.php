@@ -311,7 +311,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $sOxid = $this->getTestConfig()->getShopEdition() == 'EE' ? "30e44ab82c03c3848.49471214" : "8a142c3e4143562a5.46426637";
 
         $iShopId = $this->getConfig()->getShopId();
-        $iLang = 0;
+        $iLang = 'de';
         $sStdUrl = "index.php?cl=alist&amp;cnid={$sOxid}";
         $sType = "oxcategory";
 
@@ -379,12 +379,13 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
     {
         $sSeoUrl = "seourl/";
         $oEncoder = oxNew('oxSeoEncoder');
-        $this->assertEquals($sSeoUrl, $oEncoder->UNITprocessSeoUrl($sSeoUrl, null, 1, true));
-        $this->assertEquals("en/" . $sSeoUrl, $oEncoder->UNITprocessSeoUrl($sSeoUrl, null, 1, false));
+        $this->assertEquals($sSeoUrl, $oEncoder->UNITprocessSeoUrl($sSeoUrl, null, 'en', true));
+        $this->assertEquals("en/" . $sSeoUrl, $oEncoder->UNITprocessSeoUrl($sSeoUrl, null, 'en', false));
     }
 
     public function testLanguagePrefixForSeoUrlForDe()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         $oConfig = $this->getConfig();
 
@@ -393,14 +394,14 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oPriceCategory->setId("_testPriceCategoryId");
         $oPriceCategory->oxcategories__oxparentid = new oxField("oxrootid");
         $oPriceCategory->oxcategories__oxrootid = $oPriceCategory->getId();
-        $oPriceCategory->oxcategories__oxactive = new oxField(1);
+        $oPriceCategory->oxcategories__oxactive = new oxField('en');
         $oPriceCategory->oxcategories__oxshopid = new oxField($oConfig->getBaseShopId());
         $oPriceCategory->oxcategories__oxtitle = new oxField("Test Price Category DE");
         $oPriceCategory->oxcategories__oxpricefrom = new oxField(0);
         $oPriceCategory->oxcategories__oxpriceto = new oxField(999);
         $oPriceCategory->save();
 
-        $sShopUrl = $oConfig->getShopUrl(0);
+        $sShopUrl = $oConfig->getShopUrl('de');
 
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $sArticleId = "1849";
@@ -448,42 +449,42 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oArticle = oxNew('oxArticle');
         $oArticle->load($sArticleId);
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_CATEGORY);
-        $this->assertEquals($sArticleSeoUrl, $oArticle->getLink(0));
+        $this->assertEquals($sArticleSeoUrl, $oArticle->getLink('de'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_VENDOR);
-        $this->assertEquals($sArticleVendorSeoUrl, $oArticle->getLink(0));
+        $this->assertEquals($sArticleVendorSeoUrl, $oArticle->getLink('de'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_MANUFACTURER);
-        $this->assertEquals($sArticleManufacturerSeoUrl, $oArticle->getLink(0));
+        $this->assertEquals($sArticleManufacturerSeoUrl, $oArticle->getLink('de'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_PRICECATEGORY);
-        $this->assertEquals($sArticlePriceCatSeoUrl, $oArticle->getLink(0));
+        $this->assertEquals($sArticlePriceCatSeoUrl, $oArticle->getLink('de'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_TAG);
-        $this->assertEquals($sArticleTagSeoUrl, $oArticle->getLink(0));
+        $this->assertEquals($sArticleTagSeoUrl, $oArticle->getLink('de'));
 
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sCategoryId);
-        $this->assertEquals($sCategorySeoUrl, $oCategory->getLink(0));
+        $this->assertEquals($sCategorySeoUrl, $oCategory->getLink('de'));
 
         $oContent = oxNew('oxContent');
         $oContent->load($sContentId);
-        $this->assertEquals($sContentSeoUrl, $oContent->getLink(0));
+        $this->assertEquals($sContentSeoUrl, $oContent->getLink('de'));
 
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sManufacturerId);
-        $this->assertEquals($sManufacturerSeoUrl, $oManufacturer->getLink(0));
+        $this->assertEquals($sManufacturerSeoUrl, $oManufacturer->getLink('de'));
 
         $oTagEncoder = oxNew('oxSeoEncoderTag');
         $sTag = $this->getTestConfig()->getShopEdition() == 'EE' ? "messerblock" : "flaschen";
         $sTagUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? "tag/messerblock/" : "tag/flaschen/";
 
-        $this->assertEquals($sShopUrl . "tag/bar-equipment/", $oTagEncoder->getTagUrl("bar equipment", 0));
-        $this->assertEquals($sShopUrl . $sTagUrl, $oTagEncoder->getTagUrl($sTag, 0));
+        $this->assertEquals($sShopUrl . "tag/bar-equipment/", $oTagEncoder->getTagUrl("bar equipment", 'de'));
+        $this->assertEquals($sShopUrl . $sTagUrl, $oTagEncoder->getTagUrl($sTag, 'de'));
 
         $oVendor = oxNew('oxVendor');
         $oVendor->load($sVendorId);
-        $this->assertEquals($sVendorSeoUrl, $oVendor->getLink(0));
+        $this->assertEquals($sVendorSeoUrl, $oVendor->getLink('de'));
 
         // missing static urls..
     }
@@ -504,10 +505,10 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oPriceCategory->oxcategories__oxpricefrom = new oxField(0);
         $oPriceCategory->oxcategories__oxpriceto = new oxField(999);
         $oPriceCategory->save();
-        $oPriceCategory->setLanguage(1);
+        $oPriceCategory->setLanguage('en');
         $oPriceCategory->save();
 
-        $sShopUrl = $oConfig->getShopUrl(0);
+        $sShopUrl = $oConfig->getShopUrl('de');
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $sArticleId = "6b63f459c781fa42edeb889242304014";
             $sArticleSeoUrl = $sShopUrl . "en/Eco-Fashion/Woman/Shirts/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
@@ -555,41 +556,41 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oArticle = oxNew('oxArticle');
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_CATEGORY);
         $oArticle->load($sArticleId);
-        $this->assertEquals($sArticleSeoUrl, $oArticle->getLink(1));
+        $this->assertEquals($sArticleSeoUrl, $oArticle->getLink('en'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_VENDOR);
-        $this->assertEquals($sArticleVendorSeoUrl, $oArticle->getLink(1));
+        $this->assertEquals($sArticleVendorSeoUrl, $oArticle->getLink('en'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_MANUFACTURER);
-        $this->assertEquals($sArticleManufacturerSeoUrl, $oArticle->getLink(1));
+        $this->assertEquals($sArticleManufacturerSeoUrl, $oArticle->getLink('en'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_PRICECATEGORY);
-        $this->assertEquals($sArticlePriceCatSeoUrl, $oArticle->getLink(1));
+        $this->assertEquals($sArticlePriceCatSeoUrl, $oArticle->getLink('en'));
 
         $oArticle->setLinkType(OXARTICLE_LINKTYPE_TAG);
-        $this->assertEquals($sArticleTagSeoUrl, $oArticle->getLink(1));
+        $this->assertEquals($sArticleTagSeoUrl, $oArticle->getLink('en'));
 
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sCategoryId);
-        $this->assertEquals($sCategorySeoUrl, $oCategory->getLink(1));
+        $this->assertEquals($sCategorySeoUrl, $oCategory->getLink('en'));
 
         $oContent = oxNew('oxContent');
         $oContent->load($sContentId);
-        $this->assertEquals($sContentSeoUrl, $oContent->getLink(1));
+        $this->assertEquals($sContentSeoUrl, $oContent->getLink('en'));
 
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sManufacturerId);
-        $this->assertEquals($sManufacturerSeoUrl, $oManufacturer->getLink(1));
+        $this->assertEquals($sManufacturerSeoUrl, $oManufacturer->getLink('en'));
 
         $sTag = "kuyichi";
         $sTagSeoUrl = $sShopUrl . "en/tag/kuyichi/";
 
         $oTagEncoder = oxNew('oxSeoEncoderTag');
-        $this->assertEquals($sTagSeoUrl, $oTagEncoder->getTagUrl($sTag, 1));
+        $this->assertEquals($sTagSeoUrl, $oTagEncoder->getTagUrl($sTag, 'en'));
 
         $oVendor = oxNew('oxVendor');
         $oVendor->load($sVendorId);
-        $this->assertEquals($sVendorSeoUrl, $oVendor->getLink(1));
+        $this->assertEquals($sVendorSeoUrl, $oVendor->getLink('en'));
 
         // missing static urls..
     }
@@ -695,6 +696,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
 
     public function testFetchSeoUrl()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxUtils", "seoIsActive", "{ return true;}");
         oxTestModules::addFunction("oxUtils", "isSearchEngine", "{return false;}");
 
@@ -1547,7 +1549,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
     {
         $iShopId = $this->getConfig()->getBaseShopId();
         $oDb = oxDb::getDb();
-        $oDb->execute("insert into oxobject2seodata (`oxobjectid`, `oxkeywords`, `oxshopid`, `oxlang`) values( 'xxx', 'yyy', '$iShopId', 0)");
+        $oDb->execute("insert into oxobject2seodata (`oxobjectid`, `oxkeywords`, `oxshopid`, `oxlang`) values( 'xxx', 'yyy', '$iShopId', 'de')");
 
         $oEncoder = oxNew('oxSeoEncoder');
 

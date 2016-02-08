@@ -97,22 +97,22 @@ class Unit_Models_oxvarianthandlerTest extends OxidTestCase
         $oValue->priceUnit = 'abs';
         $oValue->name = 'red';
         $oValue->value = '';
-        $aValues[0] = $oValue;
+        $aValues['de'] = $oValue;
         $oValue2 = new stdClass();
         $oValue2->price = '10';
         $oValue2->fprice = '10,00';
         $oValue2->priceUnit = 'abs';
         $oValue2->name = 'rot';
         $oValue2->value = '';
-        $aValues[1] = $oValue2;
+        $aValues['en'] = $oValue2;
         $aValues = array($aValues);
 
         $oArticle = oxNew("oxArticle");
         $oArticle->load('2000');
 
         $oVariantHandler = oxNew("oxVariantHandler");
-        $aVar = $oVariantHandler->UNITassignValues($aValues, oxNew('oxArticleList'), $oArticle, array('en', 'de'));
-        $oRez = $myDB->Execute("select oxvarselect, oxvarselect_1 from oxarticles where oxparentid = '2000'");
+        $aVar = $oVariantHandler->UNITassignValues($aValues, oxNew('oxArticleList'), $oArticle, array('en' => 'en', 'de' => 'de'));
+        $oRez = $myDB->Execute("select oxvarselect_de, oxvarselect_en from oxarticles where oxparentid = '2000'");
         while (!$oRez->EOF) {
             $oRez->fields = array_change_key_case($oRez->fields, CASE_LOWER);
             $this->assertEquals('red', $oRez->fields[0]);
@@ -129,7 +129,7 @@ class Unit_Models_oxvarianthandlerTest extends OxidTestCase
 
         $sShopId = $this->getConfig()->getEdition() === 'EE' ? 1 : 'oxbaseshop';
 
-        $sSql = "insert into oxselectlist (oxid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSell', '$sShopId', 'oxsellisttest', 'oxsellisttest', '$sVal')";
+        $sSql = "insert into oxselectlist (oxid, oxshopid, oxtitle_de, oxident, oxvaldesc_de) values ('_testSell', '$sShopId', 'oxsellisttest', 'oxsellisttest', '$sVal')";
         $this->addToDatabase($sSql, 'oxselectlist');
 
         $oArticle = oxNew("oxArticle");
@@ -140,7 +140,7 @@ class Unit_Models_oxvarianthandlerTest extends OxidTestCase
         //twice
         $oVariantHandler->genVariantFromSell(array('_testSell'), $oArticle);
         $this->assertEquals(9, $myDB->getOne("select count(*) from oxarticles where oxparentid = '2000'"));
-        $this->assertTrue((bool) strpos($myDB->getOne("select oxvarselect from oxarticles where oxparentid = '2000' limit 1"), "|"));
+        $this->assertTrue((bool) strpos($myDB->getOne("select oxvarselect_de from oxarticles where oxparentid = '2000' limit 1"), "|"));
         $this->assertEquals(18, $myDB->getOne("select count(*) from oxobject2attribute where oxobjectid in ( select art.oxid from oxarticles as art where art.oxparentid = '2000')"));
     }
 
@@ -155,7 +155,7 @@ class Unit_Models_oxvarianthandlerTest extends OxidTestCase
 
         $sShopId = $this->getConfig()->getEdition() === 'EE' ? 1 : 'oxbaseshop';
 
-        $sSql = "insert into oxselectlist (oxid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSell', '$sShopId', 'oxsellisttest', 'oxsellisttest', '$sVal')";
+        $sSql = "insert into oxselectlist (oxid, oxshopid, oxtitle_de, oxident, oxvaldesc_de) values ('_testSell', '$sShopId', 'oxsellisttest', 'oxsellisttest', '$sVal')";
         $this->addToDatabase($sSql, 'oxselectlist');
 
         $oArticle = oxNew("oxArticle");
@@ -179,10 +179,10 @@ class Unit_Models_oxvarianthandlerTest extends OxidTestCase
 
     public function testCreateNewVariant()
     {
-        $aParams = array('oxarticles__oxvarselect'      => "_testVar",
+        $aParams = array('oxarticles__oxvarselect_de'   => "_testVar",
                          'oxarticles__oxartnum'         => "123",
                          'oxarticles__oxprice'          => "10",
-                         'oxarticles__oxvarselect_1'    => "_testVar_1",
+                         'oxarticles__oxvarselect_en'   => "_testVar_1",
                          'oxarticles__oxid'             => "_testVar",
                          'oxarticles__oxisconfigurable' => "1",
         );
@@ -198,7 +198,7 @@ class Unit_Models_oxvarianthandlerTest extends OxidTestCase
         $this->assertEquals("1", $oVariant->oxarticles__oxisconfigurable->value);
 
         $oVariant = oxNew("oxArticle");
-        $oVariant->loadInLang(1, $sVariantId);
+        $oVariant->loadInLang('en', $sVariantId);
         $this->assertEquals("_testVar_1", $oVariant->oxarticles__oxvarselect->value);
     }
 

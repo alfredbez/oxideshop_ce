@@ -199,7 +199,7 @@ class Unit_Components_Widgets_oxwArticleDetailsTest extends OxidTestCase
         $oDetails->setNonPublicVar("_oProduct", $oArticle);
         $sSelect = "select oxattrid from oxobject2attribute where oxobjectid = '$sArtID'";
         $sID = oxDb::getDB()->getOne($sSelect);
-        $sSelect = "select oxvalue from oxobject2attribute where oxattrid = '$sID' and oxobjectid = '$sArtID'";
+        $sSelect = "select oxvalue_De from oxobject2attribute where oxattrid = '$sID' and oxobjectid = '$sArtID'";
         $sExpectedValue = oxDb::getDB()->getOne($sSelect);
         $aAttrList = $oDetails->getAttributes();
         $sAttribValue = $aAttrList[$sID]->value;
@@ -410,7 +410,7 @@ class Unit_Components_Widgets_oxwArticleDetailsTest extends OxidTestCase
      */
     public function testGetMediaFiles()
     {
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc) values ('_test2', '2000', 'http://www.youtube.com/watch?v=ZN239G6aJZo', 'test2')";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de) values ('_test2', '2000', 'http://www.youtube.com/watch?v=ZN239G6aJZo', 'test2')";
         oxDb::getDb()->execute($sQ);
 
         $oArt = oxNew('oxArticle');

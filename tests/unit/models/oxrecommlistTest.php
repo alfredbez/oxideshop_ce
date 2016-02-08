@@ -33,6 +33,8 @@ class Unit_Models_oxrecommlistTest extends OxidTestCase
     protected function setUp()
     {
         parent::setUp();
+
+        $this->setConfigParam('iDefSeoLang', 'de');
         $myDB = oxDb::getDB();
         $sShopId = $this->getConfig()->getShopId();
         // adding article to recommendlist

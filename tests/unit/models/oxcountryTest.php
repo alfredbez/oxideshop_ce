@@ -36,8 +36,8 @@ class Unit_Models_oxCountryTest extends OxidTestCase
 
         $oObj = oxNew('oxbase');
         $oObj->init('oxcountry');
-        $oObj->oxcountry__oxtitle = new oxField('oxCountryTestDE', oxField::T_RAW);
-        $oObj->oxcountry__oxtitle_1 = new oxField('oxCountryTestENG', oxField::T_RAW);
+        $oObj->oxcountry__oxtitle_de = new oxField('oxCountryTestDE', oxField::T_RAW);
+        $oObj->oxcountry__oxtitle_en = new oxField('oxCountryTestENG', oxField::T_RAW);
         $oObj->save();
 
         $this->oObj = oxNew('oxCountry');
@@ -71,7 +71,7 @@ class Unit_Models_oxCountryTest extends OxidTestCase
     {
         $oObj = oxNew('oxCountry');
         //$this->getConfig()->setLanguage( 1 );
-        $oObj->loadInLang(1, $this->oObj->getId());
+        $oObj->loadInLang('en', $this->oObj->getId());
         $this->assertEquals('oxCountryTestENG', $oObj->oxcountry__oxtitle->value);
     }
 

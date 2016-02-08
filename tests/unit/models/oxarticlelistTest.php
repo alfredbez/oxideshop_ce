@@ -257,7 +257,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testSetCustomSortingIfOtherLang()
     {
-        $this->setLanguage(1);
+        $this->setLanguage('en');
         $oTestList = $this->getProxyClass('oxArticleList');
         $oTestList->setCustomSorting('oxtitle desc');
         $this->assertEquals('oxtitle desc', $oTestList->getNonPublicVar('_sCustomSorting'));
@@ -481,7 +481,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
                   " . $oArticle->getSqlActiveSnippet() . " and $sArticleTable.oxparentid = ''
                   and oc.oxcatnid = '$sCatId' and false ORDER BY  oc.oxpos,oc.oxobjectid";
 
-        $sRes = $oTest->UNITgetCategorySelect('oxid', $sCatId, array($sCatId => array('0' => array("8a142c3ee0edb75d4.80743302" => "Zeigar"))));
+        $sRes = $oTest->UNITgetCategorySelect('oxid', $sCatId, array($sCatId => array('de' => array("8a142c3ee0edb75d4.80743302" => "Zeigar"))));
         $sExpt = str_replace(array("\n", "\r", " ", "\t"), "", $sExpt);
         $sRes = str_replace(array("\n", "\r", " ", "\t"), "", $sRes);
         $this->assertEquals($sExpt, $sRes);
@@ -540,7 +540,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         } catch (Exception $e) {
             $sRes = $e->getMessage();
         }
-        $this->setLanguage(0);
+        $this->setLanguage('de');
         modDB::getInstance()->cleanup();
 
         $sO2CView = getViewName('oxobject2category');
@@ -621,7 +621,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $sCatId = '8a142c3e60a535f16.78077188';
         $sAttrId = '8a142c3ee0edb75d4.80743302';
         $iExptCount = 5;
-        $aSessionFilter = array($sCatId => array('0' => array($sAttrId => 'Zeiger')));
+        $aSessionFilter = array($sCatId => array('de' => array($sAttrId => 'Zeiger')));
 
         $oTest = $this->getProxyClass('oxArticleList');
         $sCount = $oTest->loadCategoryArticles($sCatId, $aSessionFilter);
@@ -1780,7 +1780,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     public function testLazyLoadAllObjectsInLangClean()
     {
         $oTest = $this->getProxyClass("oxArticleList");
-        $this->setLanguage(1);
+        $this->setLanguage('en');
         $this->cleanTmpDir();
         $oTest->selectString("select oxid from oxarticles where oxid = '2000' or oxid = '1354' order by oxid");
         $this->assertEquals('2000', $oTest['2000']->getId());
@@ -1798,7 +1798,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     public function testLazyLoadAllObjectsInLangCached()
     {
         $oTest = $this->getProxyClass("oxArticleList");
-        $this->setLanguage(1);
+        $this->setLanguage('en');
         //$this->cleanTmpDir();
         $oTest->selectString("select oxid from oxarticles where oxid = '2000' or oxid = '1354' order by oxid");
         $this->assertEquals('2000', $oTest['2000']->getId());
@@ -1865,7 +1865,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     {
         $oTest = oxNew('oxArticleList');
         $oTest->selectString("select * from oxarticles where oxid = '1651'");
-        $this->assertEquals("Bierbrauset PROSIT", $oTest[1651]->oxarticles__oxtitle->value);
+        $this->assertEquals("Bierbrauset PROSIT", $oTest[1651]->oxarticles__oxtitle_de->value);
     }
 
     /**
@@ -1876,8 +1876,8 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     public function testMultiLangLoading2()
     {
         $oTest = $this->getProxyClass("oxArticleList");
-        $this->setLanguage(1);
-        $sView = getViewName('oxarticles', 1);
+        $this->setLanguage('en');
+        $sView = getViewName('oxarticles', 'en');
         $oTest->selectString("select * from $sView where oxid = '2080'");
 
         $expectedArticleTitle = 'Champagne Pliers &amp; Bottle Opener';
@@ -2011,7 +2011,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     {
         $sTag = "wanduhr";
         $oTest = oxNew('oxArticleList');
-        $oTest->loadTagArticles($sTag, 0);
+        $oTest->loadTagArticles($sTag, 'de');
 
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $iCount = 4;
@@ -2032,11 +2032,11 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      *
      * @return null
      */
-    public function testLoadTagArticlesLang0()
+    public function testLoadTagArticlesLangDe()
     {
         $sTag = "wanduhr";
         $oTest = oxNew('oxArticleList');
-        $oTest->loadTagArticles($sTag, 0);
+        $oTest->loadTagArticles($sTag, 'de');
         $this->assertEquals($oTest[2000]->oxarticles__oxtitle->value, 'Wanduhr ROBOT');
     }
 
@@ -2045,11 +2045,11 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      *
      * @return null
      */
-    public function testLoadTagArticlesLang1()
+    public function testLoadTagArticlesLangEn()
     {
         $sTag = "wanduhr";
         $oTest = oxNew('oxArticleList');
-        $oTest->loadTagArticles($sTag, 1);
+        $oTest->loadTagArticles($sTag, 'en');
         $this->assertEquals(0, count($oTest));
     }
 
@@ -2063,7 +2063,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $sTag = "wanduhr";
         $oTest = oxNew('oxArticleList');
         $oTest->setCustomSorting('oxtitle desc');
-        $oTest->loadTagArticles($sTag, 0);
+        $oTest->loadTagArticles($sTag, 'de');
 
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $aExpArrayKeys = array(1354, 2000, 1672, 1771);
@@ -2092,7 +2092,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $oTest->setCustomSorting($oTest->getBaseObject()->getViewName() . '.oxtitle desc');
 
 
-        $oTest->loadTagArticles($sTag, 0);
+        $oTest->loadTagArticles($sTag, 'de');
 
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $aExpArrayKeys = array(1354, 2000, 1672, 1771);
@@ -2149,7 +2149,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
 
         $oArtList = oxNew('oxArticleList');
         $oArtList->setCustomSorting('oxtitle desc');
-        $oArtList->getTagArticleIds($sTag, 0);
+        $oArtList->getTagArticleIds($sTag, 'de');
         $this->assertEquals($aExpIds, $oArtList->ArrayKeys());
     }
 

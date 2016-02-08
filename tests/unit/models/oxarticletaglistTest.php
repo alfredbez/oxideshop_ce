@@ -57,7 +57,7 @@ class Unit_Models_oxarticletaglistTest extends OxidTestCase
     public function testGetArticleTagsEn()
     {
         $oArticleTagList = oxNew('oxArticleTagList');
-        $oArticleTagList->setLanguage(1);
+        $oArticleTagList->setLanguage('en');
         $oArticleTagList->load('2000');
         $oTagSet = $oArticleTagList->get();
 

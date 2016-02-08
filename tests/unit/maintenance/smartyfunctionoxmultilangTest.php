@@ -33,11 +33,11 @@ class Unit_Maintenance_smartyFunctionOxMultiLangTest extends OxidTestCase
     public function provider()
     {
         return array(
-            array('FIRST_NAME', 'First name', 1, false),
-            array('FIRST_NAME', 'Vorname', 0, false),
-            array('GENERAL_SAVE', 'Save', 1, true),
-            array('VAT', 'VAT', 1, false),
-            array('GENERAL_SAVE', 'Speichern', 0, true),
+            array('FIRST_NAME', 'First name', 'en', false),
+            array('FIRST_NAME', 'Vorname', 'de', false),
+            array('GENERAL_SAVE', 'Save', 'en', true),
+            array('VAT', 'VAT', 'en', false),
+            array('GENERAL_SAVE', 'Speichern', 'de', true),
         );
     }
 
@@ -62,10 +62,10 @@ class Unit_Maintenance_smartyFunctionOxMultiLangTest extends OxidTestCase
     public function additionalProvider()
     {
         return array(
-            array('FIRST_NAME', 'First name:', 1, 'COLON'),
-            array('FIRST_NAME', 'Vorname:', 0, 'COLON'),
-            array('FIRST_NAME', 'First name!', 1, '!'),
-            array('FIRST_NAME', 'Vorname !', 0, ' !')
+            array('FIRST_NAME', 'First name:', 'en', 'COLON'),
+            array('FIRST_NAME', 'Vorname:', 'de', 'COLON'),
+            array('FIRST_NAME', 'First name!', 'en', '!'),
+            array('FIRST_NAME', 'Vorname !', 'de', ' !')
         );
     }
 
@@ -91,10 +91,10 @@ class Unit_Maintenance_smartyFunctionOxMultiLangTest extends OxidTestCase
         return array(
             array(
                 array('ident' => 'FIRST_NAME_WRONG_HAS_ALTERNATIVE', 'alternative' => 'Alternative translation', 'suffix' => '!'),
-                'Alternative translation!', 1), // we can actually add any string at the end
+                'Alternative translation!', 'en'), // we can actually add any string at the end
             array(
                 array('ident' => 'FIRST_NAME_WRONG_HAS_ALTERNATIVE_NO_SUFFIX', 'alternative' => 'Vorname:'),
-                'Vorname:', 0),
+                'Vorname:', 'de'),
         );
     }
 
@@ -156,7 +156,7 @@ class Unit_Maintenance_smartyFunctionOxMultiLangTest extends OxidTestCase
         $this->setAdminMode(false);
         $oSmarty = new Smarty();
 
-        $this->setLanguage(1);
+        $this->setLanguage('en');
 
         $oShop = $this->getConfig()->getActiveShop();
         $oShop->oxshops__oxproductive = new oxField($isProductiveMode);
@@ -195,7 +195,7 @@ class Unit_Maintenance_smartyFunctionOxMultiLangTest extends OxidTestCase
     {
         $oSmarty = new Smarty();
 
-        $this->setLanguage(1);
+        $this->setLanguage('en');
         $this->setAdminMode(true);
 
         $this->assertEquals($sTranslation, smarty_function_oxmultilang($aArgs, $oSmarty));

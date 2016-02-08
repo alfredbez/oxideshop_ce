@@ -3641,7 +3641,7 @@ class oxArticle extends oxI18n implements ArticleInterface, oxIUrl
             }
 
             foreach ($aObjFields as $sKey => $sValue) {
-                if (preg_match('/^oxlongdesc(_(\d{1,2}))?$/', $sKey)) {
+                if (preg_match('/^oxlongdesc(_([a-zA-Z1-9_]+))?$/', $sKey)) {
                     $sField = $this->_getFieldLongName($sKey);
 
                     if (isset($this->$sField)) {

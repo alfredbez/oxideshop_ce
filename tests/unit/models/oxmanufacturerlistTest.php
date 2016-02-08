@@ -60,7 +60,7 @@ class Unit_Models_oxManufacturerlistTest extends OxidTestCase
 
         //modConfig::addClassVar("_iLanguageId","1"); //$oManufacturerlist->sLanguage = '1';
         //$myConfig->addClassFunction("getShopLanguage",create_function("","return 1;"));
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
 
         $oManufacturerlist = oxNew('oxManufacturerlist');
 
@@ -69,7 +69,7 @@ class Unit_Models_oxManufacturerlistTest extends OxidTestCase
         $this->assertTrue((count($oManufacturerlist) > 0), "Manufacturers list not loaded");
 
         // checking if vendros are the same
-        $sQ = 'select oxid, oxtitle_1, oxshortdesc_1 from oxmanufacturers where oxmanufacturers.oxshopid = "' . $myConfig->getShopID() . '"';
+        $sQ = 'select oxid, oxtitle_en, oxshortdesc_en from oxmanufacturers where oxmanufacturers.oxshopid = "' . $myConfig->getShopID() . '"';
         $rs = $myDB->Execute($sQ);
 
         if ($rs != false && $rs->RecordCount() > 0) {

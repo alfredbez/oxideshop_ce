@@ -211,7 +211,7 @@ class Unit_Models_oxVoucherExcludeTest extends OxidTestCase
 
         $sInsertArticlesPart = "
         INSERT INTO `oxarticles`
-        (`OXID`, {$sShopFields}, `OXACTIVE`, `OXTITLE`, `OXPRICE`, `OXSTOCK`)
+        (`OXID`, {$sShopFields}, `OXACTIVE`, `OXTITLE_DE`, `OXPRICE`, `OXSTOCK`)
         VALUES ";
         $sValuesPart = "('test_a0',$sShopValues,'1','a0','1' ,100);";
         $this->addToDatabase($sInsertArticlesPart . $sValuesPart, 'oxarticles');
@@ -228,7 +228,7 @@ class Unit_Models_oxVoucherExcludeTest extends OxidTestCase
 
         $sInsertCategoriesPart = "
         INSERT INTO `oxcategories`
-        (`OXID`, {$sShopFields}, `OXACTIVE`, `OXTITLE`)
+        (`OXID`, {$sShopFields}, `OXACTIVE_DE`, `OXTITLE_DE`)
         VALUES ";
         $sValuesPart = "('test_c0',$sShopValues,'1','c0');";
         $this->addToDatabase($sInsertCategoriesPart . $sValuesPart, 'oxcategories');
@@ -284,14 +284,14 @@ class Unit_Models_oxVoucherExcludeTest extends OxidTestCase
         INSERT INTO `oxorder`
         (`OXID`, `OXSHOPID`, `OXUSERID`, `OXORDERDATE`,`OXORDERNR`, `OXTOTALNETSUM`,`OXTOTALBRUTSUM`,`OXVOUCHERDISCOUNT`,`OXTOTALORDERSUM`, `OXCURRENCY`, `OXCURRATE`, `OXLANG`)
         VALUES
-        ('test_o1',$sShopId,'oxdefaultadmin',NOW(),1001,'751','751','100','651','EUR','1', '0'),
-        ('test_o2',$sShopId,'oxdefaultadmin',NOW(),1002,'751','751','30' ,'721','EUR','1', '0'),
-        ('test_o3',$sShopId,'oxdefaultadmin',NOW(),1003,'551','551','30' ,'521','EUR','1', '0'),
-        ('test_o4',$sShopId,'oxdefaultadmin',NOW(),1004,'501','501','40' ,'461','EUR','1', '0'),
-        ('test_o5',$sShopId,'oxdefaultadmin',NOW(),1005,'751','751','15' ,'736','EUR','1', '0'),
-        ('test_o6',$sShopId,'oxdefaultadmin',NOW(),1006,'751','751','6'  ,'745','EUR','1', '0'),
-        ('test_o7',$sShopId,'oxdefaultadmin',NOW(),1007,'551','551','24' ,'527','EUR','1', '0'),
-        ('test_o8',$sShopId,'oxdefaultadmin',NOW(),1008,'501','501','28' ,'473','EUR','1', '0');";
+        ('test_o1',$sShopId,'oxdefaultadmin',NOW(),1001,'751','751','100','651','EUR','1', 'de'),
+        ('test_o2',$sShopId,'oxdefaultadmin',NOW(),1002,'751','751','30' ,'721','EUR','1', 'de'),
+        ('test_o3',$sShopId,'oxdefaultadmin',NOW(),1003,'551','551','30' ,'521','EUR','1', 'de'),
+        ('test_o4',$sShopId,'oxdefaultadmin',NOW(),1004,'501','501','40' ,'461','EUR','1', 'de'),
+        ('test_o5',$sShopId,'oxdefaultadmin',NOW(),1005,'751','751','15' ,'736','EUR','1', 'de'),
+        ('test_o6',$sShopId,'oxdefaultadmin',NOW(),1006,'751','751','6'  ,'745','EUR','1', 'de'),
+        ('test_o7',$sShopId,'oxdefaultadmin',NOW(),1007,'551','551','24' ,'527','EUR','1', 'de'),
+        ('test_o8',$sShopId,'oxdefaultadmin',NOW(),1008,'501','501','28' ,'473','EUR','1', 'de');";
 
         $sInsertOrderArticles = "
         INSERT INTO `oxorderarticles`

@@ -577,7 +577,7 @@ class oxCategoryList extends oxList
         $oDb->execute("update oxcategories set oxleft = 1, oxright = 2 where oxparentid = 'oxrootid' and $sWhere");
 
         // Get all root categories
-        $rs = $oDb->select("select oxid, oxtitle from oxcategories where oxparentid = 'oxrootid' and $sWhere order by oxsort", false, false);
+        $rs = $oDb->select("select oxid, oxtitle" . oxRegistry::getLang()->getLanguageTag() . " from oxcategories where oxparentid = 'oxrootid' and $sWhere order by oxsort", false, false);
         if ($rs != false && $rs->recordCount() > 0) {
             while (!$rs->EOF) {
                 $this->_aUpdateInfo[] = "<b>Processing : " . $rs->fields[1] . "</b>(" . $rs->fields[0] . ")<br>";

@@ -161,6 +161,7 @@ class Unit_Models_oxvendorTest extends OxidTestCase
 
     public function testGetLinkSeoDe()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
 
@@ -170,11 +171,11 @@ class Unit_Models_oxvendorTest extends OxidTestCase
         $myDB = oxDb::getDB();
         $sVendorId = $myDB->getOne($sQ);
 
-        $sQ = 'select oxtitle from oxvendor where oxvendor.oxshopid = "' . $this->getConfig()->getShopID() . '"';
+        $sQ = 'select oxtitle_de from oxvendor where oxvendor.oxshopid = "' . $this->getConfig()->getShopID() . '"';
         $sVendorTitle = $myDB->getOne($sQ);
 
         $oVendor = oxNew('oxvendor');
-        $oVendor->setLanguage(0);
+        $oVendor->setLanguage('de');
         $oVendor->load($sVendorId);
 
         $this->assertEquals($this->getConfig()->getShopUrl() . 'Nach-Lieferant/' . str_replace(' ', '-', $sVendorTitle) . '/', $oVendor->getLink());
@@ -191,11 +192,11 @@ class Unit_Models_oxvendorTest extends OxidTestCase
         $sQ = 'select oxid from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
         $sVendorId = $myDB->getOne($sQ);
 
-        $sQ = 'select oxtitle_1 from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
+        $sQ = 'select oxtitle_en from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
         $sVendorTitle = $myDB->getOne($sQ);
 
         $oVendor = oxNew('oxvendor');
-        $oVendor->loadInLang(1, $sVendorId);
+        $oVendor->loadInLang('en', $sVendorId);
 
         $this->assertEquals($this->getConfig()->getShopUrl() . 'en/By-Distributor/' . str_replace(' ', '-', $sVendorTitle) . '/', $oVendor->getLink());
     }
@@ -227,14 +228,14 @@ class Unit_Models_oxvendorTest extends OxidTestCase
         $myDB = oxDb::getDB();
         $sVendorId = $myDB->getOne($sQ);
 
-        $sQ = 'select oxtitle from oxvendor where oxvendor.oxshopid = "' . $this->getConfig()->getShopID() . '"';
+        $sQ = 'select oxtitle_de from oxvendor where oxvendor.oxshopid = "' . $this->getConfig()->getShopID() . '"';
         $sVendorTitle = $myDB->getOne($sQ);
 
         $oVendor = oxNew('oxvendor');
-        $oVendor->setLanguage(1);
+        $oVendor->setLanguage('en');
         $oVendor->load($sVendorId);
 
-        $this->assertEquals($this->getConfig()->getShopUrl() . 'Nach-Lieferant/' . str_replace(' ', '-', $sVendorTitle) . '/', $oVendor->getLink(0));
+        $this->assertEquals($this->getConfig()->getShopUrl() . 'Nach-Lieferant/' . str_replace(' ', '-', $sVendorTitle) . '/', $oVendor->getLink('de'));
     }
 
     public function testGetLinkSeoEngWithLangParam()
@@ -248,13 +249,13 @@ class Unit_Models_oxvendorTest extends OxidTestCase
         $sQ = 'select oxid from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
         $sVendorId = $myDB->getOne($sQ);
 
-        $sQ = 'select oxtitle_1 from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
+        $sQ = 'select oxtitle_en from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
         $sVendorTitle = $myDB->getOne($sQ);
 
         $oVendor = oxNew('oxvendor');
-        $oVendor->loadInLang(0, $sVendorId);
+        $oVendor->loadInLang('de', $sVendorId);
 
-        $this->assertEquals($this->getConfig()->getShopUrl() . 'en/By-Distributor/' . str_replace(' ', '-', $sVendorTitle) . '/', $oVendor->getLink(1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . 'en/By-Distributor/' . str_replace(' ', '-', $sVendorTitle) . '/', $oVendor->getLink('en'));
     }
 
     public function testGetLinkWithLangParam()
@@ -279,8 +280,8 @@ class Unit_Models_oxvendorTest extends OxidTestCase
         $this->assertEquals(0, $oV->getLanguage());
 
         $oV = oxNew('oxVendor');
-        $oV->loadInLang(1, 'root');
-        $this->assertEquals(1, $oV->getLanguage());
+        $oV->loadInLang('en', 'root');
+        $this->assertEquals('en', $oV->getLanguage());
 
         $oV = oxNew('oxVendor');
         $oV->load('root');

@@ -65,6 +65,7 @@ class Unit_Models_oxSeoEncoderTagTest extends OxidTestCase
 
     public function testGetTagPageUrl()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         $sUrl = $this->getConfig()->getShopUrl(oxRegistry::getLang()->getBaseLanguage());
 

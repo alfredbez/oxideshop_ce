@@ -99,7 +99,7 @@ class Unit_Models_oxCountryListTest extends OxidTestCase
         $oCountry->oxcountry__oxorder = new oxField('999', oxField::T_RAW);
         $oCountry->save();
         $oCountryList = oxNew('oxCountryList');
-        $sSelect = "SELECT oxid, oxtitle as oxtitle FROM oxcountry WHERE oxtitle like 'oxCountryListTest%' ORDER BY oxorder, oxtitle";
+        $sSelect = "SELECT oxid, oxtitle_de as oxtitle FROM oxcountry WHERE oxtitle_de like 'oxCountryListTest%' ORDER BY oxorder, oxtitle_de";
         $oCountryList->selectString($sSelect);
 
         $aList = array('_testCountryId5', '_testCountryId1', '_testCountryId2', '_testCountryId0', '_testCountryId3', '_testCountryId4');
@@ -125,7 +125,7 @@ class Unit_Models_oxCountryListTest extends OxidTestCase
     public function testLoadActiveCountriesInEN()
     {
         $oCountryList = oxNew('oxCountryList');
-        $oCountryList->loadActiveCountries(1);
+        $oCountryList->loadActiveCountries('en');
         $this->assertEquals('Germany', $oCountryList['a7c40f631fc920687.20179984']->oxcountry__oxtitle->value);
     }
 }

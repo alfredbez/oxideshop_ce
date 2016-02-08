@@ -66,6 +66,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
 
     public function testGetManufacturerUrlExistingManufacturer()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
         $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
@@ -90,7 +91,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         $manufacturer->resetRootManufacturer();
 
         $manufacturer = oxNew('oxManufacturer');
-        $manufacturer->loadInLang(1, $vendorId);
+        $manufacturer->loadInLang('en', $vendorId);
 
         $encoder = oxNew('oxSeoEncoderManufacturer');
         $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerUrl($manufacturer));
@@ -104,7 +105,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Nach-Hersteller/Hersteller-2/' : 'Nach-Hersteller/Bush/';
 
         $manufacturer = oxNew('oxManufacturer');
-        $manufacturer->loadInLang(1, $vendorId);
+        $manufacturer->loadInLang('en', $vendorId);
 
         $encoder = oxNew('oxSeoEncoderManufacturer');
         $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerUrl($manufacturer, 0));
@@ -122,10 +123,10 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         $manufacturer->resetRootManufacturer();
 
         $manufacturer = oxNew('oxManufacturer');
-        $manufacturer->loadInLang(0, $vendorId);
+        $manufacturer->loadInLang('de', $vendorId);
 
         $encoder = oxNew('oxSeoEncoderManufacturer');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerUrl($manufacturer, 1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerUrl($manufacturer, 'en'));
     }
 
     /**
@@ -149,6 +150,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
 
     public function testGetManufacturerUriRootManufacturer()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->setId('root');
         $oManufacturer->oxmanufacturers__oxtitle = new oxField('root', oxField::T_RAW);
@@ -165,7 +167,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     {
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->setId('root');
-        $manufacturer->setLanguage(1);
+        $manufacturer->setLanguage('en');
         $manufacturer->oxmanufacturers__oxtitle = new oxField('root', oxField::T_RAW);
 
         $encoder = $this->getMock('oxSeoEncoderManufacturer', array('_saveToDb'));
@@ -187,7 +189,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     public function testGetManufacturerUriNewManufacturer()
     {
         $manufacturer = oxNew('oxManufacturer');
-        $manufacturer->setLanguage(1);
+        $manufacturer->setLanguage('en');
         $manufacturer->setId('xxx');
         $manufacturer->oxmanufacturers__oxtitle = new oxField('xxx', oxField::T_RAW);
 
@@ -211,7 +213,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Manufacturer/Manufacturer-2/101/' : 'en/By-Manufacturer/Bush/101/';
 
         $manufacturer = oxNew('oxManufacturer');
-        $manufacturer->loadInLang(1, $vendorId);
+        $manufacturer->loadInLang('en', $vendorId);
 
         $encoder = oxNew('oxSeoEncoderManufacturer');
         $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerPageUrl($manufacturer, 100));
@@ -225,10 +227,10 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Manufacturer/Manufacturer-2/101/' : 'en/By-Manufacturer/Bush/101/';
 
         $manufacturer = oxNew('oxManufacturer');
-        $manufacturer->loadInLang(0, $vendorId);
+        $manufacturer->loadInLang('de', $vendorId);
 
         $encoder = oxNew('oxSeoEncoderManufacturer');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerPageUrl($manufacturer, 100, 1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getManufacturerPageUrl($manufacturer, 100, 'en'));
     }
 
     public function testGetManufacturerUrl()
@@ -246,17 +248,17 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     public function testGetManufacturerUriExistingManufacturerWithLangParam()
     {
         $oManufacturer = oxNew('oxManufacturer');
-        $oManufacturer->setLanguage(1);
+        $oManufacturer->setLanguage('en');
         $oManufacturer->setId('xxx');
 
         $oEncoder = $this->getMock('oxSeoEncoderManufacturer', array('_loadFromDb', '_prepareTitle'));
-        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxmanufacturer'), $this->equalTo('xxx'), $this->equalTo(0))->will($this->returnValue('seourl'));
+        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxmanufacturer'), $this->equalTo('xxx'), $this->equalTo('de'))->will($this->returnValue('seourl'));
         $oEncoder->expects($this->never())->method('_prepareTitle');
         $oEncoder->expects($this->never())->method('_getUniqueSeoUrl');
         $oEncoder->expects($this->never())->method('_saveToDb');
 
         $sUrl = 'seourl';
-        $sSeoUrl = $oEncoder->getManufacturerUri($oManufacturer, 0);
+        $sSeoUrl = $oEncoder->getManufacturerUri($oManufacturer, 'de');
         $this->assertEquals($sUrl, $sSeoUrl);
     }
 
@@ -274,11 +276,11 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
                 $this->equalTo('root'),
                 $this->equalTo($oManufacturer->getBaseStdLink(1)),
                 $this->equalTo('en/By-Manufacturer/'),
-                $this->equalTo(1)
+                $this->equalTo('en')
             );
 
         $sUrl = 'en/By-Manufacturer/';
-        $sSeoUrl = $oEncoder->getManufacturerUri($oManufacturer, 1);
+        $sSeoUrl = $oEncoder->getManufacturerUri($oManufacturer, 'en');
         $this->assertEquals($sUrl, $sSeoUrl);
     }
 
@@ -289,7 +291,7 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         $sQ = "insert into oxseo
                    ( oxobjectid, oxident, oxshopid, oxlang, oxstdurl, oxseourl, oxtype, oxfixed, oxexpired, oxparams )
                values
-                   ( 'oid', '132', '{$sShopId}', '0', '', '', 'oxmanufacturer', '0', '0', '' )";
+                   ( 'oid', '132', '{$sShopId}', 'de', '', '', 'oxmanufacturer', '0', '0', '' )";
         $oDb->execute($sQ);
 
         $sQ = "insert into oxobject2seodata ( oxobjectid, oxshopid, oxlang ) values ( 'oid', '{$sShopId}', '0' )";

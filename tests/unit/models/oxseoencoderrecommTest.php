@@ -51,7 +51,7 @@ class Unit_Models_oxSeoEncoderRecommTest extends OxidTestCase
 
     public function testGetRecommUriCallCheckCantBeLoaded()
     {
-        $iLang = 0;
+        $iLang = 'de';
 
         $oRecomm = $this->getMock("oxRecommList", array("getId", "getBaseStdLink"));
         $oRecomm->expects($this->any())->method('getId')->will($this->returnValue("testRecommId"));
@@ -70,7 +70,7 @@ class Unit_Models_oxSeoEncoderRecommTest extends OxidTestCase
 
     public function testGetRecommUriCallCheck()
     {
-        $iLang = 0;
+        $iLang = 'de';
 
         $oRecomm = $this->getMock("oxRecommList", array("getId", "getBaseStdLink", "getStdLink"));
         $oRecomm->expects($this->any())->method('getId')->will($this->returnValue("testRecommId"));
@@ -89,7 +89,7 @@ class Unit_Models_oxSeoEncoderRecommTest extends OxidTestCase
 
     public function testGetRecommUri()
     {
-        $iLang = 1;
+        $iLang = 'en';
 
         $oRecomm = $this->getMock("oxRecommList", array("getId", "getBaseStdLink"));
         $oRecomm->expects($this->any())->method('getId')->will($this->returnValue("testRecommId"));
@@ -103,7 +103,7 @@ class Unit_Models_oxSeoEncoderRecommTest extends OxidTestCase
             ->with(
                 $this->equalTo('testStdLink'),
                 $sShopId,
-                1
+                'en'
             )
             ->will($this->returnValue("recommstdlink/"));
         $this->assertEquals("en/recommstdlink/testTitle/", $oEncoder->getRecommUri($oRecomm, $iLang));
@@ -126,6 +126,7 @@ class Unit_Models_oxSeoEncoderRecommTest extends OxidTestCase
 
     public function testGetRecommPageUrl()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         $iLang = oxRegistry::getLang()->getBaseLanguage();
 
         $oRecomm = $this->getMock("oxRecommList", array("getId", "getBaseStdLink"));
@@ -140,7 +141,7 @@ class Unit_Models_oxSeoEncoderRecommTest extends OxidTestCase
             ->with(
                 $this->equalTo('testStdLink'),
                 $sShopId,
-                0
+                'de'
             )
             ->will($this->returnValue("recommstdlink/"));
         $this->assertEquals($this->getConfig()->getConfigParam("sShopURL") . "recommstdlink/testTitle/2/", $oEncoder->getRecommPageUrl($oRecomm, 1));

@@ -2943,19 +2943,19 @@ class Unit_Models_oxUserTest extends OxidTestCase
             ->method('getStateId')
             ->will($this->returnValue($iAlternateStateId));
 
-        $sExpected = $this->getDb()->getOne('SELECT oxtitle FROM oxstates WHERE oxid = "' . $iStateId . '"');
+        $sExpected = $this->getDb()->getOne('SELECT oxtitle_de FROM oxstates WHERE oxid = "' . $iStateId . '"');
         $this->assertSame($sExpected, $oUserMock->getStateTitle($iStateId), "State title is correct");
 
-        $sExpected = $this->getDb()->getOne('SELECT oxtitle FROM oxstates WHERE oxid = "' . $iAlternateStateId . '"');
+        $sExpected = $this->getDb()->getOne('SELECT oxtitle_de FROM oxstates WHERE oxid = "' . $iAlternateStateId . '"');
         $this->assertSame($sExpected, $oUserMock->getStateTitle(), "State title is correct when ID is not passed");
 
         $this->setLanguage(1);
 
-        $sExpected = $this->getDb()->getOne('SELECT oxtitle_1 FROM oxstates WHERE oxid = "' . $iStateId . '"');
+        $sExpected = $this->getDb()->getOne('SELECT oxtitle_en FROM oxstates WHERE oxid = "' . $iStateId . '"');
         $this->assertSame($sExpected, $oUserMock->getStateTitle($iStateId), "State title is correct");
 
         $sExpected = $this->getDb()->getOne(
-            'SELECT oxtitle_1 FROM oxstates WHERE oxid = "' . $iAlternateStateId . '"'
+            'SELECT oxtitle_en FROM oxstates WHERE oxid = "' . $iAlternateStateId . '"'
         );
         $this->assertSame($sExpected, $oUserMock->getStateTitle(), "State title is correct when ID is not passed");
     }

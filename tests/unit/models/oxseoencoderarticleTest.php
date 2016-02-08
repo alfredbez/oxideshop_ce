@@ -86,6 +86,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         oxTestModules::cleanUp();
 
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
+        $this->setConfigParam('iDefSeoLang', 'de');
     }
 
     /**
@@ -135,7 +136,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->never())->method('getArticleTagUri');
         $oEncoder->expects($this->never())->method('getArticleUri');
 
-        $this->assertEquals("vendorUri", $oEncoder->UNITgetAltUri('1126', 0));
+        $this->assertEquals("vendorUri", $oEncoder->UNITgetAltUri('1126', 'de'));
     }
 
     /**
@@ -152,7 +153,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->never())->method('getArticleTagUri');
         $oEncoder->expects($this->never())->method('getArticleUri');
 
-        $this->assertEquals("manufacturerUri", $oEncoder->UNITgetAltUri('1126', 0));
+        $this->assertEquals("manufacturerUri", $oEncoder->UNITgetAltUri('1126', 'de'));
     }
 
     /**
@@ -169,7 +170,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('getArticleTagUri')->will($this->returnValue("tagUri"));
         $oEncoder->expects($this->never())->method('getArticleUri');
 
-        $this->assertEquals("tagUri", $oEncoder->UNITgetAltUri('1126', 0));
+        $this->assertEquals("tagUri", $oEncoder->UNITgetAltUri('1126', 'de'));
     }
 
     /**
@@ -187,7 +188,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('getArticleUri')->will($this->returnValue("defaultUri"));
 
 
-        $this->assertEquals("defaultUri", $oEncoder->UNITgetAltUri('1126', 0));
+        $this->assertEquals("defaultUri", $oEncoder->UNITgetAltUri('1126', 'de'));
     }
 
     /**
@@ -222,7 +223,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('getArticleRecommUri')->will($this->returnValue("testRecommUrl"));
         $oEncoder->expects($this->once())->method('_getFullUrl')->will($this->returnValue("testFullRecommUrl"));
 
-        $this->assertEquals("testFullRecommUrl", $oEncoder->getArticleUrl(oxNew('oxArticle'), 0, OXARTICLE_LINKTYPE_RECOMM));
+        $this->assertEquals("testFullRecommUrl", $oEncoder->getArticleUrl(oxNew('oxArticle'), 'de', OXARTICLE_LINKTYPE_RECOMM));
     }
 
     /**
@@ -238,7 +239,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $this->assertEquals("testRecommList", $oEncoder->UNITgetRecomm(oxNew('oxarticle'), 0));
+        $this->assertEquals("testRecommList", $oEncoder->UNITgetRecomm(oxNew('oxarticle'), 'de'));
     }
 
     /**
@@ -254,7 +255,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $this->assertEquals("testTag", $oEncoder->UNITgetTag(oxNew('oxarticle'), 0));
+        $this->assertEquals("testTag", $oEncoder->UNITgetTag(oxNew('oxarticle'), 'de'));
     }
 
     /**
@@ -265,7 +266,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetVendorArticleHasNoManufacturerDefined()
     {
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $this->assertNull($oEncoder->UNITgetVendor(oxNew('oxArticle'), 0));
+        $this->assertNull($oEncoder->UNITgetVendor(oxNew('oxArticle'), 'de'));
     }
 
     /**
@@ -283,7 +284,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView(oxNew('oxUbase'));
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oVendor = $oEncoder->UNITgetVendor($oArticle, 0);
+        $oVendor = $oEncoder->UNITgetVendor($oArticle, 'de');
         $this->assertNotNull($oVendor);
         $this->assertEquals($sVendorId, $oVendor->getId());
     }
@@ -299,7 +300,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oArticle->oxarticles__oxvendorid = new oxField("xxx");
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $this->assertNull($oEncoder->UNITgetVendor($oArticle, 0));
+        $this->assertNull($oEncoder->UNITgetVendor($oArticle, 'de'));
     }
 
     /**
@@ -323,7 +324,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oManufacturer = $oEncoder->UNITgetVendor($oArticle, 0);
+        $oManufacturer = $oEncoder->UNITgetVendor($oArticle, 'de');
         $this->assertNotNull($oVendor);
         $this->assertEquals($sVendorId, $oVendor->getId());
     }
@@ -349,7 +350,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oVendor = $oEncoder->UNITgetVendor($oArticle, 1);
+        $oVendor = $oEncoder->UNITgetVendor($oArticle, 'en');
         $this->assertNotNull($oVendor);
         $this->assertEquals($sVendorId, $oVendor->getId());
 
@@ -376,7 +377,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oVendor = $oEncoder->UNITgetVendor($oArticle, 0);
+        $oVendor = $oEncoder->UNITgetVendor($oArticle, 'de');
         $this->assertNotNull($oVendor);
         $this->assertEquals($sVendorId, $oVendor->getId());
     }
@@ -389,7 +390,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetManufacturerArticleHasNoManufacturerDefined()
     {
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $this->assertNull($oEncoder->UNITgetManufacturer(oxNew('oxArticle'), 0));
+        $this->assertNull($oEncoder->UNITgetManufacturer(oxNew('oxArticle'), 'de'));
     }
 
     /**
@@ -407,7 +408,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView(oxNew('oxUbase'));
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 0);
+        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 'de');
         $this->assertNotNull($oManufacturer);
         $this->assertEquals($sManufacturerId, $oManufacturer->getId());
     }
@@ -423,7 +424,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oArticle->oxarticles__oxmanufacturerid = new oxField("xxx");
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $this->assertNull($oEncoder->UNITgetManufacturer($oArticle, 0));
+        $this->assertNull($oEncoder->UNITgetManufacturer($oArticle, 'de'));
     }
 
     /**
@@ -447,7 +448,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 0);
+        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 'de');
         $this->assertNotNull($oManufacturer);
         $this->assertEquals($sManufacturerId, $oManufacturer->getId());
     }
@@ -473,7 +474,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 1);
+        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 'en');
         $this->assertNotNull($oManufacturer);
         $this->assertEquals($sManufacturerId, $oManufacturer->getId());
 
@@ -500,7 +501,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $this->getConfig()->setActiveView($oView);
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 0);
+        $oManufacturer = $oEncoder->UNITgetManufacturer($oArticle, 'de');
         $this->assertNotNull($oManufacturer);
         $this->assertEquals($sManufacturerId, $oManufacturer->getId());
     }
@@ -549,14 +550,14 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
                                          "_processSeoUrl", "_prepareArticleTitle", "_saveToDb")
         );
 
-        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalto('oxarticle'), $this->equalto('testId'), $this->equalto(0), $this->equalto(null), $this->equalto(''), $this->equalto(true))->will($this->returnValue('testSeoUri'));
+        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalto('oxarticle'), $this->equalto('testId'), $this->equalto('de'), $this->equalto(null), $this->equalto(''), $this->equalto(true))->will($this->returnValue('testSeoUri'));
         $oEncoder->expects($this->never())->method('_getProductForLang');
         $oEncoder->expects($this->never())->method('_createArticleCategoryUri');
         $oEncoder->expects($this->never())->method('_processSeoUrl');
         $oEncoder->expects($this->never())->method('_prepareArticleTitle');
         $oEncoder->expects($this->never())->method('_saveToDb');
 
-        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 0));
+        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 'de'));
     }
 
     public function testGetArticleMainUriHasCategory()
@@ -575,14 +576,14 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
                                          "_processSeoUrl", "_prepareArticleTitle", "_saveToDb")
         );
 
-        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxarticle'), $this->equalTo('1126'), $this->equalTo(0), $this->equalTo(null), $this->equalTo($sMainCatId), $this->equalTo(true))->will($this->returnValue(false));
-        $oEncoder->expects($this->once())->method('_createArticleCategoryUri')->with($this->equalTo($oArticle), $this->equalTo($oCategory), $this->equalTo(0))->will($this->returnValue('testSeoUri'));
+        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxarticle'), $this->equalTo('1126'), $this->equalTo('de'), $this->equalTo(null), $this->equalTo($sMainCatId), $this->equalTo(true))->will($this->returnValue(false));
+        $oEncoder->expects($this->once())->method('_createArticleCategoryUri')->with($this->equalTo($oArticle), $this->equalTo($oCategory), $this->equalTo('de'))->will($this->returnValue('testSeoUri'));
         $oEncoder->expects($this->never())->method('_getProductForLang');
         $oEncoder->expects($this->never())->method('_processSeoUrl');
         $oEncoder->expects($this->never())->method('_prepareArticleTitle');
         $oEncoder->expects($this->never())->method('_saveToDb');
 
-        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 0));
+        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 'de'));
     }
 
     public function testGetArticleMainUriVariantHasCategory()
@@ -602,36 +603,36 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
                                          "_processSeoUrl", "_prepareArticleTitle", "_saveToDb")
         );
 
-        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxarticle'), $this->equalTo('testVarId'), $this->equalTo(0), $this->equalTo(null), $this->equalTo($sMainCatId), $this->equalTo(true))->will($this->returnValue(false));
-        $oEncoder->expects($this->once())->method('_createArticleCategoryUri')->with($this->equalTo($oArticle), $this->equalTo($oCategory), $this->equalTo(0))->will($this->returnValue('testSeoUri'));
+        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxarticle'), $this->equalTo('testVarId'), $this->equalTo('de'), $this->equalTo(null), $this->equalTo($sMainCatId), $this->equalTo(true))->will($this->returnValue(false));
+        $oEncoder->expects($this->once())->method('_createArticleCategoryUri')->with($this->equalTo($oArticle), $this->equalTo($oCategory), $this->equalTo('de'))->will($this->returnValue('testSeoUri'));
         $oEncoder->expects($this->never())->method('_getProductForLang');
         $oEncoder->expects($this->never())->method('_processSeoUrl');
         $oEncoder->expects($this->never())->method('_prepareArticleTitle');
         $oEncoder->expects($this->never())->method('_saveToDb');
 
-        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 0));
+        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 'de'));
     }
 
     public function testGetArticleMainUriHasNoCategory()
     {
         $oArticle = $this->getMock("oxarticle", array("getId", "getBaseStdLink"));
         $oArticle->expects($this->atLeastOnce())->method('getId')->will($this->returnValue('testId'));
-        $oArticle->expects($this->once())->method('getBaseStdLink')->with($this->equalTo(0))->will($this->returnValue('testBaseStdLink'));
+        $oArticle->expects($this->once())->method('getBaseStdLink')->with($this->equalTo('de'))->will($this->returnValue('testBaseStdLink'));
 
         $oEncoder = $this->getMock(
             "oxseoencoderarticle", array("_loadFromDb", "_getProductForLang", "_createArticleCategoryUri",
                                          "_processSeoUrl", "_prepareArticleTitle", "_saveToDb")
         );
 
-        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxarticle'), $this->equalTo('testId'), $this->equalTo(0), $this->equalTo(null), $this->equalTo(''), $this->equalTo(true))->will($this->returnValue(false));
-        $oEncoder->expects($this->once())->method('_getProductForLang')->with($this->equalTo($oArticle), $this->equalTo(0))->will($this->returnValue($oArticle));
+        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxarticle'), $this->equalTo('testId'), $this->equalTo('de'), $this->equalTo(null), $this->equalTo(''), $this->equalTo(true))->will($this->returnValue(false));
+        $oEncoder->expects($this->once())->method('_getProductForLang')->with($this->equalTo($oArticle), $this->equalTo('de'))->will($this->returnValue($oArticle));
         $oEncoder->expects($this->once())->method('_prepareArticleTitle')->with($this->equalTo($oArticle))->will($this->returnValue('testArticleTitle'));
-        $oEncoder->expects($this->once())->method('_processSeoUrl')->with($this->equalTo('testArticleTitle'), $this->equalTo('testId'), $this->equalTo(0))->will($this->returnValue('testSeoUri'));
-        $oEncoder->expects($this->once())->method('_saveToDb')->with($this->equalTo('oxarticle'), $this->equalTo('testId'), $this->equalTo('testBaseStdLink'), $this->equalTo('testSeoUri'), $this->equalTo(0), $this->equalTo(null), $this->equalTo(0), $this->equalTo(''));
+        $oEncoder->expects($this->once())->method('_processSeoUrl')->with($this->equalTo('testArticleTitle'), $this->equalTo('testId'), $this->equalTo('de'))->will($this->returnValue('testSeoUri'));
+        $oEncoder->expects($this->once())->method('_saveToDb')->with($this->equalTo('oxarticle'), $this->equalTo('testId'), $this->equalTo('testBaseStdLink'), $this->equalTo('testSeoUri'), $this->equalTo('de'), $this->equalTo(null), $this->equalTo(0), $this->equalTo(''));
 
         $oEncoder->expects($this->never())->method('_createArticleCategoryUri');
 
-        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 0));
+        $this->assertEquals('testSeoUri', $oEncoder->getArticleMainUri($oArticle, 'de'));
     }
 
     public function testGetArticleTagUri()
@@ -651,10 +652,10 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oSeoEncoderArticle->expects($this->any())->method('_getTag')->will($this->returnValue($sTag));
 
-        $this->assertEquals($sTagUrl, $oSeoEncoderArticle->getArticleTagUri($oArticle, 0));
+        $this->assertEquals($sTagUrl, $oSeoEncoderArticle->getArticleTagUri($oArticle, 'de'));
 
         // chache works ?
-        $this->assertEquals($sTagUrl, $oSeoEncoderArticle->getArticleTagUri($oArticle, 0));
+        $this->assertEquals($sTagUrl, $oSeoEncoderArticle->getArticleTagUri($oArticle, 'de'));
     }
 
     public function testGetProductForLang()
@@ -664,15 +665,15 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oArticle->expects($this->once())->method('getId')->will($this->returnValue('1126'));
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oArticle = $oEncoder->UNITgetProductForLang($oArticle, 0);
+        $oArticle = $oEncoder->UNITgetProductForLang($oArticle, 'de');
         $this->assertEquals('1126', $oArticle->getId());
 
         $oArticle = $this->getMock('oxarticle', array('getLanguage', 'getId'));
-        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue(0));
+        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue('de'));
         $oArticle->expects($this->once())->method('getId')->will($this->returnValue('1126'));
 
         $oEncoder = oxNew('oxSeoEncoderArticle');
-        $oArticle = $oEncoder->UNITgetProductForLang($oArticle, 0);
+        $oArticle = $oEncoder->UNITgetProductForLang($oArticle, 'de');
         $this->assertEquals('1126', $oArticle->getId());
 
     }
@@ -704,7 +705,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getVendor"));
         $oEncoder->expects($this->once())->method('_getVendor')->will($this->returnValue($oVendor));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 0));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 'de'));
     }
 
     public function testGetArticleManufacturerUriArticleHasNoManufacturerAssigned()
@@ -721,7 +722,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getManufacturer"));
         $oEncoder->expects($this->once())->method('_getManufacturer')->will($this->returnValue($oManufacturer));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 0));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 'de'));
     }
 
     public function testGetArticleVendorUriArticleArticleIsAssignedToVendor()
@@ -739,7 +740,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getVendor"));
         $oEncoder->expects($this->once())->method('_getVendor')->will($this->returnValue($oVendor));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 0));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 'de'));
     }
 
     public function testGetArticleManufacturerUriArticleArticleIsAssignedToManufacturer()
@@ -757,7 +758,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getManufacturer"));
         $oEncoder->expects($this->once())->method('_getManufacturer')->will($this->returnValue($oManufacturer));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 0));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 'de'));
     }
 
     public function testGetArticleVendorUriArticleArticleIsAssignedToVendorWithLangParam()
@@ -786,7 +787,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getVendor"));
         $oEncoder->expects($this->once())->method('_getVendor')->will($this->returnValue($oVendor));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 0));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 'de'));
     }
 
     public function testGetArticleManufacturerUriArticleArticleIsAssignedToManufacturerWithLangParam()
@@ -815,17 +816,17 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getManufacturer"));
         $oEncoder->expects($this->once())->method('_getManufacturer')->will($this->returnValue($oManufacturer));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 0));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 'de'));
     }
 
     public function testGetArticleVendorUriArticleArticleIsAssignedToVendorEngWithLangParam()
     {
         $sVendorId = oxDb::getDb()->getOne('select oxid from oxvendor');
         $oVendor = oxNew('oxVendor');
-        $oVendor->loadInLang(1, $sVendorId);
+        $oVendor->loadInLang('en', $sVendorId);
 
         $oArticle = oxNew('oxArticle');
-        $oArticle->setLanguage(0);
+        $oArticle->setLanguage('de');
         if ($this->getConfig()->getEdition() === 'EE') {
             $sArtId = '1131';
             $oxtitle = 'Bottle-Cap-EGO';
@@ -844,17 +845,17 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getVendor"));
         $oEncoder->expects($this->once())->method('_getVendor')->will($this->returnValue($oVendor));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 1));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleVendorUri($oArticle, 'en'));
     }
 
     public function testGetArticleManufacturerUriArticleArticleIsAssignedToManufacturerEngWithLangParam()
     {
         $sManufacturerId = oxDb::getDb()->getOne('select oxid from oxmanufacturers');
         $oManufacturer = oxNew('oxManufacturer');
-        $oManufacturer->loadInLang(1, $sManufacturerId);
+        $oManufacturer->loadInLang('en', $sManufacturerId);
 
         $oArticle = oxNew('oxArticle');
-        $oArticle->setLanguage(0);
+        $oArticle->setLanguage('de');
         if ($this->getConfig()->getEdition() === 'EE') {
             $sArtId = '1131';
             $oxtitle = 'Bottle-Cap-EGO';
@@ -873,7 +874,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oEncoder = $this->getMock("oxSeoEncoderArticle", array("_getManufacturer"));
         $oEncoder->expects($this->once())->method('_getManufacturer')->will($this->returnValue($oManufacturer));
-        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 1));
+        $this->assertEquals($sSeoUri, $oEncoder->getArticleManufacturerUri($oArticle, 'en'));
     }
 
     public function testPrepareArticleTitle()
@@ -920,7 +921,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetArticleUrl()
     {
         $oArticle = $this->getMock('oxarticle', array('getLanguage'));
-        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue(0));
+        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue('en'));
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_getFullUrl', 'getArticleUri', 'getArticleVendorUri', 'getArticleManufacturerUri', 'getArticleMainUri'));
         $oEncoder->expects($this->once())->method('getArticleUri')->will($this->returnValue("seoArticleUri"));
@@ -935,7 +936,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetArticleUrlForVendor()
     {
         $oArticle = $this->getMock('oxarticle', array('getLanguage'));
-        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue(0));
+        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue('de'));
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_getFullUrl', 'getArticleUri', 'getArticleVendorUri', 'getArticleManufacturerUri', 'getArticleMainUri'));
         $oEncoder->expects($this->once())->method('_getFullUrl')->will($this->returnValue('seoarturl'));
@@ -950,7 +951,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetArticleUrlForManufacturer()
     {
         $oArticle = $this->getMock('oxarticle', array('getLanguage'));
-        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue(0));
+        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue('en'));
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_getFullUrl', 'getArticleUri', 'getArticleVendorUri', 'getArticleManufacturerUri', 'getArticleMainUri'));
         $oEncoder->expects($this->once())->method('_getFullUrl')->will($this->returnValue('seoarturl'));
@@ -965,7 +966,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetArticleUrlForPriceCategory()
     {
         $oArticle = $this->getMock('oxarticle', array('getLanguage'));
-        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue(0));
+        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue('de'));
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_getFullUrl', 'getArticleUri', 'getArticleVendorUri', 'getArticleManufacturerUri', 'getArticleMainUri'));
         $oEncoder->expects($this->once())->method('_getFullUrl')->will($this->returnValue('seoarturl'));
@@ -980,7 +981,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     public function testGetArticleUrlForTag()
     {
         $oArticle = $this->getMock('oxarticle', array('getLanguage'));
-        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue(0));
+        $oArticle->expects($this->once())->method('getLanguage')->will($this->returnValue('de'));
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_getFullUrl', 'getArticleTagUri', '_getArticlePriceCategoryUri', 'getArticleUri', 'getArticleVendorUri', 'getArticleManufacturerUri', 'getArticleMainUri'));
         $oEncoder->expects($this->once())->method('_getFullUrl')->will($this->returnValue('seoarturl'));
@@ -1040,11 +1041,11 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
     {
         $oCategory = $this->getMock("oxCategory", array("isPriceCategory"));
         $oCategory->expects($this->any())->method('isPriceCategory')->will($this->returnValue(false));
-        $oCategory->loadInLang(1, oxDb::getDb()->getOne("select oxid from oxcategories where oxparentid = 'oxrootid'"));
+        $oCategory->loadInLang('en', oxDb::getDb()->getOne("select oxid from oxcategories where oxparentid = 'oxrootid'"));
 
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
-        $oArticle->setLanguage(1);
+        $oArticle->setLanguage('en');
         $oArticle->oxarticles__oxtitle = new oxField('');
         $oArticle->oxarticles__oxid = new oxField('testtest');
         $oArticle->oxarticles__oxartnum = new oxField('123');
@@ -1053,7 +1054,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue($oCategory));
         $oEncoder->expects($this->once())->method('_loadFromDb')->will($this->returnValue(false));
 
-        $this->assertEquals("en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/123.html", $oEncoder->getArticleUri($oArticle, 1));
+        $this->assertEquals("en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/123.html", $oEncoder->getArticleUri($oArticle, 'en'));
     }
 
     public function testGetArticleUriVariantWithCategory()
@@ -1086,16 +1087,16 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oCategory = $this->getMock("oxCategory", array("isPriceCategory"));
         $oCategory->expects($this->any())->method('isPriceCategory')->will($this->returnValue(false));
-        $oCategory->loadInLang(1, oxDb::getDb()->getOne("select oxid from oxcategories where oxparentid = 'oxrootid'"));
+        $oCategory->loadInLang('en', oxDb::getDb()->getOne("select oxid from oxcategories where oxparentid = 'oxrootid'"));
 
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
 
         if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(1, '2363-02');
+            $oArticle->loadInLang('en', '2363-02');
             $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Soccer+Table+BIG+KICK+without+coin+slot.html";
         } else {
-            $oArticle->loadInLang(1, '8a142c410f55ed579.98106125');
+            $oArticle->loadInLang('en', '8a142c410f55ed579.98106125');
             $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Table+Lamp+SPHERE+red.html";
         }
 
@@ -1107,7 +1108,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         oxDb::getDb()->execute('delete from oxseo where oxtype != "static"');
         oxDb::getDb()->execute('delete from oxseohistory');
 
-        $this->assertEquals($sUrl, $oEncoder->getArticleUri($oArticle, 1));
+        $this->assertEquals($sUrl, $oEncoder->getArticleUri($oArticle, 'en'));
     }
 
     public function testGetArticleUriVariantWithCategoryWithLangParam()
@@ -1119,10 +1120,10 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
         if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(1, '2363-02');
+            $oArticle->loadInLang('en', '2363-02');
             $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischfussball-BIG-KICK-ohne-Muenzeinwurf.html';
         } else {
-            $oArticle->loadInLang(1, '8a142c410f55ed579.98106125');
+            $oArticle->loadInLang('en', '8a142c410f55ed579.98106125');
             $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischlampe-SPHERE-rot.html';
         }
 
@@ -1130,7 +1131,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue($oCategory));
         $oEncoder->expects($this->any())->method('_loadFromDb')->will($this->returnvalue(false));
 
-        $this->assertEquals($sUrl, $oEncoder->getArticleUri($oArticle, 0));
+        $this->assertEquals($sUrl, $oEncoder->getArticleUri($oArticle, 'de'));
     }
 
     public function testEncodeArtUrlvariantWithCategoryInEnglishWithLangParam()
@@ -1138,15 +1139,15 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         oxRegistry::get("oxSeoEncoder")->setSeparator('+');
         $oCategory = $this->getMock("oxCategory", array("isPriceCategory"));
         $oCategory->expects($this->any())->method('isPriceCategory')->will($this->returnValue(false));
-        $oCategory->loadInLang(1, oxDb::getDb()->getOne("select oxid from oxcategories where oxparentid = 'oxrootid'"));
+        $oCategory->loadInLang('en', oxDb::getDb()->getOne("select oxid from oxcategories where oxparentid = 'oxrootid'"));
 
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
         if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(0, '2363-02');
+            $oArticle->loadInLang('de', '2363-02');
             $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Soccer+Table+BIG+KICK+without+coin+slot.html";
         } else {
-            $oArticle->loadInLang(0, '8a142c410f55ed579.98106125');
+            $oArticle->loadInLang('de', '8a142c410f55ed579.98106125');
             $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Table+Lamp+SPHERE+red.html";
         }
 
@@ -1158,7 +1159,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         oxDb::getDb()->execute('delete from oxseo where oxtype != "static"');
         oxDb::getDb()->execute('delete from oxseohistory');
 
-        $this->assertEquals($sUrl, $oEncoder->getArticleUri($oArticle, 1));
+        $this->assertEquals($sUrl, $oEncoder->getArticleUri($oArticle, 'en'));
     }
 
     /**
@@ -1173,10 +1174,10 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oArticle = oxNew('oxArticle');
 
         if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(0, '1889');
+            $oArticle->loadInLang('de', '1889');
             $sExp = "Bierspiel-OANS-ZWOA-GSUFFA";
         } else {
-            $oArticle->loadInLang(0, '1127');
+            $oArticle->loadInLang('de', '1127');
             $sExp = "Blinkende-Eiswuerfel-FLASH";
         }
 
@@ -1349,7 +1350,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue(false));
         $oEncoder->expects($this->once())->method('_loadFromDb')->will($this->returnValue(false));
         $oEncoder->expects($this->once())->method('_getMainCategory')->will($this->returnValue($oCategory));
-        $this->assertEquals($sBaseUri . "Bar-Set-ABSINTH.html", $oEncoder->getArticleUri($oProduct, 0));
+        $this->assertEquals($sBaseUri . "Bar-Set-ABSINTH.html", $oEncoder->getArticleUri($oProduct, 'de'));
     }
 
     /**

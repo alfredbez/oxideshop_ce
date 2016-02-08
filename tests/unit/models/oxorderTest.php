@@ -494,7 +494,7 @@ class Unit_Models_oxorderTest extends OxidTestCase
         // testing how language is validated
         $oOrder = oxNew('oxorder');
         $oOrder->oxorder__oxlang = new oxField(999);
-        $this->assertEquals(0, $oOrder->getOrderLanguage());
+        $this->assertEquals('de', $oOrder->getOrderLanguage());
     }
 
     /**
@@ -531,7 +531,7 @@ class Unit_Models_oxorderTest extends OxidTestCase
         $oOrder->oxorder__oxcurrency = new oxField('EUR');
         $oOrder->oxorder__oxcurrate = new oxField('1');
         $oOrder->oxorder__oxtransstatus = new oxField('OK');
-        $oOrder->oxorder__oxlang = new oxField('1');
+        $oOrder->oxorder__oxlang = new oxField('en');
         $oOrder->oxorder__oxdeltype = new oxField('oxidstandard');
         $oOrder->save();
 
@@ -593,7 +593,7 @@ class Unit_Models_oxorderTest extends OxidTestCase
         $oOrderArticles = $oOrder->getOrderArticles();
         $oOrderArticle = $oOrderArticles->current();
 
-        $this->assertEquals('1', $oOrder->oxorder__oxlang->value);
+        $this->assertEquals('en', $oOrder->oxorder__oxlang->value);
         $this->assertEquals('Beer homebrew kit CHEERS!', $oOrderArticle->oxorderarticles__oxtitle->value);
 
     }
@@ -1443,7 +1443,7 @@ class Unit_Models_oxorderTest extends OxidTestCase
     public function testGetCountryTitleInOtherLang()
     {
         $oOrder = $this->getProxyClass("oxOrder");
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $sCountry = $oOrder->UNITgetCountryTitle("a7c40f631fc920687.20179984");
         $this->assertEquals("Germany", $sCountry);
     }

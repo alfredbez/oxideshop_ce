@@ -42,7 +42,7 @@ class Unit_Models_oxcontentTest extends OxidTestCase
         $oContent->oxcontents__oxactive = new oxField('1', oxField::T_RAW);
         $oContent->save();
 
-        $oContent->setLanguage(1);
+        $oContent->setLanguage('en');
         $oContent->oxcontents__oxcontent = new oxField('testcontentENG&, &, !@#$%^&*%$$&@\'.,;p"ss', oxField::T_RAW);
         $oContent->save();
 
@@ -126,10 +126,10 @@ class Unit_Models_oxcontentTest extends OxidTestCase
     public function testLoadByIdentSecondLanguage()
     {
         $oObj = oxNew('oxContent');
-        $oObj->setLanguage(0);
+        $oObj->setLanguage('de');
         $this->assertTrue($oObj->loadByIdent('_testLoadId'), 'can not load oxcontent by ident');
         $this->assertEquals("testcontentDE&, &, !@#$%^&*%$$&@'.,;p\"ss", $oObj->oxcontents__oxcontent->value);
-        $oObj->setLanguage(1);
+        $oObj->setLanguage('en');
         $this->assertTrue($oObj->loadByIdent('_testLoadId'), 'can not load oxcontent by ident');
         $this->assertEquals('testcontentENG&, &, !@#$%^&*%$$&@\'.,;p"ss', $oObj->oxcontents__oxcontent->value);
     }

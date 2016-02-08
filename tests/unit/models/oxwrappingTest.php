@@ -63,24 +63,24 @@ class Unit_Models_oxwrappingTest extends OxidTestCase
         $oCard = oxNew('oxBase');
         $oCard->init('oxwrapping');
         $oCard->setId('_testCard');
-        $oCard->oxwrapping__oxname = new oxField('Test Card 1 DE', oxField::T_RAW);
-        $oCard->oxwrapping__oxname_1 = new oxField('Test Card 1 ENG', oxField::T_RAW);
+        $oCard->oxwrapping__oxname_de = new oxField('Test Card 1 DE', oxField::T_RAW);
+        $oCard->oxwrapping__oxname_en = new oxField('Test Card 1 ENG', oxField::T_RAW);
         $oCard->oxwrapping__oxtype = new oxField('CARD', oxField::T_RAW);
         $oCard->oxwrapping__oxprice = new oxField(2.5, oxField::T_RAW);
-        $oCard->oxwrapping__oxactive = new oxField(0);
-        $oCard->oxwrapping__oxactive_1 = new oxField(0);
+        $oCard->oxwrapping__oxactive_de = new oxField(0);
+        $oCard->oxwrapping__oxactive_en = new oxField(0);
         $oCard->save();
 
         // active
         $oCard = oxNew('oxBase');
         $oCard->init('oxwrapping');
         $oCard->setId('_testCard2');
-        $oCard->oxwrapping__oxname = new oxField('Test Card 1 DE', oxField::T_RAW);
-        $oCard->oxwrapping__oxname_1 = new oxField('Test Card 1 ENG', oxField::T_RAW);
+        $oCard->oxwrapping__oxname_de = new oxField('Test Card 1 DE', oxField::T_RAW);
+        $oCard->oxwrapping__oxname_en = new oxField('Test Card 1 ENG', oxField::T_RAW);
         $oCard->oxwrapping__oxtype = new oxField('CARD', oxField::T_RAW);
         $oCard->oxwrapping__oxprice = new oxField(2.5, oxField::T_RAW);
-        $oCard->oxwrapping__oxactive = new oxField(1);
-        $oCard->oxwrapping__oxactive_1 = new oxField(1);
+        $oCard->oxwrapping__oxactive_de = new oxField(1);
+        $oCard->oxwrapping__oxactive_en = new oxField(1);
         $oCard->save();
         $this->_sCardOxid = $oCard->getId();
 
@@ -88,11 +88,11 @@ class Unit_Models_oxwrappingTest extends OxidTestCase
         $oCard = oxNew('oxBase');
         $oCard->init('oxwrapping');
         $oCard->setId('_testCard3');
-        $oCard->oxwrapping__oxname = new oxField('Test Card 1 DE', oxField::T_RAW);
-        $oCard->oxwrapping__oxname_1 = new oxField('Test Card 1 ENG', oxField::T_RAW);
+        $oCard->oxwrapping__oxname_de = new oxField('Test Card 1 DE', oxField::T_RAW);
+        $oCard->oxwrapping__oxname_en = new oxField('Test Card 1 ENG', oxField::T_RAW);
         $oCard->oxwrapping__oxtype = new oxField('CARD', oxField::T_RAW);
-        $oCard->oxwrapping__oxactive = new oxField(1);
-        $oCard->oxwrapping__oxactive_1 = new oxField(1);
+        $oCard->oxwrapping__oxactive_de = new oxField(1);
+        $oCard->oxwrapping__oxactive_en = new oxField(1);
         $oCard->save();
 
         // wrapping
@@ -100,24 +100,24 @@ class Unit_Models_oxwrappingTest extends OxidTestCase
         $oWrapping = oxNew('oxBase');
         $oWrapping->init('oxwrapping');
         $oWrapping->setId('_testWrap');
-        $oWrapping->oxwrapping__oxname = new oxField('Test Wrap 1 DE', oxField::T_RAW);
-        $oWrapping->oxwrapping__oxname_1 = new oxField('Test Wrap 1 ENG', oxField::T_RAW);
+        $oWrapping->oxwrapping__oxname_de = new oxField('Test Wrap 1 DE', oxField::T_RAW);
+        $oWrapping->oxwrapping__oxname_en = new oxField('Test Wrap 1 ENG', oxField::T_RAW);
         $oWrapping->oxwrapping__oxtype = new oxField('WRAP', oxField::T_RAW);
         $oWrapping->oxwrapping__oxprice = new oxField(2.95, oxField::T_RAW);
-        $oWrapping->oxwrapping__oxactive = new oxField(0);
-        $oWrapping->oxwrapping__oxactive_1 = new oxField(0);
+        $oWrapping->oxwrapping__oxactive_de = new oxField(0);
+        $oWrapping->oxwrapping__oxactive_en = new oxField(0);
         $oWrapping->save();
 
         // active
         $oWrapping = oxNew('oxBase');
         $oWrapping->init('oxwrapping');
         $oWrapping->setId('_testWrap2');
-        $oWrapping->oxwrapping__oxname = new oxField('Test Wrap 1 DE', oxField::T_RAW);
-        $oWrapping->oxwrapping__oxname_1 = new oxField('Test Wrap 1 ENG', oxField::T_RAW);
+        $oWrapping->oxwrapping__oxname_de = new oxField('Test Wrap 1 DE', oxField::T_RAW);
+        $oWrapping->oxwrapping__oxname_en = new oxField('Test Wrap 1 ENG', oxField::T_RAW);
         $oWrapping->oxwrapping__oxtype = new oxField('WRAP', oxField::T_RAW);
         $oWrapping->oxwrapping__oxprice = new oxField(2.95, oxField::T_RAW);
-        $oWrapping->oxwrapping__oxactive = new oxField(1);
-        $oWrapping->oxwrapping__oxactive_1 = new oxField(1);
+        $oWrapping->oxwrapping__oxactive_de = new oxField(1);
+        $oWrapping->oxwrapping__oxactive_en = new oxField(1);
         $oWrapping->save();
 
         $this->_sWrapOxid = $oWrapping->getId();
@@ -126,11 +126,11 @@ class Unit_Models_oxwrappingTest extends OxidTestCase
         $oWrapping = oxNew('oxBase');
         $oWrapping->init('oxwrapping');
         $oWrapping->setId('_testWrap3');
-        $oWrapping->oxwrapping__oxname = new oxField('Test Wrap 1 DE', oxField::T_RAW);
-        $oWrapping->oxwrapping__oxname_1 = new oxField('Test Wrap 1 ENG', oxField::T_RAW);
+        $oWrapping->oxwrapping__oxname_de = new oxField('Test Wrap 1 DE', oxField::T_RAW);
+        $oWrapping->oxwrapping__oxname_en = new oxField('Test Wrap 1 ENG', oxField::T_RAW);
         $oWrapping->oxwrapping__oxtype = new oxField('WRAP', oxField::T_RAW);
-        $oWrapping->oxwrapping__oxactive = new oxField(1);
-        $oWrapping->oxwrapping__oxactive_1 = new oxField(1);
+        $oWrapping->oxwrapping__oxactive_de = new oxField(1);
+        $oWrapping->oxwrapping__oxactive_en = new oxField(1);
         $oWrapping->save();
 
         $this->_dDefaultVAT = $this->getConfig()->getConfigParam('dDefaultVAT');

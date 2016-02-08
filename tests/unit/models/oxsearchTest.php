@@ -710,11 +710,11 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testGetSearchSelectPassingPriceCat()
     {
-        $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
+        $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE_DE`, `OXACTIVE_DE`, `OXPRICEFROM`, `OXPRICETO`) " .
                    "values ('_testCat','test','test','1','10','50')";
         if ($this->getConfig()->getEdition() === 'EE') {
-            $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`,`OXACTIVE`,`OXPRICEFROM`," .
-                "`OXPRICETO`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`)
+            $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE_DE`,`OXACTIVE_DE`,`OXPRICEFROM`," .
+                "`OXPRICETO`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`)
                        values ('_testCat','test','test','1','10','50','','','','')";
         }
 
@@ -856,9 +856,9 @@ class Unit_Models_oxsearchTest extends OxidTestCase
      */
     public function testSearchWithoutCorespondingOxartExtendRecord()
     {
-        $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxtitle) VALUES ('_testArt1', 1, 1, 'searchTestVal')";
+        $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxtitle_de) VALUES ('_testArt1', 1, 1, 'searchTestVal')";
         if ($this->getConfig()->getEdition() === 'EE') {
-            $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxshopid, oxtitle) VALUES ('_testArt1', 1, 1, 1, 'searchTestVal')";
+            $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxshopid, oxtitle_de) VALUES ('_testArt1', 1, 1, 1, 'searchTestVal')";
         }
         $this->addToDatabase($sQ, 'oxarticles');
         $aResults = $this->_oSearchHandler->getSearchArticles('searchTestVal');
@@ -870,12 +870,12 @@ class Unit_Models_oxsearchTest extends OxidTestCase
      */
     public function testSearchInCategoryWithoutCorespondingOxartExtendRecord()
     {
-        $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxtitle) VALUES ('_testArt1', 1, 1, 'searchTestVal')";
-        $sQ2 = "REPLACE INTO oxcategories (oxid, oxactive) VALUES ('_testCatSearch', 1)";
+        $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxtitle_de) VALUES ('_testArt1', 1, 1, 'searchTestVal')";
+        $sQ2 = "REPLACE INTO oxcategories (oxid, oxactive_de) VALUES ('_testCatSearch', 1)";
         $sQ3 = "REPLACE INTO oxobject2category (oxid, oxobjectid, oxcatnid) VALUES ('_testOC', '_testArt1', '_testCatSearch')";
         if ($this->getConfig()->getEdition() === 'EE') {
-            $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxshopid, oxtitle) VALUES ('_testArt1', 1, 1, 1, 'searchTestVal')";
-            $sQ2 = "REPLACE INTO oxcategories (oxid, oxshopid, oxactive) VALUES ('_testCatSearch', 1, 1)";
+            $sQ = "REPLACE INTO oxarticles (oxid, oxactive, oxissearch, oxshopid, oxtitle_de) VALUES ('_testArt1', 1, 1, 1, 'searchTestVal')";
+            $sQ2 = "REPLACE INTO oxcategories (oxid, oxshopid, oxactive_de) VALUES ('_testCatSearch', 1, 1)";
             $sQ3 = "REPLACE INTO oxobject2category (oxid, oxshopid, oxobjectid, oxcatnid) VALUES ('_testOC', 1, '_testArt1', '_testCatSearch')";
         }
 

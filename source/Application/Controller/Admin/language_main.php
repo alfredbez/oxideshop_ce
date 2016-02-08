@@ -272,7 +272,7 @@ class Language_Main extends oxAdminDetails
         uasort($this->_aLangData['params'], array($this, '_sortLangParamsByBaseIdCallback'));
 
         foreach ($this->_aLangData['params'] as $sAbbr => $aParams) {
-            $iId = (int) $aParams['baseId'];
+            $iId = (string) $aParams['baseId'];
             $aUrls[$iId] = $this->_aLangData['urls'][$iId];
             $aSslUrls[$iId] = $this->_aLangData['sslUrls'][$iId];
             $aLanguages[$sAbbr] = $this->_aLangData['lang'][$sAbbr];

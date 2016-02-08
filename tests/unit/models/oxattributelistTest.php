@@ -53,9 +53,9 @@ class Unit_Models_oxattributelistTest extends OxidTestCase
         $oAttrList = oxNew('oxAttributelist');
         $aAttributes = $oAttrList->loadAttributesByIds(array('1672'));
 
-        $sSelect = "select oxattrid, oxvalue from oxobject2attribute where oxobjectid = '1672'";
+        $sSelect = "select oxattrid, oxvalue_de from oxobject2attribute where oxobjectid = '1672'";
         $rs = oxDb::getDB()->execute($sSelect);
-        $sSelect = "select oxtitle from oxattribute where oxid = '" . $rs->fields[0] . "'";
+        $sSelect = "select oxtitle_de from oxattribute where oxid = '" . $rs->fields[0] . "'";
         $sTitle = oxDb::getDB()->getOne($sSelect);
         $this->assertEquals($rs->fields[1], $aAttributes[$rs->fields[0]]->aProd['1672']->value);
         $this->assertEquals($sTitle, $aAttributes[$rs->fields[0]]->title);
@@ -68,13 +68,13 @@ class Unit_Models_oxattributelistTest extends OxidTestCase
      */
     public function testLoadAttributesByIdsInOtherLang()
     {
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $oAttrList = oxNew('oxAttributelist');
         $aAttributes = $oAttrList->loadAttributesByIds(array('1672'));
 
-        $sSelect = "select oxattrid, oxvalue_1 from oxobject2attribute where oxobjectid = '1672'";
+        $sSelect = "select oxattrid, oxvalue_en from oxobject2attribute where oxobjectid = '1672'";
         $rs = oxDb::getDB()->execute($sSelect);
-        $sSelect = "select oxtitle_1 from oxattribute where oxid = '" . $rs->fields[0] . "'";
+        $sSelect = "select oxtitle_en from oxattribute where oxid = '" . $rs->fields[0] . "'";
         $sTitle = oxDb::getDB()->getOne($sSelect);
         $this->assertEquals($rs->fields[1], $aAttributes[$rs->fields[0]]->aProd['1672']->value);
         $this->assertEquals($sTitle, $aAttributes[$rs->fields[0]]->title);
@@ -164,12 +164,12 @@ class Unit_Models_oxattributelistTest extends OxidTestCase
      */
     public function testLoadAttributesInOtherLang()
     {
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $oAttrList = oxNew('oxAttributelist');
         $oAttrList->loadAttributes('1672');
         $sSelect = "select oxattrid from oxobject2attribute where oxobjectid = '$sArtID'";
         $sID = oxDb::getDB()->getOne($sSelect);
-        $sSelect = "select oxvalue_1 from oxobject2attribute where oxattrid = '$sID' and oxobjectid = '$sArtID'";
+        $sSelect = "select oxvalue_en from oxobject2attribute where oxattrid = '$sID' and oxobjectid = '$sArtID'";
         $sExpectedValue = oxDb::getDB()->getOne($sSelect);
         $sAttribValue = $oAttrList[$sID]->oxobject2attribute__oxvalue->value;
         $this->assertEquals($sExpectedValue, $sAttribValue);
@@ -184,15 +184,15 @@ class Unit_Models_oxattributelistTest extends OxidTestCase
             $this->markTestSkipped('This test is for Community or Professional edition only.');
         }
 
-        oxRegistry::getLang()->setBaseLanguage(0);
+        oxRegistry::getLang()->setBaseLanguage('de');
 
         $myDB = oxDb::getDB();
 
-        $sSql = "insert into oxattribute (oxid, oxshopid, oxtitle, oxpos ) values ('test3', 'oxbaseshop', 'test3', '3'), ('test1', 'oxbaseshop', 'test1', '1'), ('test2', 'oxbaseshop', 'test2', '2')";
+        $sSql = "insert into oxattribute (oxid, oxshopid, oxtitle_de, oxpos ) values ('test3', 'oxbaseshop', 'test3', '3'), ('test1', 'oxbaseshop', 'test1', '1'), ('test2', 'oxbaseshop', 'test2', '2')";
         $myDB->execute($sSql);
 
         $sArtId = 'testArt';
-        $sSql = "insert into oxobject2attribute (oxid, oxobjectid, oxattrid, oxvalue ) values ('test3', '$sArtId', 'test3', '3'), ('test1', '$sArtId', 'test1', '1'), ('test2', '$sArtId', 'test2', '2')";
+        $sSql = "insert into oxobject2attribute (oxid, oxobjectid, oxattrid, oxvalue_de ) values ('test3', '$sArtId', 'test3', '3'), ('test1', '$sArtId', 'test1', '1'), ('test2', '$sArtId', 'test2', '2')";
         $myDB->execute($sSql);
 
         $oAttrList = oxNew('oxAttributelist');
@@ -231,7 +231,7 @@ class Unit_Models_oxattributelistTest extends OxidTestCase
         $myDB->Execute('insert into oxcategory2attribute (oxid, oxobjectid, oxattrid, oxsort) values ("test3","' . $sCategoryId . '","' . $sAttributeId . '", "333")');
 
         $oAttrList = oxNew("oxattributelist");
-        $oAttrList->getCategoryAttributes($sCategoryId, 1);
+        $oAttrList->getCategoryAttributes($sCategoryId, 'en');
         $oAttribute = $oAttrList->offsetGet($sAttributeId);
 
         $this->assertEquals(1, $oAttrList->count());

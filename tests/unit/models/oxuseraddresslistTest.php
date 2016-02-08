@@ -59,8 +59,8 @@ class Unit_Models_oxUserAddressListTest extends OxidTestCase
     public function providerLoadActiveAddress()
     {
         return array(
-            array(0, 'Österreich'),
-            array(1, 'Austria'),
+            array('de', 'Österreich'),
+            array('en', 'Austria'),
         );
     }
 

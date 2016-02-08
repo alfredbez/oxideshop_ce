@@ -74,7 +74,7 @@ class oxSeoEncoderCategory extends oxSeoEncoder
      */
     private function _getCategoryCacheId($oCat, $iLang)
     {
-        return $oCat->getId() . '_' . ((int) $iLang);
+        return $oCat->getId() . '_' . ((string) $iLang);
     }
 
     /**

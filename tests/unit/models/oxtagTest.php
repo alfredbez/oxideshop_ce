@@ -135,6 +135,7 @@ class Unit_Models_oxtagTest extends OxidTestCase
      */
     public function testGetTagLinkSeoOn()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         $this->getConfig()->setConfigParam('blSeoMode', true);
 
         $oTag = oxNew('oxTag');
@@ -158,7 +159,7 @@ class Unit_Models_oxtagTest extends OxidTestCase
         $oTag = oxNew('oxTag');
 
         $oTag->set("testTag");
-        $this->assertEquals($this->getConfig()->getConfigParam("sShopURL") . "index.php?cl=tag&amp;searchtag=testtag&amp;lang=0", $oTag->getLink());
+        $this->assertEquals($this->getConfig()->getConfigParam("sShopURL") . "index.php?cl=tag&amp;searchtag=testtag&amp;lang=de", $oTag->getLink());
     }
 
     /**

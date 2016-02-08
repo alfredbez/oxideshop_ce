@@ -172,7 +172,7 @@ class Language_List extends oxAdminList
      */
     protected function _resetMultiLangDbFields($iLangId)
     {
-        $iLangId = (int) $iLangId;
+        $iLangId = (string) $iLangId;
 
         //skipping reseting language with id = 0
         if ($iLangId) {

@@ -42,7 +42,7 @@ class Unit_Models_oxreviewTest extends OxidTestCase
         $this->_oReview->setId('_testId');
         $this->_oReview->oxreviews__oxuserid = new oxField('oxdefaultadmin', oxField::T_RAW);
         $this->_oReview->oxreviews__oxtext = new oxField('deValue', oxField::T_RAW);
-        $this->_oReview->oxreviews__oxlang = new oxField(0, oxField::T_RAW);
+        $this->_oReview->oxreviews__oxlang = new oxField('de', oxField::T_RAW);
         $this->_oReview->save();
     }
 
@@ -143,7 +143,7 @@ class Unit_Models_oxreviewTest extends OxidTestCase
         oxTestModules::addFunction('oxlist', 'selectString', '{$this->selectArgs = $aA;$o=oxNew("oxreview");$o->oxreviews__oxcreate=oxNew("oxField");$o->oxreviews__oxtext=oxNew("oxField");$this->_aArray = array($o);}');
         $oObj = oxNew('oxreview');
         $oList = $oObj->loadList('checktype', array('aId', 'lalaId'));
-        $this->assertEquals("select oxreviews.* from oxreviews where oxreviews.oxtype = 'checktype' and oxreviews.oxobjectid in ( 'aId', 'lalaId' ) and oxreviews.oxlang = '0' and oxreviews.oxtext != \"\"  order by oxreviews.oxcreate desc ", $oList->selectArgs[0]);
+        $this->assertEquals("select oxreviews.* from oxreviews where oxreviews.oxtype = 'checktype' and oxreviews.oxobjectid in ( 'aId', 'lalaId' ) and oxreviews.oxlang = 'de' and oxreviews.oxtext != \"\"  order by oxreviews.oxcreate desc ", $oList->selectArgs[0]);
         $this->assertTrue($oList[0]->oxreviews__oxcreate->convertToFormattedDbDate);
         $this->assertTrue($oList[0]->oxreviews__oxtext->convertToPseudoHtml);
 

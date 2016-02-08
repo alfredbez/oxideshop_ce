@@ -961,7 +961,7 @@ class Unit_Models_oxCategoryListTest extends OxidTestCase
         $this->_oList->updateCategoryTree(false);
         // checking....
         $oDB = oxDb::getDb();
-        $sSelect = "select oxtitle, oxleft, oxright from oxcategories where oxid like '_test%'";
+        $sSelect = "select oxtitle_de, oxleft, oxright from oxcategories where oxid like '_test%'";
         $aData = $oDB->GetAll($sSelect);
 
         // holding number - show if all tests for N bit set are OK

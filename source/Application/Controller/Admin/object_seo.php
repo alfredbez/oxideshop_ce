@@ -143,7 +143,7 @@ class Object_Seo extends oxAdminDetails
      */
     public function isEntryFixed()
     {
-        $iLang = (int) $this->getEditLang();
+        $iLang = (string) $this->getEditLang();
         $iShopId = $this->getConfig()->getShopId();
 
         $sQ = "select oxfixed from oxseo where

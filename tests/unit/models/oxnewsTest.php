@@ -34,8 +34,8 @@ class Unit_Models_oxnewsTest extends OxidTestCase
         parent::setUp();
         $oBaseNews = oxNew('oxBase');
         $oBaseNews->init('oxnews');
-        $oBaseNews->oxnews__oxshortdesc = new oxField('Test', oxField::T_RAW);
-        $oBaseNews->oxnews__oxshortdesc_1 = new oxField('Test_news_1', oxField::T_RAW);
+        $oBaseNews->oxnews__oxshortdesc_de = new oxField('Test', oxField::T_RAW);
+        $oBaseNews->oxnews__oxshortdesc_en = new oxField('Test_news_1', oxField::T_RAW);
         $oBaseNews->Save();
 
         $this->_oNews = oxNew('oxnews');
@@ -119,7 +119,7 @@ class Unit_Models_oxnewsTest extends OxidTestCase
     {
         $oDB = oxDb::getDb(oxDB::FETCH_MODE_ASSOC);
         $oTestNews = oxNew('oxnews');
-        $oTestNews->loadInLang(1, $this->_oNews->getId());
+        $oTestNews->loadInLang('en', $this->_oNews->getId());
         $this->assertEquals($oTestNews->oxnews__oxshortdesc->value, 'Test_news_1');
         $sQ = "select oxdate from oxnews where oxid='" . $this->_oNews->getId() . "'";
         $this->assertEquals($oTestNews->oxnews__oxdate->value, oxRegistry::get("oxUtilsDate")->formatDBDate($oDB->GetOne($sQ)));
@@ -135,7 +135,7 @@ class Unit_Models_oxnewsTest extends OxidTestCase
 
         $oTestNews = oxNew('oxnews');
         $oTestNews->load($this->_oNews->getId());
-        $oTestNews->setLanguage(0);
+        $oTestNews->setLanguage('de');
         $oTestNews->assign($aParams);
         $oTestNews->save();
 
@@ -288,7 +288,7 @@ class Unit_Models_oxnewsTest extends OxidTestCase
      */
     public function testAssignLongDescription()
     {
-        $sSql = "update oxnews set oxlongdesc = '<p>test text</p>' where oxid='" . $this->_oNews->getId() . "' ";
+        $sSql = "update oxnews set oxlongdesc_de = '<p>test text</p>' where oxid='" . $this->_oNews->getId() . "' ";
         $oDB = oxDb::getDb(oxDB::FETCH_MODE_ASSOC);
         $oDB->execute($sSql);
 

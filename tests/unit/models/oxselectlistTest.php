@@ -39,7 +39,7 @@ class Unit_Models_oxselectlistTest extends OxidTestCase
         $sShopId = $myConfig->getBaseShopId();
         $sVal = '&amp;&test1, 10!P!10__@@test2, 10!P!10__@@test3, 10!P!10__@@';
 
-        $sQ = 'insert into oxselectlist (oxid, oxshopid, oxtitle, oxident, oxvaldesc) values ("oxsellisttest", "' . $sShopId . '", "oxsellisttest", "oxsellisttest", "' . $sVal . '")';
+        $sQ = 'insert into oxselectlist (oxid, oxshopid, oxtitle_de, oxident, oxvaldesc_de) values ("oxsellisttest", "' . $sShopId . '", "oxsellisttest", "oxsellisttest", "' . $sVal . '")';
 
         $this->addToDatabase($sQ, 'oxselectlist');
 
@@ -111,7 +111,7 @@ class Unit_Models_oxselectlistTest extends OxidTestCase
     public function testAssignWithOtherLang()
     {
         $oSelectList = oxNew('oxselectlist');
-        $oSelectList->setLanguage(1);
+        $oSelectList->setLanguage('en');
         $oSelectList->load('oxsellisttest');
 
         $aParams['oxtitle'] = 'Test_selectlist';

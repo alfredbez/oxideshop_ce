@@ -52,15 +52,16 @@ class Unit_Views_contentTest extends OxidTestCase
         parent::setUp();
         $this->_oObj = oxNew('oxbase');
         $this->_oObj->init('oxcontents');
-        $this->_oObj->oxcontents__oxtitle = new oxField('test', oxField::T_RAW);
+        $this->_oObj->oxcontents__oxtitle_de = new oxField('test', oxField::T_RAW);
         $sShopId = $this->getConfig()->getShopId();
         $this->_oObj->oxcontents__oxshopid = new oxField($sShopId, oxField::T_RAW);
         $this->_oObj->oxcontents__oxloadid = new oxField('_testLoadId', oxField::T_RAW);
-        $this->_oObj->oxcontents__oxcontent = new oxField("testcontentDE&, &, !@#$%^&*%$$&@'.,;p\"ss", oxField::T_RAW);
+        $this->_oObj->oxcontents__oxcontent_de = new oxField("testcontentDE&, &, !@#$%^&*%$$&@'.,;p\"ss", oxField::T_RAW);
         //$this->_oObj->oxcontents__oxcontent = new oxField('[{ $oxcmp_shop->oxshops__oxowneremail->value }]', oxField::T_RAW);
-        $this->_oObj->oxcontents__oxcontent_1 = new oxField("testcontentENG&, &, !@#$%^&*%$$&@'.,;p\"ss", oxField::T_RAW);
-        $this->_oObj->oxcontents__oxactive = new oxField('1', oxField::T_RAW);
-        $this->_oObj->oxcontents__oxactive_1 = new oxField('1', oxField::T_RAW);
+        $this->_oObj->oxcontents__oxcontent_en = new oxField("testcontentENG&, &, !@#$%^&*%$$&@'.,;p\"ss", oxField::T_RAW);
+        $this->_oObj->oxcontents__oxactive_de = new oxField('1', oxField::T_RAW);
+        $this->_oObj->oxcontents__oxactive_en = new oxField('1', oxField::T_RAW);
+        $this->_oObj->oxcontents__oxactive_en = new oxField('1', oxField::T_RAW);
         $this->_oObj->save();
 
         $sOxid = $this->_oObj->getId();

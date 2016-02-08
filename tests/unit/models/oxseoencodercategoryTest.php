@@ -35,6 +35,7 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         parent::setUp();
 
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
         //echo $this->getName()."\n";
     }
@@ -207,7 +208,7 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Him/Books/' : 'en/Gifts/Fantasy/';
 
         $category = oxNew('oxCategory');
-        $category->loadInLang(1, $categoryId);
+        $category->loadInLang('en', $categoryId);
 
         $encoder = oxNew('oxSeoEncoderCategory');
         $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryUrl($category));
@@ -224,10 +225,10 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Ihn/Buecher/' : 'Geschenke/Fantasy/';
 
         $category = oxNew('oxCategory');
-        $category->loadInLang(1, $categoryId);
+        $category->loadInLang('de', $categoryId);
 
         $encoder = oxNew('oxSeoEncoderCategory');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryUrl($category, 0));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryUrl($category, 'de'));
     }
 
     public function testGetCategoryUrlExistingCategoryEngWithLangParam()
@@ -238,10 +239,10 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Him/Books/' : 'en/Gifts/Fantasy/';
 
         $category = oxNew('oxCategory');
-        $category->loadInLang(0, $categoryId);
+        $category->loadInLang('en', $categoryId);
 
         $encoder = oxNew('oxSeoEncoderCategory');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryUrl($category, 1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryUrl($category, 'en'));
     }
 
     /**
@@ -270,7 +271,7 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/Living/Clocks/23/' : 'en/Gifts/Fantasy/23/';
 
         $oCategory = oxNew('oxCategory');
-        $oCategory->loadInLang(1, $categoryId);
+        $oCategory->loadInLang('en', $categoryId);
 
         $oEncoder = oxNew('oxSeoEncoderCategory');
         $this->assertEquals($this->getConfig()->getShopUrl() . $link, $oEncoder->getCategoryPageUrl($oCategory, 22));
@@ -284,10 +285,10 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/Living/Clocks/23/' : 'en/Gifts/Fantasy/23/';
 
         $category = oxNew('oxCategory');
-        $category->loadInLang(0, $categoryId);
+        $category->loadInLang('de', $categoryId);
 
         $encoder = oxNew('oxSeoEncoderCategory');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryPageUrl($category, 22, 1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $link, $encoder->getCategoryPageUrl($category, 22, 'en'));
     }
 
     /**
@@ -335,12 +336,12 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $sQ = "insert into oxseo
                    ( oxobjectid, oxident, oxshopid, oxlang, oxstdurl, oxseourl, oxtype, oxfixed, oxexpired, oxparams )
                values
-                   ( 'obj_id', '132', '{$sShopId}', '0', '', '', 'oxcategory', '0', '0', '' )";
+                   ( 'obj_id', '132', '{$sShopId}', 'de', '', '', 'oxcategory', '0', '0', '' )";
         $oDb->execute($sQ);
         $sQ = "insert into oxseo
                    ( oxobjectid, oxident, oxshopid, oxlang, oxstdurl, oxseourl, oxtype, oxfixed, oxexpired, oxparams )
                values
-                   ( 'obj_art', '321', '{$sShopId}', '0', '', '', 'oxarticle', '0', '0', 'obj_id' )";
+                   ( 'obj_art', '321', '{$sShopId}', 'de', '', '', 'oxarticle', '0', '0', 'obj_id' )";
         $oDb->execute($sQ);
         $sQ = "insert into oxobject2seodata ( oxobjectid, oxshopid, oxlang ) values ( 'obj_id', '{$sShopId}', '0' )";
         $oDb->execute($sQ);

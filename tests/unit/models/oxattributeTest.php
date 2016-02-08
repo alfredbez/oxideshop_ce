@@ -104,8 +104,8 @@ class Unit_Models_oxattributeTest extends OxidTestCase
         $oAttr = oxNew("oxAttribute");
         $sVarId = '_testVar';
         $sVarId2 = '_testVar2';
-        $aSellTitle = array(0 => '_testAttr',
-                            1 => '_tetsAttr_1');
+        $aSellTitle = array('de' => '_testAttr',
+                            'en' => '_tetsAttr_1');
         $oValue = new stdClass();
         $oValue->name = 'red';
         $oValue2 = new stdClass();
@@ -114,13 +114,13 @@ class Unit_Models_oxattributeTest extends OxidTestCase
         $oValue3->name = 'blue';
         $oValue4 = new stdClass();
         $oValue4->name = 'blau';
-        $aSellValue = array($sVarId  => array(0 => $oValue,
-                                              1 => $oValue2),
-                            $sVarId2 => array(0 => $oValue3,
-                                              1 => $oValue4));
+        $aSellValue = array($sVarId  => array('de' => $oValue,
+                                              'en' => $oValue2),
+                            $sVarId2 => array('de' => $oValue3,
+                                              'en' => $oValue4));
         $oAttr->assignVarToAttribute($aSellValue, $aSellTitle);
         $this->assertEquals(2, $myDB->getOne("select count(*) from oxobject2attribute where oxobjectid like '_testVar%'"));
-        $oRez = $myDB->Execute("select oxvalue, oxvalue_1, oxobjectid  from oxobject2attribute where oxobjectid = '_testVar'");
+        $oRez = $myDB->Execute("select oxvalue_de, oxvalue_en, oxobjectid  from oxobject2attribute where oxobjectid = '_testVar'");
         while (!$oRez->EOF) {
             $oRez->fields = array_change_key_case($oRez->fields, CASE_LOWER);
             $this->assertEquals('red', $oRez->fields[0]);
@@ -150,11 +150,11 @@ class Unit_Models_oxattributeTest extends OxidTestCase
     public function testCreateAttribute()
     {
         $oAttr = $this->getProxyClass("oxAttribute");
-        $aSellTitle = array(0 => '_testAttr',
-                            1 => '_testAttr_1');
+        $aSellTitle = array('de' => '_testAttr',
+                            'en' => '_testAttr_1');
         $sId = $oAttr->UNITcreateAttribute($aSellTitle);
-        $this->assertEquals('_testAttr', oxDb::getDB()->getOne("select oxtitle from oxattribute where oxid = '$sId'"));
-        $this->assertEquals('_testAttr_1', oxDb::getDB()->getOne("select oxtitle_1 from oxattribute where oxid = '$sId'"));
+        $this->assertEquals('_testAttr', oxDb::getDB()->getOne("select oxtitle_de from oxattribute where oxid = '$sId'"));
+        $this->assertEquals('_testAttr_1', oxDb::getDB()->getOne("select oxtitle_en from oxattribute where oxid = '$sId'"));
     }
 
     /**

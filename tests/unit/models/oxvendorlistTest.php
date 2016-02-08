@@ -50,7 +50,7 @@ class Unit_Models_oxvendorlistTest extends OxidTestCase
         $myConfig = $this->getConfig();
         $myDB = oxDb::getDB();
 
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
 
         $oVendorlist = oxNew('oxvendorlist');
 
@@ -59,7 +59,7 @@ class Unit_Models_oxvendorlistTest extends OxidTestCase
         $this->assertTrue((count($oVendorlist) > 0), "Vendors list not loaded");
 
         // checking if vendros are the same
-        $sQ = 'select oxid, oxtitle_1, oxshortdesc_1 from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
+        $sQ = 'select oxid, oxtitle_en, oxshortdesc_en from oxvendor where oxvendor.oxshopid = "' . $myConfig->getShopID() . '"';
         $rs = $myDB->Execute($sQ);
 
         if ($rs != false && $rs->RecordCount() > 0) {
@@ -69,7 +69,7 @@ class Unit_Models_oxvendorlistTest extends OxidTestCase
                 $rs->MoveNext();
             }
         } else {
-            $this->fail('No records found in vendors table with lang id = 1');
+            $this->fail('No records found in vendors table with lang id = "en"');
         }
     }
 

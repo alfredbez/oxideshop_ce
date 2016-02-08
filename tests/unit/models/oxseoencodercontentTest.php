@@ -134,6 +134,7 @@ class Unit_Models_oxSeoEncoderContentTest extends OxidTestCase
      */
     public function testGetContentUrlNotExisting()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
         $content = oxNew('oxContent');
@@ -228,6 +229,7 @@ class Unit_Models_oxSeoEncoderContentTest extends OxidTestCase
      */
     public function testGetContentUriSwitchingTypeFromCategoryToSnippetUrlIsCorrect()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         $oEncoder = oxNew('oxSeoEncoderContent');
 
         $oContent = oxNew('oxContent');
@@ -237,12 +239,12 @@ class Unit_Models_oxSeoEncoderContentTest extends OxidTestCase
         $oContent->setTitle('test_title');
         $oContent->save();
 
-        $this->assertEquals('Eco-Fashion/test-title/', $oEncoder->getContentUri($oContent, 0, true));
+        $this->assertEquals('Eco-Fashion/test-title/', $oEncoder->getContentUri($oContent, 'de', true));
 
         $oContent->setType(0);
         $oContent->save();
 
-        $this->assertEquals('test-title/', $oEncoder->getContentUri($oContent, 0, true));
+        $this->assertEquals('test-title/', $oEncoder->getContentUri($oContent, 'de', true));
     }
 
     public function testonDeleteContent()

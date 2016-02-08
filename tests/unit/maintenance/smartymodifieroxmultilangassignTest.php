@@ -33,9 +33,9 @@ class Unit_Maintenance_smartyModifieroxmultilangassignTest extends OxidTestCase
     public function provider()
     {
         return array(
-            array('FIRST_NAME', 0, 'Vorname'),
-            array('FIRST_NAME', 1, 'First name'),
-            array('VAT', 1, 'VAT')
+            array('FIRST_NAME', 'de', 'Vorname'),
+            array('FIRST_NAME', 'en', 'First name'),
+            array('VAT', 'en', 'VAT')
 
         );
     }
@@ -59,10 +59,10 @@ class Unit_Maintenance_smartyModifieroxmultilangassignTest extends OxidTestCase
     public function withArgumentsProvider()
     {
         return array(
-            array('MANUFACTURER_S', 0, 'Opel', '| Hersteller: Opel'),
-            array('MANUFACTURER_S', 1, 'Opel', 'Manufacturer: Opel'),
-            array('INVITE_TO_SHOP', 0, array('Admin', 'OXID Shop'), 'Eine Einladung von Admin OXID Shop zu besuchen.'),
-            array('INVITE_TO_SHOP', 1, array('Admin', 'OXID Shop'), 'An invitation from Admin to visit OXID Shop')
+            array('MANUFACTURER_S', 'de', 'Opel', '| Hersteller: Opel'),
+            array('MANUFACTURER_S', 'en', 'Opel', 'Manufacturer: Opel'),
+            array('INVITE_TO_SHOP', 'de', array('Admin', 'OXID Shop'), 'Eine Einladung von Admin OXID Shop zu besuchen.'),
+            array('INVITE_TO_SHOP', 'en', array('Admin', 'OXID Shop'), 'An invitation from Admin to visit OXID Shop')
         );
     }
 
@@ -106,7 +106,7 @@ class Unit_Maintenance_smartyModifieroxmultilangassignTest extends OxidTestCase
         $this->setAdminMode(false);
         $oSmarty = new Smarty();
 
-        $this->setLanguage(1);
+        $this->setLanguage('en');
 
         $oShop = $this->getConfig()->getActiveShop();
         $oShop->oxshops__oxproductive = new oxField($isProductiveMode);
@@ -137,7 +137,7 @@ class Unit_Maintenance_smartyModifieroxmultilangassignTest extends OxidTestCase
     {
         $oSmarty = new Smarty();
 
-        $this->setLanguage(1);
+        $this->setLanguage('en');
         $this->setAdminMode(true);
 
         $this->assertEquals($sTranslation, smarty_modifier_oxmultilangassign($sIdent, $oSmarty));

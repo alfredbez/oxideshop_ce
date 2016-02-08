@@ -50,7 +50,7 @@ class Unit_Maintenance_pluginSmartyOxContentTest extends OxidTestCase
         $aParams['ident'] = 'oxsecurityinfo';
         $oSmarty = $this->getMock("Smarty", array("fetch"));
         $oSmarty->expects($this->once())->method('fetch')
-            ->with($this->equalTo('ox:oxsecurityinfooxcontent0' . $sShopId))
+            ->with($this->equalTo('ox:oxsecurityinfooxcontentde' . $sShopId))
             ->will($this->returnValue('testvalue'));
 
         $message = "Content not found! check ident(" . $aParams['ident'] . ") !";
@@ -65,12 +65,12 @@ class Unit_Maintenance_pluginSmartyOxContentTest extends OxidTestCase
         $aParams['ident'] = 'oxsecurityinfo';
         $oSmarty = $this->getMock("smarty", array("fetch"));
         $oSmarty->expects($this->once())->method('fetch')
-            ->with($this->equalTo('ox:oxsecurityinfooxcontent1' . $sShopId))
+            ->with($this->equalTo('ox:oxsecurityinfooxcontenten' . $sShopId))
             ->will($this->returnValue('testvalue'));
 
         $message = "Content not found! check ident(" . $aParams['ident'] . ") !";
 
-        oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return 1;}');
+        oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return "en";}');
 
         $this->assertEquals('testvalue', smarty_function_oxcontent($aParams, $oSmarty), $message);
     }
@@ -82,7 +82,7 @@ class Unit_Maintenance_pluginSmartyOxContentTest extends OxidTestCase
         $aParams['assign'] = true;
 
         $oSmarty = $this->getMock("smarty", array("fetch", "assign"));
-        $oSmarty->expects($this->once())->method('fetch')->with($this->equalTo('ox:f41427a099a603773.44301043oxcontent0' . $sShopId))->will($this->returnValue('testvalue'));
+        $oSmarty->expects($this->once())->method('fetch')->with($this->equalTo('ox:f41427a099a603773.44301043oxcontentde' . $sShopId))->will($this->returnValue('testvalue'));
         $oSmarty->expects($this->once())->method('assign')->with($this->equalTo(true));
 
         smarty_function_oxcontent($aParams, $oSmarty);

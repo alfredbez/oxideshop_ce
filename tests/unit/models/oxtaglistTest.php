@@ -64,7 +64,7 @@ class Unit_Models_oxtaglistTest extends OxidTestCase
     public function testGetTagsEn()
     {
         $oTagList = oxNew('oxTagList');
-        $oTagList->setLanguage(1);
+        $oTagList->setLanguage('en');
         $oTagList->loadList();
         $oTagSet = $oTagList->get();
 
@@ -79,9 +79,9 @@ class Unit_Models_oxtaglistTest extends OxidTestCase
     public function testgetCacheId()
     {
         $oTagList = oxNew('oxTagList');
-        $oTagList->setLanguage(1);
-        $this->assertEquals('tag_list_1', $oTagList->getCacheId());
-        $oTagList->setLanguage(2);
-        $this->assertEquals('tag_list_2', $oTagList->getCacheId());
+        $oTagList->setLanguage('en');
+        $this->assertEquals('tag_list_en', $oTagList->getCacheId());
+        $oTagList->setLanguage('xx');
+        $this->assertEquals('tag_list_xx', $oTagList->getCacheId());
     }
 }

@@ -33,17 +33,17 @@ class Unit_Models_oxmediaurlTest extends OxidTestCase
         parent::setUp();
 
         $this->cleanUpTable('oxmediaurls');
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc, oxisuploaded) values ('_test1', '1436', 'test.jpg', 'test1', 1)";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de, oxisuploaded) values ('_test1', '1436', 'test.jpg', 'test1', 1)";
         oxDb::getDb()->execute($sQ);
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc, oxisuploaded) values ('_test2', '1437', 'http://www.youtube.com/watch?v=ZN239G6aJZo', 'test2', 0)";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de, oxisuploaded) values ('_test2', '1437', 'http://www.youtube.com/watch?v=ZN239G6aJZo', 'test2', 0)";
         oxDb::getDb()->execute($sQ);
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc, oxisuploaded) values ('_test3', '1438', 'test.jpg', 'test3', 0)";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de, oxisuploaded) values ('_test3', '1438', 'test.jpg', 'test3', 0)";
         oxDb::getDb()->execute($sQ);
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc, oxisuploaded) values ('_test4', '1439', 'http://www.site.com/watch?v=ZN239G6aJZo', 'test4', 0)";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de, oxisuploaded) values ('_test4', '1439', 'http://www.site.com/watch?v=ZN239G6aJZo', 'test4', 0)";
         oxDb::getDb()->execute($sQ);
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc, oxisuploaded) values ('_test5', '1440', 'http://www.youtube.com/watch?v=GQ3AcPEPbH0&loop=1&rel=0', 'test5', 0)";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de, oxisuploaded) values ('_test5', '1440', 'http://www.youtube.com/watch?v=GQ3AcPEPbH0&loop=1&rel=0', 'test5', 0)";
         oxDb::getDb()->execute($sQ);
-        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc, oxisuploaded) values ('_test6', '1441', 'http://youtu.be/tRCwo6pSHnk', 'test6', 0)";
+        $sQ = "insert into oxmediaurls (oxid, oxobjectid, oxurl, oxdesc_de, oxisuploaded) values ('_test6', '1441', 'http://youtu.be/tRCwo6pSHnk', 'test6', 0)";
         oxDb::getDb()->execute($sQ);
     }
 

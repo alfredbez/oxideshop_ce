@@ -53,13 +53,13 @@ class Unit_Models_oxuserbasketitemTest extends OxidTestCase
         $oArticle->oxarticles__oxtitle = new oxField('xxx', oxField::T_RAW);
         $oArticle->save();
 
-        $oSel = oxNew('oxbase');
+        $oSel = oxNew('oxI18n');
         $oSel->init('oxselectlist');
         $oSel->setId('xxx');
         $oSel->oxselectlist__oxvaldesc = new oxField('S, 10!P!10__@@M, 20!P!20__@@L, 30!P!30__@@', oxField::T_RAW);
         $oSel->save();
 
-        $oSel = oxNew('oxbase');
+        $oSel = oxNew('oxI18n');
         $oSel->init('oxselectlist');
         $oSel->setId('yyy');
         $oSel->oxselectlist__oxvaldesc = new oxField('R, 10!P!10%__@@G, 20!P!20%__@@B, 30!P!30%__@@', oxField::T_RAW);
@@ -69,12 +69,14 @@ class Unit_Models_oxuserbasketitemTest extends OxidTestCase
         $oO2Sel->init('oxobject2selectlist');
         $oO2Sel->oxobject2selectlist__oxobjectid = new oxField('xxx', oxField::T_RAW);
         $oO2Sel->oxobject2selectlist__oxselnid = new oxField('xxx', oxField::T_RAW);
+        $oO2Sel->oxobject2selectlist__oxsort = new oxField(0, oxField::T_RAW);
         $oO2Sel->save();
 
         $oO2Sel = oxNew('oxbase');
         $oO2Sel->init('oxobject2selectlist');
         $oO2Sel->oxobject2selectlist__oxobjectid = new oxField('xxx', oxField::T_RAW);
         $oO2Sel->oxobject2selectlist__oxselnid = new oxField('yyy', oxField::T_RAW);
+        $oO2Sel->oxobject2selectlist__oxsort = new oxField(1, oxField::T_RAW);
         $oO2Sel->save();
     }
 
@@ -243,11 +245,9 @@ class Unit_Models_oxuserbasketitemTest extends OxidTestCase
     {
         $this->getConfig()->setConfigParam('bl_perfLoadSelectLists', true);
 
-        $aTest = array(0, 1);
-
         $oBasketItem = oxNew('oxuserbasketitem');
         $oBasketItem->oxuserbasketitems__oxartid = new oxField("xxx", oxField::T_RAW);
-        $oBasketItem->oxuserbasketitems__oxsellist = new oxField(serialize(array(0, 1)), oxField::T_RAW);
+        $oBasketItem->oxuserbasketitems__oxsellist = new oxField(serialize(array(1, 0)), oxField::T_RAW);
 
         $oArticle = $oBasketItem->getArticle("123");
 
@@ -277,10 +277,12 @@ class Unit_Models_oxuserbasketitemTest extends OxidTestCase
         $oL->name = 'L, 30';
         $oL->value = null;
 
-        $aSel[] = array($oR, $oG, $oB, 'name' => null);
         $aSel[] = array($oS, $oM, $oL, 'name' => null);
+        $aSel[] = array($oR, $oG, $oB, 'name' => null);
+
 
         // if this assertion will fail, probably due to protected variable
         $this->assertEquals($aSel, $oArticle->getDispSelList());
+
     }
 }

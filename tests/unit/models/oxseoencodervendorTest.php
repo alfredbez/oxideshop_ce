@@ -32,6 +32,7 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         parent::setUp();
 
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
     }
 
@@ -88,7 +89,7 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/' : 'en/By-Distributor/Bush/';
 
         $oVendor = oxNew('oxVendor');
-        $oVendor->loadInLang(1, $sVndId);
+        $oVendor->loadInLang('en', $sVndId);
 
         $oEncoder = oxNew('oxSeoEncoderVendor');
         $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorUrl($oVendor));
@@ -102,10 +103,10 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Nach-Lieferant/Hersteller-2/' : 'Nach-Lieferant/Bush/';
 
         $oVendor = oxNew('oxVendor');
-        $oVendor->loadInLang(1, $sVndId);
+        $oVendor->loadInLang('en', $sVndId);
 
         $oEncoder = oxNew('oxSeoEncoderVendor');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorUrl($oVendor, 0));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorUrl($oVendor, 'de'));
     }
 
     public function testGetVendorUrlExistingVendorEngWithLangParam()
@@ -119,10 +120,10 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/' : 'en/By-Distributor/Bush/';
 
         $oVendor = oxNew('oxVendor');
-        $oVendor->loadInLang(0, $sVndId);
+        $oVendor->loadInLang('de', $sVndId);
 
         $oEncoder = oxNew('oxSeoEncoderVendor');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorUrl($oVendor, 1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorUrl($oVendor, 'en'));
     }
 
     /**
@@ -162,7 +163,7 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         $oVendor = oxNew('oxVendor');
         $oVendor->setId('root');
-        $oVendor->setLanguage(1);
+        $oVendor->setLanguage('en');
         $oVendor->oxvendor__oxtitle = new oxField('root', oxField::T_RAW);
 
         $oEncoder = $this->getMock('oxSeoEncoderVendor', array('_saveToDb'));
@@ -176,7 +177,7 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     public function testGetVendorUriNewVendor()
     {
         $oVendor = oxNew('oxVendor');
-        $oVendor->setLanguage(1);
+        $oVendor->setLanguage('en');
         $oVendor->setId('xxx');
         $oVendor->oxvendor__oxtitle = new oxField('xxx', oxField::T_RAW);
 
@@ -200,7 +201,7 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/101/' : 'en/By-Distributor/Bush/101/';
 
         $oVendor = oxNew('oxVendor');
-        $oVendor->loadInLang(1, $sVndId);
+        $oVendor->loadInLang('en', $sVndId);
 
         $oEncoder = oxNew('oxSeoEncoderVendor');
         $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorPageUrl($oVendor, 100));
@@ -214,10 +215,10 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/101/' : 'en/By-Distributor/Bush/101/';
 
         $oVendor = oxNew('oxVendor');
-        $oVendor->loadInLang(0, $sVndId);
+        $oVendor->loadInLang('de', $sVndId);
 
         $oEncoder = oxNew('oxSeoEncoderVendor');
-        $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorPageUrl($oVendor, 100, 1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $sUrl, $oEncoder->getVendorPageUrl($oVendor, 100, 'en'));
     }
 
     public function testGetVendorUrl()
@@ -235,17 +236,17 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     public function testGetVendorUriExistingVendorWithLangParam()
     {
         $oVendor = oxNew('oxVendor');
-        $oVendor->setLanguage(1);
+        $oVendor->setLanguage('en');
         $oVendor->setId('xxx');
 
         $oEncoder = $this->getMock('oxSeoEncoderVendor', array('_loadFromDb', '_prepareTitle'));
-        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxvendor'), $this->equalTo('xxx'), $this->equalTo(0))->will($this->returnValue('seourl'));
+        $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('oxvendor'), $this->equalTo('xxx'), $this->equalTo('de'))->will($this->returnValue('seourl'));
         $oEncoder->expects($this->never())->method('_prepareTitle');
         $oEncoder->expects($this->never())->method('_getUniqueSeoUrl');
         $oEncoder->expects($this->never())->method('_saveToDb');
 
         $sUrl = 'seourl';
-        $sSeoUrl = $oEncoder->getVendorUri($oVendor, 0);
+        $sSeoUrl = $oEncoder->getVendorUri($oVendor, 'de');
         $this->assertEquals($sUrl, $sSeoUrl);
     }
 
@@ -253,13 +254,13 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         $oVendor = oxNew('oxVendor');
         $oVendor->setId('root');
-        $oVendor->oxvendor__oxtitle = new oxField('root', oxField::T_RAW);
+        $oVendor->oxvendor__oxtitle_de = new oxField('root', oxField::T_RAW);
 
         $oEncoder = $this->getMock('oxSeoEncoderVendor', array('_saveToDb'));
-        $oEncoder->expects($this->once())->method('_saveToDb')->with($this->equalTo('oxvendor'), $this->equalTo('root'), $this->equalTo($oVendor->getBaseStdLink(1)), $this->equalTo('en/By-Distributor/'), $this->equalTo(1));
+        $oEncoder->expects($this->once())->method('_saveToDb')->with($this->equalTo('oxvendor'), $this->equalTo('root'), $this->equalTo($oVendor->getBaseStdLink('en')), $this->equalTo('en/By-Distributor/'), $this->equalTo('en'));
 
         $sUrl = 'en/By-Distributor/';
-        $sSeoUrl = $oEncoder->getVendorUri($oVendor, 1);
+        $sSeoUrl = $oEncoder->getVendorUri($oVendor, 'en');
         $this->assertEquals($sUrl, $sSeoUrl);
     }
 
@@ -270,7 +271,7 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $sQ = "insert into oxseo
                    ( oxobjectid, oxident, oxshopid, oxlang, oxstdurl, oxseourl, oxtype, oxfixed, oxexpired, oxparams )
                values
-                   ( 'oid', '132', '{$sShopId}', '0', '', '', 'oxvendor', '0', '0', '' )";
+                   ( 'oid', '132', '{$sShopId}', 'de', '', '', 'oxvendor', '0', '0', '' )";
         $oDb->execute($sQ);
 
         $sQ = "insert into oxobject2seodata ( oxobjectid, oxshopid, oxlang ) values ( 'oid', '{$sShopId}', '0' )";

@@ -94,7 +94,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
     {
         $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
 
-        $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
+        $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
                    "values ('test','test','{$sShopId}','1','4','test','','','','','1','10','50')";
         $this->addToDatabase($sInsert, 'oxcategories');
 
@@ -109,7 +109,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
     {
         $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
 
-        $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXPARENTID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
+        $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXPARENTID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
                    "values ('test2','test','" . $sShopId . "','test','2','3','test','','','','','1','10','50')";
         $this->addToDatabase($sInsert, 'oxcategories');
 
@@ -369,9 +369,9 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
     public function testGetCatInLang()
     {
         //$this->getConfig()->addClassFunction( 'getShopLanguage', create_function( '', 'return 1;' ) );
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $oCat = oxNew("oxCategory");
-        $oCat->loadInLang(0, $this->_sCategory);
+        $oCat->loadInLang('de', $this->_sCategory);
         $oObj = oxNew("oxCategory");
         $oCatBaseLang = $oObj->getCatInLang($oCat);
         //$this->getConfig()->cleanup();
@@ -382,7 +382,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
     public function testGetCatInLangForPriceCat()
     {
         //$this->getConfig()->addClassFunction( 'getShopLanguage', create_function( '', 'return 1;' ) );
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $this->_oCategory->oxcategories__oxpricefrom = new oxField('10', oxField::T_RAW);
         $this->_oCategory->oxcategories__oxpriceto = new oxField('50', oxField::T_RAW);
         $this->_oCategory->save();
@@ -515,6 +515,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
     public function testGetLinkSeoDe()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
+
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
 
@@ -524,7 +526,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
         $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Sie/' : 'Geschenke/Wohnen/Uhren/';
 
-        $oCategory->loadInLang(0, $categoryId);
+        $oCategory->loadInLang('de', $categoryId);
 
         $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink());
         //testing magic getter
@@ -541,7 +543,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83159266c7.83602558' : '8a142c3e60a535f16.78077188';
         $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Her/Sports/' : 'en/Gifts/Living/Clocks/';
 
-        $oCategory->loadInLang(1, $categoryId);
+        $oCategory->loadInLang('en', $categoryId);
 
         $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink());
     }
@@ -582,6 +584,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
     public function testGetLinkSeoWithLangParam()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
 
@@ -592,11 +595,12 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
         $oCategory->load($categoryId);
 
-        $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink(0));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink('de'));
     }
 
     public function testGetLinkSeoDeWithLangParam()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
 
@@ -605,13 +609,14 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
         $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Sie/' : 'Geschenke/Wohnen/Uhren/';
 
-        $oCategory->loadInLang(1, $categoryId);
+        $oCategory->loadInLang('en', $categoryId);
 
-        $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink(0));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink('de'));
     }
 
     public function testGetLinkSeoEngWithLangParam()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
 
@@ -620,9 +625,9 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83159266c7.83602558' : '8a142c3e60a535f16.78077188';
         $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Her/Sports/' : 'en/Gifts/Living/Clocks/';
 
-        $oCategory->loadInLang(0, $categoryId);
+        $oCategory->loadInLang('de', $categoryId);
 
-        $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink(1));
+        $this->assertEquals($this->getConfig()->getShopUrl() . $expectation, $oCategory->getLink('en'));
     }
 
     public function testGetIsVisible()
@@ -846,12 +851,12 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
     {
         $sId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83b6e585c9.63147165' : '8a142c3e44ea4e714.31136811';
 
-        oxRegistry::getLang()->setBaseLanguage(0);
+        oxRegistry::getLang()->setBaseLanguage('de');
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sId);
         $this->assertEquals('Wohnen', $oCategory->oxcategories__oxtitle->value);
 
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sId);
         $this->assertEquals('Living', $oCategory->oxcategories__oxtitle->value);

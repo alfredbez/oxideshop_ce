@@ -126,7 +126,7 @@ class oxReview extends oxBase
             return $oRevs;
         }
 
-        $iLoadInLang = is_null($iLoadInLang) ? (int) oxRegistry::getLang()->getBaseLanguage() : (int) $iLoadInLang;
+        $iLoadInLang = is_null($iLoadInLang) ? (string) oxRegistry::getLang()->getBaseLanguage() : (string) $iLoadInLang;
 
         $sSelect = "select oxreviews.* from oxreviews where oxreviews.oxtype = " . $oDb->quote($sType) . " and $sObjectIdWhere and oxreviews.oxlang = '$iLoadInLang'";
 

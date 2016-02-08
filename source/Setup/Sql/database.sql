@@ -73,7 +73,7 @@ CREATE TABLE `oxactions` (
 #
 # Data for table `oxactions`
 #
-INSERT INTO `oxactions` (`OXID`, `OXSHOPID`, `OXTYPE`, `OXTITLE`, `OXTITLE_DE`, `OXTITLE_EN`, `OXTITLE_FR`, `OXLONGDESC`, `OXLONGDESC_DE`, `OXLONGDESC_EN`, `OXLONGDESC_FR`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXPIC`, `OXPIC_DE`, `OXPIC_EN`, `OXPIC_FR`, `OXLINK`, `OXLINK_DE`, `OXLINK_EN`, `OXLINK_FR`, `OXSORT`) VALUES
+INSERT INTO `oxactions` (`OXID`, `OXSHOPID`, `OXTYPE`, `OXTITLE_DE`, `OXTITLE_EN`, `OXTITLE_FR`, `OXTITLE`, `OXLONGDESC_DE`, `OXLONGDESC_EN`, `OXLONGDESC_FR`, `OXLONGDESC`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXPIC_DE`, `OXPIC_EN`, `OXPIC_FR`, `OXPIC`, `OXLINK_DE`, `OXLINK_EN`, `OXLINK_FR`, `OXLINK`, `OXSORT`) VALUES
 ('oxstart',      'oxbaseshop', 0, 'Startseite unten', 'Start page bottom', '', '', '', '', '', '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '', '', '', '', '', 0),
 ('oxtopstart',   'oxbaseshop', 0, 'Topangebot Startseite', 'Top offer start page', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '', '', '', '', '', 0),
 ('oxbargain',    'oxbaseshop', 0, 'Angebot der Woche', 'Week''s Special', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '', '', '', '', '', 0),
@@ -1577,7 +1577,7 @@ DROP TABLE IF EXISTS `oxobject2seodata`;
 CREATE TABLE `oxobject2seodata` (
   `OXOBJECTID` CHAR( 32 ) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Objects id',
   `OXSHOPID` CHAR( 32 ) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (oxshops)',
-  `OXLANG` INT( 2 ) NOT NULL default '0' COMMENT 'Language id',
+  `OXLANG` VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXKEYWORDS` TEXT NOT NULL COMMENT 'Keywords',
   `OXDESCRIPTION` TEXT NOT NULL COMMENT 'Description',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -1661,7 +1661,7 @@ CREATE TABLE `oxorder` (
   `OXSTORNO` tinyint(1) NOT NULL default '0' COMMENT 'Order cancelled',
   `OXIP` varchar(39) NOT NULL default '' COMMENT 'User ip address',
   `OXTRANSSTATUS` varchar(30) NOT NULL default '' COMMENT 'Order status: NOT_FINISHED, OK, ERROR',
-  `OXLANG` int(2) NOT NULL default '0' COMMENT 'Language id',
+  `OXLANG` VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXINVOICENR` int(11) NOT NULL default '0' COMMENT 'Invoice number',
   `OXDELTYPE` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Delivery id (oxdeliveryset)',
   `OXTSPROTECTID` char(64) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Trusted shop protection id',
@@ -1795,7 +1795,7 @@ CREATE TABLE `oxpayments` (
 #
 # Data for table `oxpayments`
 #
-INSERT INTO `oxpayments` (`OXID`, `OXACTIVE`, `OXDESC`, `OXADDSUM`, `OXADDSUMTYPE`, `OXADDSUMRULES`, `OXFROMBONI`, `OXFROMAMOUNT`, `OXTOAMOUNT`, `OXVALDESC`, `OXCHECKED`, `OXDESC_DE`, `OXVALDESC_DE`, `OXDESC_EN`, `OXVALDESC_EN`, `OXDESC_FR`, `OXVALDESC_FR`, `OXLONGDESC`, `OXLONGDESC_DE`, `OXLONGDESC_EN`, `OXLONGDESC_FR`, `OXSORT`, `OXTSPAYMENTID`) VALUES
+INSERT INTO `oxpayments` (`OXID`, `OXACTIVE`, `OXDESC_DE`, `OXADDSUM`, `OXADDSUMTYPE`, `OXADDSUMRULES`, `OXFROMBONI`, `OXFROMAMOUNT`, `OXTOAMOUNT`, `OXVALDESC_DE`, `OXCHECKED`, `OXDESC_EN`, `OXVALDESC_EN`, `OXDESC_FR`, `OXVALDESC_FR`, `OXDESC`, `OXVALDESC`, `OXLONGDESC_DE`, `OXLONGDESC_EN`, `OXLONGDESC_FR`, `OXLONGDESC`, `OXSORT`, `OXTSPAYMENTID`) VALUES
 ('oxidcashondel', 1, 'Nachnahme', 7.5, 'abs', 0, 0, 0, 1000000, '', 1, 'COD (Cash on Delivery)', '', '', '', '', '', '', '', '', '', 0, ''),
 ('oxidcreditcard', 1, 'Kreditkarte', 20.9, 'abs', 0, 500, 0, 1000000, 'kktype__@@kknumber__@@kkmonth__@@kkyear__@@kkname__@@kkpruef__@@', 1, 'Credit Card', 'kktype__@@kknumber__@@kkmonth__@@kkyear__@@kkname__@@kkpruef__@@', '', '', '', '', 'Die Belastung Ihrer Kreditkarte erfolgt mit dem Abschluss der Bestellung.', 'Your Credit Card will be charged when you submit the order.', '', '', 0, ''),
 ('oxiddebitnote', 1, 'Bankeinzug/Lastschrift', 0, 'abs', 0, 0, 0, 1000000, 'lsbankname__@@lsblz__@@lsktonr__@@lsktoinhaber__@@', 0, 'Direct Debit', 'lsbankname__@@lsblz__@@lsktonr__@@lsktoinhaber__@@', '', '', '', '', 'Die Belastung Ihres Kontos erfolgt mit dem Versand der Ware.', 'Your bank account will be charged when the order is shipped.', '', '', 0, ''),
@@ -1837,7 +1837,7 @@ CREATE TABLE `oxpricealarm` (
   `OXARTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Article id (oxarticles)',
   `OXPRICE` double NOT NULL default '0' COMMENT 'Expected (user) price, when notification email should be sent',
   `OXCURRENCY` varchar(32) NOT NULL default '' COMMENT 'Currency',
-  `OXLANG` INT(2) NOT NULL default 0 COMMENT 'Language id',
+  `OXLANG` VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXINSERT` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Creation time',
   `OXSENDED` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Time, when notification was sent',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -1913,7 +1913,7 @@ CREATE TABLE `oxreviews` (
   `OXTEXT` text NOT NULL COMMENT 'Review text',
   `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxuser)',
   `OXCREATE` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Creation time',
-  `OXLANG` tinyint( 3 ) NOT NULL DEFAULT '0' COMMENT 'Language id',
+  `OXLANG` VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXRATING` int(1) NOT NULL default '0' COMMENT 'Rating',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
@@ -1953,7 +1953,7 @@ CREATE TABLE `oxseo` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Object id',
   `OXIDENT`    char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Hashed seo url (md5)',
   `OXSHOPID`   char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (multilanguage)',
-  `OXLANG`     char(32) NOT NULL default 'de' COMMENT 'Language id',
+  `OXLANG`     VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXSTDURL`   varchar(2048) NOT NULL COMMENT 'Primary url, not seo encoded',
   `OXSEOURL`   varchar(2048) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL COMMENT 'Old seo url',
   `OXTYPE`     enum('static', 'oxarticle', 'oxcategory', 'oxvendor', 'oxcontent', 'dynamic', 'oxmanufacturer') NOT NULL COMMENT 'Record type',
@@ -2043,7 +2043,7 @@ CREATE TABLE `oxseohistory` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Object id',
   `OXIDENT` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Hashed url (md5)',
   `OXSHOPID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id oxshops',
-  `OXLANG` char(32) NOT NULL default 'de' COMMENT 'Language id',
+  `OXLANG` VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXHITS` bigint(20) NOT NULL default '0' COMMENT 'Hits',
   `OXINSERT` timestamp NULL default NULL COMMENT 'Creation time',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -2063,7 +2063,7 @@ CREATE TABLE IF NOT EXISTS `oxseologs` (
   `OXSTDURL` text NOT NULL COMMENT 'Primary url, not seo encoded',
   `OXIDENT` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Hashed seo url',
   `OXSHOPID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Shop id (oxshops)',
-  `OXLANG` char(32) NOT NULL COMMENT 'Language id',
+  `OXLANG` VARCHAR(32) NOT NULL default 'de' COMMENT 'Language id',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXIDENT`,`OXSHOPID`,`OXLANG`)
 ) ENGINE=InnoDB COMMENT 'Seo logging. Logs bad requests';
@@ -2181,7 +2181,7 @@ CREATE TABLE `oxstates` (
 #
 # Data for table `oxstates`
 #
-INSERT INTO `oxstates` (`OXID`, `OXCOUNTRYID`, `OXTITLE`, `OXISOALPHA2`, `OXTITLE_DE`, `OXTITLE_EN`, `OXTITLE_FR`) VALUES
+INSERT INTO `oxstates` (`OXID`, `OXCOUNTRYID`, `OXTITLE_DE`, `OXISOALPHA2`, `OXTITLE_EN`, `OXTITLE_FR`, `OXTITLE`) VALUES
 ('AB', '8f241f11095649d18.02676059', 'Alberta', 'AB', 'Alberta', '', ''),
 ('BC', '8f241f11095649d18.02676059', 'Britisch-Kolumbien', 'BC', 'British Columbia', '', ''),
 ('MB', '8f241f11095649d18.02676059', 'Manitoba', 'MB', 'Manitoba', '', ''),

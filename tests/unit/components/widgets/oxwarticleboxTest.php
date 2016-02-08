@@ -109,7 +109,7 @@ class Unit_Components_Widgets_oxwArticleBoxTest extends OxidTestCase
     public function testGetProductWithSearch()
     {
         $oArticleBox = oxNew('oxwArticleBox');
-        $this->setLanguage(1);
+        $this->setLanguage('en');
 
         $sId = "1126";
         $iLinkType = 4;
