@@ -40,10 +40,10 @@ class Unit_Admin_VoucherseriegroupsajaxTest extends OxidTestCase
         oxDb::getDb()->execute("replace into oxobject2group set oxid='_testId1', oxshopid='$shopId', oxobjectid='_testVoucherId1', oxgroupsid='_testGroupId1'");
         oxDb::getDb()->execute("replace into oxobject2group set oxid='_testId2', oxshopid='$shopId', oxobjectid='_testVoucherId1', oxgroupsid='_testGroupId2'");
 
-        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId1', oxactive=1, oxtitle='_testGroup1', oxtitle_1='_testGroup1_en'");
-        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId2', oxactive=1, oxtitle='_testGroup2', oxtitle_1='_testGroup2_en'");
-        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId3', oxactive=1, oxtitle='_testGroup3', oxtitle_1='_testGroup3_en'");
-        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId4', oxactive=1, oxtitle='_testGroup4', oxtitle_1='_testGroup4_en'");
+        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId1', oxactive=1, oxtitle_de='_testGroup1', oxtitle_en='_testGroup1_en'");
+        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId2', oxactive=1, oxtitle_de='_testGroup2', oxtitle_en='_testGroup2_en'");
+        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId3', oxactive=1, oxtitle_de='_testGroup3', oxtitle_en='_testGroup3_en'");
+        oxDb::getDb()->execute("replace into oxgroups set oxid='_testGroupId4', oxactive=1, oxtitle_de='_testGroup4', oxtitle_en='_testGroup4_en'");
     }
 
     /**

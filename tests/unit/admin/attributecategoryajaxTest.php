@@ -34,9 +34,9 @@ class Unit_Admin_AttributeCategoryAjaxTest extends OxidTestCase
     {
         parent::setUp();
 
-        $this->addToDatabase("replace into oxcategories set oxid='_testCategory', oxtitle='_testCategory', oxshopid='" . $this->getgetShopIdTest() . "', oxactive=1", 'oxcategories');
-        $this->addToDatabase("replace into oxattribute set oxid='_testAttribute', oxtitle='_testAttribute', oxshopid='" . $this->getgetShopIdTest() . "'", 'oxattribute');
-        $this->addToDatabase("replace into oxattribute set oxid='_testAttributeAll', oxtitle='_testAttributeAll', oxshopid='" . $this->getgetShopIdTest() . "'", 'oxattribute');
+        $this->addToDatabase("replace into oxcategories set oxid='_testCategory', oxtitle_de='_testCategory', oxshopid='" . $this->getgetShopIdTest() . "', oxactive_de=1", 'oxcategories');
+        $this->addToDatabase("replace into oxattribute set oxid='_testAttribute', oxtitle_de='_testAttribute', oxshopid='" . $this->getgetShopIdTest() . "'", 'oxattribute');
+        $this->addToDatabase("replace into oxattribute set oxid='_testAttributeAll', oxtitle_de='_testAttributeAll', oxshopid='" . $this->getgetShopIdTest() . "'", 'oxattribute');
         $this->addTeardownSql("delete from oxcategories where oxid='_testCategory'");
         $this->addTeardownSql("delete from oxattribute where oxid like '%_testAttribute%'");
         $this->addToDatabase("replace into oxcategory2attribute set oxid='_testOxid1', oxobjectid='_testRemove'", 'oxcategory2attribute');

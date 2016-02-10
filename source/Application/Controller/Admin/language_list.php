@@ -56,10 +56,9 @@ class Language_List extends oxAdminList
         $aLangData['sslUrls'] = $myConfig->getConfigParam('aLanguageSSLURLs');
 
         $baseId = $aLangData['params'][$sOxId]['baseId'];
-
         $mainLanguageId = $myConfig->getConfigParam('sDefaultLang');
 
-        // preventing deleting main language with base id = 0
+        // preventing deleting current default language
         if ($mainLanguageId == $baseId) {
             $oEx = oxNew("oxExceptionToDisplay");
             $oEx->setMessage('LANGUAGE_DELETINGMAINLANG_WARNING');
@@ -80,10 +79,6 @@ class Language_List extends oxAdminList
         $myConfig->saveShopConfVar('arr', 'aLanguageURLs', $aLangData['urls']);
         $myConfig->saveShopConfVar('arr', 'aLanguageSSLURLs', $aLangData['sslUrls']);
 
-        //if deleted language was default, setting defalt lang to 0
-        if ($baseId == $myConfig->getConfigParam('sDefaultLang')) {
-            $myConfig->saveShopConfVar('str', 'sDefaultLang', '');
-        }
     }
 
     /**

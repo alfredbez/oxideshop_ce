@@ -468,7 +468,7 @@ class Unit_Admin_oxAdminListTest extends OxidTestCase
         $aWhere['oxtitle'] = 'das %testvalueäö% asd';
         $aWhere['oxid'] = 'testid';
 
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
 
         $oAdminList = $this->getProxyClass('oxadminlist');
         $sResultSql = $oAdminList->UNITprepareWhereQuery($aWhere, '');
@@ -565,13 +565,13 @@ class Unit_Admin_oxAdminListTest extends OxidTestCase
      */
     public function testBuildWhereMultiLang()
     {
-        $sTable = getViewName('oxlinks', 1);
+        $sTable = getViewName('oxlinks', 'en');
         $aWhere['oxlinks']['oxurldesc'] = 'oxurldesc';
 
         $aResultWhere["{$sTable}.oxurldesc"] = '%oxurldesc%';
 
         $this->setRequestParameter('where', $aWhere);
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
 
         $oLinks = oxNew('oxList');
         $oLinks->init('oxLinks');

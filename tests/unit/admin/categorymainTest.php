@@ -210,12 +210,12 @@ class Unit_Admin_CategoryMainTest extends OxidTestCase
 
         $this->_oCategory->oxcategories__oxtitle = new oxField('Test_title');
         $this->_oCategory->save();
-        $this->assertEquals('Test_title', $oDb->getOne("select oxtitle from oxcategories where oxid='_testCatId' "), 'Category save operation failed');
+        $this->assertEquals('Test_title', $oDb->getOne("select oxtitle_de from oxcategories where oxid='_testCatId' "), 'Category save operation failed');
 
         /** @var Category_Main $oView */
         $oView = $this->getProxyClass('Category_Main');
         $oView->UNITdeleteCatPicture($this->_oCategory, 'oxtitle');
-        $this->assertEquals('Test_title', $oDb->getOne("select oxtitle from oxcategories where oxid='_testCatId' "));
+        $this->assertEquals('Test_title', $oDb->getOne("select oxtitle_de from oxcategories where oxid='_testCatId' "));
     }
 
     /**
@@ -248,12 +248,12 @@ class Unit_Admin_CategoryMainTest extends OxidTestCase
 
         $this->_oCategory->oxcategories__oxthumb = new oxField('testIcon.jpg');
         $this->_oCategory->save();
-        $this->assertEquals('testIcon.jpg', $oDb->getOne("select oxthumb from oxcategories where oxid='_testCatId' "), 'Category save operation failed');
+        $this->assertEquals('testIcon.jpg', $oDb->getOne("select oxthumb_de from oxcategories where oxid='_testCatId' "), 'Category save operation failed');
 
         /** @var Category_Main $oView */
         $oView = $this->getProxyClass('Category_Main');
         $oView->UNITdeleteCatPicture($this->_oCategory, 'oxthumb');
-        $this->assertEquals('', $oDb->getOne("select oxthumb from oxcategories where oxid='_testCatId' "));
+        $this->assertEquals('', $oDb->getOne("select oxthumb_de from oxcategories where oxid='_testCatId' "));
     }
 
     /**

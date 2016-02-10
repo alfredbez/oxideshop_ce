@@ -262,7 +262,7 @@ class Unit_Admin_ArticleExtendTest extends OxidTestCase
         $oView = oxNew('Article_Extend');
         $oView->updateMedia();
 
-        $this->assertTrue((bool) oxDb::getDb()->getOne("select 1 from oxmediaurls where oxurl = 'testUrl' and oxdesc='testDesc' "));
+        $this->assertTrue((bool) oxDb::getDb()->getOne("select 1 from oxmediaurls where oxurl = 'testUrl' and oxdesc_de='testDesc' "));
     }
 
     /**

@@ -68,7 +68,7 @@ class Shop_Main extends oxAdminDetails
                 $subjLang = $this->_iEditLang;
             }
 
-            if ($subjLang && $subjLang > 0) {
+            if (0 < strlen($subjLang)) {
                 $this->_aViewData["subjlang"] = $subjLang;
             }
 
@@ -112,7 +112,7 @@ class Shop_Main extends oxAdminDetails
         $parameters['oxshops__oxproductive'] = (isset($parameters['oxshops__oxproductive']) && $parameters['oxshops__oxproductive'] == true) ? 1 : 0;
 
         $subjLang = oxRegistry::getConfig()->getRequestParameter("subjlang");
-        $shopLanguageId = ($subjLang && $subjLang > 0) ? $subjLang : 0;
+        $shopLanguageId = 0 < strlen($subjLang) ? $subjLang : $this->getConfig()->getConfigParam('sDefautlLang');
 
         $shop = oxNew("oxshop");
         if ($shopId != self::NEW_SHOP_ID) {
@@ -125,7 +125,7 @@ class Shop_Main extends oxAdminDetails
             $parameters['oxshops__oxsmtp'] = trim($parameters['oxshops__oxsmtp']);
         }
 
-        $shop->setLanguage(0);
+        $shop->setLanguage($this->getConfig()->getConfigParam('sDefautlLang'));
         $shop->assign($parameters);
         $shop->setLanguage($shopLanguageId);
 

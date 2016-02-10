@@ -116,10 +116,10 @@ class Unit_Admin_CategorySeoTest extends OxidTestCase
      */
     public function testIsEntrySuffixed()
     {
-        $sQ1 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
+        $sQ1 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
                "values ('_test1','test','oxbaseshop','1','4','test','','','','','1','10','50', '1')";
 
-        $sQ2 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
+        $sQ2 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
                "values ('_test2','test','oxbaseshop','1','4','test','','','','','1','10','50', '0')";
 
         $this->addToDatabase($sQ1, 'oxcategories');
@@ -140,7 +140,7 @@ class Unit_Admin_CategorySeoTest extends OxidTestCase
      */
     public function testGetEntryUri()
     {
-        $sQ1 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
+        $sQ1 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
                "values ('_test1','test','oxbaseshop','1','4','test','','','','','1','10','50', '1')";
         $this->addToDatabase($sQ1, 'oxcategories');
         $this->addTeardownSql("delete from oxcategories where oxid like '%_test%'");
@@ -161,7 +161,7 @@ class Unit_Admin_CategorySeoTest extends OxidTestCase
      */
     public function testGetStdUrl()
     {
-        $sQ1 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
+        $sQ1 = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`, oxshowsuffix) " .
                "values ('_test1','test','oxbaseshop','1','4','test','','','','','1','10','50', '1')";
         $this->addToDatabase($sQ1, 'oxcategories');
         $this->addTeardownSql("delete from oxcategories where oxid like '%_test%'");

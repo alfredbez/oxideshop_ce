@@ -39,7 +39,7 @@ class Unit_Admin_ArticleReviewTest extends OxidTestCase
 
         oxDb::getDb()->execute(
             'replace into oxreviews (OXID, OXACTIVE, OXOBJECTID, OXTYPE, OXTEXT, OXUSERID, OXCREATE, OXLANG, OXRATING)
-                        values ("_test_i1", 1, "' . $articleId . '", "oxarticle", "aa", "' . oxADMIN_LOGIN . '", "0000-00-00 00:00:00", "0", "3")'
+                        values ("_test_i1", 1, "' . $articleId . '", "oxarticle", "aa", "' . oxADMIN_LOGIN . '", "0000-00-00 00:00:00", "de", "3")'
         );
 
     }
@@ -143,7 +143,7 @@ class Unit_Admin_ArticleReviewTest extends OxidTestCase
         $articleVariantId = $this->getTestArticleVariantId();
         oxDb::getDb()->execute(
             'replace into oxreviews (OXID, OXACTIVE, OXOBJECTID, OXTYPE, OXTEXT, OXUSERID, OXCREATE, OXLANG, OXRATING)
-                        values ("_test_i2", 1, "' . $articleVariantId . '", "oxarticle", "aa", "' . oxADMIN_LOGIN . '", "0000-00-00 00:00:00", "0", "3")'
+                        values ("_test_i2", 1, "' . $articleVariantId . '", "oxarticle", "aa", "' . oxADMIN_LOGIN . '", "0000-00-00 00:00:00", "de", "3")'
         );
         oxTestModules::publicize('article_review', '_getReviewList');
         $o = oxNew('article_review');

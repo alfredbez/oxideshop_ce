@@ -154,7 +154,7 @@ class discount_item_ajax extends ajaxListComponent
             $sCol = $aCol[3] ? $aCol[0] : $aCol[0];
 
             if ($oConfig->getConfigParam('blVariantsSelection') && $aCol[0] == 'oxtitle') {
-                $sVarSelect = "$sViewTable.oxvarselect" . $sLangTag;
+                $sVarSelect = "$sViewTable.oxvarselect";
                 $sQ .= " IF( $sViewTable.$sCol != '', $sViewTable.$sCol, CONCAT((select oxart.$sCol from $sViewTable as oxart where oxart.oxid = $sViewTable.oxparentid),', ',$sVarSelect)) as _" . $iCnt;
             } else {
                 $sQ .= $sViewTable . '.' . $sCol . ' as _' . $iCnt;

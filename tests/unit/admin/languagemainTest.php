@@ -163,11 +163,11 @@ class Unit_Admin_LanguageMainTest extends OxidTestCase
      */
     public function testGetLanguages()
     {
-        $aLangData['params']['de'] = array("baseId" => 0, "active" => 1, "sort" => 1);
-        $aLangData['params']['en'] = array("baseId" => 1, "active" => 1, "sort" => 2);
+        $aLangData['params']['de'] = array("baseId" => 'de', "active" => 1, "sort" => 1);
+        $aLangData['params']['en'] = array("baseId" => 'en', "active" => 1, "sort" => 2);
         $aLangData['lang'] = array("de" => "Deutsch", "en" => "English");
-        $aLangData['urls'] = array(0 => "", 1 => "");
-        $aLangData['sslUrls'] = array(0 => "", 1 => "");
+        $aLangData['urls'] = array('de' => "", 'en' => "");
+        $aLangData['sslUrls'] = array('de' => "", 'en' => "");
 
         $oView = $this->getProxyClass("Language_Main");
 
@@ -288,11 +288,11 @@ class Unit_Admin_LanguageMainTest extends OxidTestCase
      */
     public function testCheckLangTranslations()
     {
-        $aLangData['params']['de'] = array("baseId" => 0, "active" => 1, "sort" => 1);
-        $aLangData['params']['en'] = array("baseId" => 1, "active" => 1, "sort" => 10, "default" => false);
+        $aLangData['params']['de'] = array("baseId" => 'de', "active" => 1, "sort" => 1);
+        $aLangData['params']['en'] = array("baseId" => 'en', "active" => 1, "sort" => 10, "default" => false);
 
         $oConfig = $this->getMock("oxConfig", array("getTranslationsDir"));
-        $oConfig->expects($this->once())->method("getTranslationsDir")->with($this->equalTo('lang.php'), oxRegistry::getLang()->getLanguageAbbr(1))->will($this->returnValue("dir/to/langfile"));
+        $oConfig->expects($this->once())->method("getTranslationsDir")->with($this->equalTo('lang.php'), oxRegistry::getLang()->getLanguageAbbr('en'))->will($this->returnValue("dir/to/langfile"));
 
         /** @var PHPUnit_Framework_MockObject_MockObject|Language_Main $oView */
         $oView = $this->getMock($this->getProxyClassName('Language_Main'), array("getConfig"), array(), '', false);
@@ -313,12 +313,12 @@ class Unit_Admin_LanguageMainTest extends OxidTestCase
      */
     public function testCheckLangTranslations_withError()
     {
-        $aLangData['params']['de'] = array("baseId" => 0, "active" => 1, "sort" => 1);
-        $aLangData['params']['en'] = array("baseId" => 1, "active" => 1, "sort" => 10, "default" => false);
+        $aLangData['params']['de'] = array("baseId" => 'de', "active" => 1, "sort" => 1);
+        $aLangData['params']['en'] = array("baseId" => 'en', "active" => 1, "sort" => 10, "default" => false);
 
         $oConfig = $this->getMock("oxConfig", array("getTranslationsDir"));
 
-        $oConfig->expects($this->once())->method("getTranslationsDir")->with($this->equalTo('lang.php'), oxRegistry::getLang()->getLanguageAbbr(1))->will($this->returnValue(""));
+        $oConfig->expects($this->once())->method("getTranslationsDir")->with($this->equalTo('lang.php'), oxRegistry::getLang()->getLanguageAbbr('en'))->will($this->returnValue(""));
 
         /** @var PHPUnit_Framework_MockObject_MockObject|Language_Main $oView */
         $oView = $this->getMock($this->getProxyClassName('Language_Main'), array("getConfig"), array(), '', false);
@@ -341,16 +341,16 @@ class Unit_Admin_LanguageMainTest extends OxidTestCase
      */
     public function testCheckMultilangFieldsExistsInDb()
     {
-        $aLangData['params']['de'] = array("baseId" => 0, "active" => 1, "sort" => 1);
-        $aLangData['params']['en'] = array("baseId" => 1, "active" => 1, "sort" => 10, "default" => false);
-        $aLangData['params']['fr'] = array("baseId" => 5, "active" => 1, "sort" => 20, "default" => false);
+        $aLangData['params']['de'] = array("baseId" => 'de', "active" => 1, "sort" => 1);
+        $aLangData['params']['en'] = array("baseId" => 'en', "active" => 1, "sort" => 10, "default" => false);
+        $aLangData['params']['xx'] = array("baseId" => 'xx', "active" => 1, "sort" => 20, "default" => false);
 
         $oView = $this->getProxyClass("Language_Main");
         $oView->setNonPublicVar("_aLangData", $aLangData);
 
         $this->assertTrue($oView->UNITcheckMultilangFieldsExistsInDb("de"));
         $this->assertTrue($oView->UNITcheckMultilangFieldsExistsInDb("en"));
-        $this->assertFalse($oView->UNITcheckMultilangFieldsExistsInDb("fr"));
+        $this->assertFalse($oView->UNITcheckMultilangFieldsExistsInDb("xx"));
     }
 
     /**
@@ -360,12 +360,12 @@ class Unit_Admin_LanguageMainTest extends OxidTestCase
      */
     public function testAddNewMultilangFieldsToDb()
     {
-        oxTestModules::addFunction("oxDbMetaDataHandler", "addNewLangToDb", "{return true;}");
+        oxTestModules::addFunction("oxDbMetaDataHandler", "addNewLanguageToDb", "{return true;}");
 
         $oView = $this->getProxyClass("Language_Main");
         $oView->setNonPublicVar("_aLangData", null);
 
-        $oView->UNITaddNewMultilangFieldsToDb();
+        $oView->UNITaddNewMultilangFieldsToDb('xx');
 
         //no errors should be added to session
         $aEx = oxRegistry::getSession()->getVariable("Errors");
@@ -379,12 +379,12 @@ class Unit_Admin_LanguageMainTest extends OxidTestCase
      */
     public function testAddNewMultilangFieldsToDb_withError()
     {
-        oxTestModules::addFunction("oxDbMetaDataHandler", "addNewLangToDb", "{Throw new Exception();}");
+        oxTestModules::addFunction("oxDbMetaDataHandler", "addNewLanguageToDb", "{Throw new Exception();}");
 
         $oView = $this->getProxyClass("Language_Main");
-        $oView->setNonPublicVar("_aLangData", $aLangData);
+        $oView->setNonPublicVar("_aLangData", array());
 
-        $oView->UNITaddNewMultilangFieldsToDb();
+        $oView->UNITaddNewMultilangFieldsToDb('yy');
 
         $aEx = oxRegistry::getSession()->getVariable("Errors");
         $oEx = unserialize($aEx["default"][0]);

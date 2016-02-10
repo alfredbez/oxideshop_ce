@@ -87,7 +87,7 @@ class Category_Text extends oxAdminDetails
 
         $oCategory = oxNew("oxCategory");
         $iCatLang = oxRegistry::getConfig()->getRequestParameter("catlang");
-        $iCatLang = $iCatLang ? $iCatLang : 0;
+        $iCatLang = $iCatLang ? $iCatLang : $this->getConfig()->getConfigParam('sDefaultLang');
 
         if ($soxId != "-1") {
             $oCategory->loadInLang($iCatLang, $soxId);

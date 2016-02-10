@@ -387,7 +387,7 @@ class oxLang extends oxSuperCfg
             $this->_aLangAbbr = $this->getLanguageIds();
         }
 
-        $iLanguage = isset($iLanguage) ? (string) $iLanguage : $this->getBaseLanguage();
+        $iLanguage = (0 < strlen($iLanguage)) ? (string) $iLanguage : $this->getBaseLanguage();
         if (isset($this->_aLangAbbr[$iLanguage])) {
             $iLanguage = $this->_aLangAbbr[$iLanguage];
         }

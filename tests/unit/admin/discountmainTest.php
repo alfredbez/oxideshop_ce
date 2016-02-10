@@ -145,15 +145,15 @@ class Unit_Admin_DiscountMainTest extends OxidTestCase
 
         $oView = $this->getProxyClass("Discount_Main");
 
-        $oView->setNonPublicVar("_iEditLang", 0);
+        $oView->setNonPublicVar("_iEditLang", 'de');
         $this->setRequestParameter("oxid", '-1');
         $this->assertEquals(" -- ", $oView->getItemDiscountProductTitle());
 
-        $oView->setNonPublicVar("_iEditLang", 0);
+        $oView->setNonPublicVar("_iEditLang", 'de');
         $this->setRequestParameter("oxid", "_testDiscountId");
         $this->assertEquals("$sId $sTitleDe", $oView->getItemDiscountProductTitle());
 
-        $oView->setNonPublicVar("_iEditLang", 1);
+        $oView->setNonPublicVar("_iEditLang", 'en');
         $this->setRequestParameter("oxid", "_testDiscountId");
         $this->assertEquals("$sId $sTitleEn", $oView->getItemDiscountProductTitle());
     }

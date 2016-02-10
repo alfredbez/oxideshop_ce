@@ -220,7 +220,7 @@ class Unit_Admin_ArticleSeoTest extends OxidTestCase
         $oView = $this->getMock("Article_Seo", array("getActCatType", "getActCatId", "getActCatLang", "getEditObjectId", "_getTagList"));
         $oView->expects($this->once())->method('getActCatType')->will($this->returnValue("oxtag"));
         $oView->expects($this->once())->method('getActCatId')->will($this->returnValue("testTagId"));
-        $oView->expects($this->once())->method('getActCatLang')->will($this->returnValue(0));
+        $oView->expects($this->once())->method('getActCatLang')->will($this->returnValue('de'));
         $oView->expects($this->once())->method('getEditObjectId')->will($this->returnValue("ObjectId"));
         $oView->expects($this->once())->method('_getTagList')->will($this->returnValue($aTagList));
         $this->assertEquals("testTagId", $oView->getTag());
@@ -501,7 +501,7 @@ class Unit_Admin_ArticleSeoTest extends OxidTestCase
     {
         $sQ = "select oxarticles.oxid from oxarticles left join oxartextends on
                oxarticles.oxid=oxartextends.oxid where
-               oxarticles.oxactive='1' and oxartextends.oxid is not null and oxartextends.oxtags != ''";
+               oxarticles.oxactive='1' and oxartextends.oxid is not null and oxartextends.oxtags_de != ''";
 
         $oDb = oxDb::getDb(oxDB::FETCH_MODE_ASSOC);
         $sProdId = $oDb->getOne($sQ);
@@ -518,7 +518,7 @@ class Unit_Admin_ArticleSeoTest extends OxidTestCase
         $aTags = $oTagSet->get();
 
         $oView = oxNew('Article_Seo');
-        $aList = $oView->UNITgetTagList($oProduct, 0);
+        $aList = $oView->UNITgetTagList($oProduct, 'de');
 
         // must be have few assignments
         $this->assertTrue(count($aTags) > 0);

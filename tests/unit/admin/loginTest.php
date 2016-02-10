@@ -134,7 +134,7 @@ class Unit_Admin_loginTest extends OxidTestCase
         oxTestModules::addFunction('oxUtilsServer', 'getOxCookie', '{ return null; }');
 
         $oLang = new stdClass();
-        $oLang->id = 0;
+        $oLang->id = 'de';
         $oLang->oxid = "de";
         $oLang->abbr = "de";
         $oLang->name = "Deutsch";
@@ -142,10 +142,10 @@ class Unit_Admin_loginTest extends OxidTestCase
         $oLang->sort = 1;
         $oLang->selected = 1;
 
-        $aLanguages[] = $oLang;
+        $aLanguages['de'] = $oLang;
 
         $oLang = new stdClass();
-        $oLang->id = 1;
+        $oLang->id = 'en';
         $oLang->oxid = "en";
         $oLang->abbr = "en";
         $oLang->name = "English";
@@ -153,7 +153,7 @@ class Unit_Admin_loginTest extends OxidTestCase
         $oLang->sort = 2;
         $oLang->selected = 0;
 
-        $aLanguages[] = $oLang;
+        $aLanguages['en'] = $oLang;
 
         $oLogin = $this->getMock('login', array('_getBrowserLanguage'));
         $oLogin->expects($this->once())->method('_getBrowserLanguage')->will($this->returnValue('de'));
@@ -171,7 +171,7 @@ class Unit_Admin_loginTest extends OxidTestCase
     public function testGetAvailableLanguages_withoutCookies_EN()
     {
         $oLang = new stdClass();
-        $oLang->id = 0;
+        $oLang->id = 'de';
         $oLang->oxid = "de";
         $oLang->abbr = "de";
         $oLang->name = "Deutsch";
@@ -179,10 +179,10 @@ class Unit_Admin_loginTest extends OxidTestCase
         $oLang->sort = 1;
         $oLang->selected = 0;
 
-        $aLanguages[] = $oLang;
+        $aLanguages['de'] = $oLang;
 
         $oLang = new stdClass();
-        $oLang->id = 1;
+        $oLang->id = 'en';
         $oLang->oxid = "en";
         $oLang->abbr = "en";
         $oLang->name = "English";
@@ -190,7 +190,7 @@ class Unit_Admin_loginTest extends OxidTestCase
         $oLang->sort = 2;
         $oLang->selected = 1;
 
-        $aLanguages[] = $oLang;
+        $aLanguages['en'] = $oLang;
 
         $oLogin = $this->getMock('login', array('_getBrowserLanguage'));
         $oLogin->expects($this->once())->method('_getBrowserLanguage')->will($this->returnValue('en'));
@@ -208,7 +208,7 @@ class Unit_Admin_loginTest extends OxidTestCase
     public function testGetAvailableLanguages_withCookies_DE()
     {
         $oLang = new stdClass();
-        $oLang->id = 0;
+        $oLang->id = 'de';
         $oLang->oxid = "de";
         $oLang->abbr = "de";
         $oLang->name = "Deutsch";
@@ -216,10 +216,10 @@ class Unit_Admin_loginTest extends OxidTestCase
         $oLang->sort = 1;
         $oLang->selected = 0;
 
-        $aLanguages[] = $oLang;
+        $aLanguages['de'] = $oLang;
 
         $oLang = new stdClass();
-        $oLang->id = 1;
+        $oLang->id = 'en';
         $oLang->oxid = "en";
         $oLang->abbr = "en";
         $oLang->name = "English";
@@ -227,7 +227,7 @@ class Unit_Admin_loginTest extends OxidTestCase
         $oLang->sort = 2;
         $oLang->selected = 1;
 
-        $aLanguages[] = $oLang;
+        $aLanguages['en'] = $oLang;
 
         // browser lang does not affect selected lang when cookie is set
         $oLogin = $this->getMock('login', array('_getBrowserLanguage'));

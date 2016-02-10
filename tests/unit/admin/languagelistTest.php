@@ -32,17 +32,17 @@ class Unit_Admin_LanguageListTest extends OxidTestCase
     public function testDeleteEntry()
     {
         $this->getConfig()->setConfigParam("blAllowSharedEdit", true);
-        $this->setRequestParameter('oxid', 1);
+        $this->setRequestParameter('oxid', 'en');
 
         $oConfig = $this->getMock("oxConfig", array("getConfigParam", "saveShopConfVar"));
 
         $map = array(
             array('blAllowSharedEdit',  null, "1"),
-            array('aLanguageParams', null, array(1 => array('baseId' => 1))),
-            array('aLanguages', null, array(1 => 1)),
-            array('aLanguageURLs', null, array(1 => 1)),
-            array('aLanguageSSLURLs', null, array(1 => 1)),
-            array('sDefaultLang', null, 1),
+            array('aLanguageParams', null, array('en' => array('baseId' => 'en' ))),
+            array('aLanguages', null, array('en'  => 'en' )),
+            array('aLanguageURLs', null, array('en'  => 'en' )),
+            array('aLanguageSSLURLs', null, array('en'  => 'en' )),
+            array('sDefaultLang', null, 'de'),
         );
         $oConfig->expects($this->any())->method('getConfigParam')->will($this->returnValueMap($map));
 
@@ -51,9 +51,42 @@ class Unit_Admin_LanguageListTest extends OxidTestCase
             array('aarr', "aLanguages", array(), null),
             array('arr', "aLanguageURLs", array(), null),
             array('arr', "aLanguageSSLURLs", array(), null),
-            array('str', "sDefaultLang", 0, null),
+            array('str', "sDefaultLang", 'de', null),
         );
-        $oConfig->expects($this->exactly(5))->method('saveShopConfVar')->will($this->returnValueMap($map));
+        $oConfig->expects($this->exactly(4))->method('saveShopConfVar')->will($this->returnValueMap($map));
+
+        $aTasks = array("getConfig");
+
+        $oView = $this->getMock("Language_List", $aTasks, array(), '', false);
+        $oView->expects($this->any())->method('getConfig')->will($this->returnValue($oConfig));
+
+        $oView->deleteEntry();
+    }
+
+    /**
+     * Language_List::DeleteEntry() test case
+     */
+    public function testDeleteEntryCannotDeleteStandardLanguage()
+    {
+        $oUtils = $this->getMock('oxUtilsView', array('addErrorToDisplay'));
+        $oUtils->expects($this->once())->method('addErrorToDisplay');
+        oxRegistry::set('oxUtilsView', $oUtils);
+
+        $this->getConfig()->setConfigParam("blAllowSharedEdit", true);
+        $this->setRequestParameter('oxid', 'en');
+
+        $oConfig = $this->getMock("oxConfig", array("getConfigParam", "saveShopConfVar"));
+
+        $map = array(
+            array('blAllowSharedEdit',  null, "1"),
+            array('aLanguageParams', null, array('en' => array('baseId' => 'en' ))),
+            array('aLanguages', null, array('en'  => 'en' )),
+            array('aLanguageURLs', null, array('en'  => 'en' )),
+            array('aLanguageSSLURLs', null, array('en'  => 'en' )),
+            array('sDefaultLang', null, 'en'),
+        );
+        $oConfig->expects($this->any())->method('getConfigParam')->will($this->returnValueMap($map));
+        $oConfig->expects($this->never())->method('saveShopConfVar');
 
         $aTasks = array("getConfig");
 
@@ -83,7 +116,7 @@ class Unit_Admin_LanguageListTest extends OxidTestCase
     public function testGetLanguagesList()
     {
         $oLang1 = new stdClass();
-        $oLang1->id = 0;
+        $oLang1->id = 'de';
         $oLang1->oxid = 'de';
         $oLang1->abbr = 'de';
         $oLang1->name = 'Deutsch';
@@ -93,7 +126,7 @@ class Unit_Admin_LanguageListTest extends OxidTestCase
         $oLang1->default = true;
 
         $oLang2 = new stdClass();
-        $oLang2->id = 1;
+        $oLang2->id = 'en';
         $oLang2->oxid = 'en';
         $oLang2->abbr = 'en';
         $oLang2->name = 'English';
@@ -103,7 +136,7 @@ class Unit_Admin_LanguageListTest extends OxidTestCase
         $oLang2->default = false;
 
         $oView = oxNew('Language_List');
-        $this->assertEquals(array($oLang1, $oLang2), $oView->UNITgetLanguagesList());
+        $this->assertEquals(array('de' => $oLang1, 'en' => $oLang2), $oView->UNITgetLanguagesList());
     }
 
     /**
