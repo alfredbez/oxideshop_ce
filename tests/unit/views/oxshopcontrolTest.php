@@ -482,8 +482,9 @@ class Unit_Views_oxShopControlTest extends OxidTestCase
         $oOut = $this->getMock("oxOutput", array('output'));
         $oOut->expects($this->never())->method('output');
 
-        $oControl = $this->getMock("oxShopControl", array("isAdmin", '_getOutputManager'), array(), '', false);
+        $oControl = $this->getMock("oxShopControl", array("isAdmin", '_getOutputManager', '_isDebugMode'), array(), '', false);
         $oControl->expects($this->any())->method('isAdmin')->will($this->returnValue(true));
+        $oControl->expects($this->any())->method('_isDebugMode')->will($this->returnValue(true));
         $oControl->expects($this->never())->method('_getOutputManager')->will($this->returnValue($oOut));
         $oControl->UNITstartMonitor();
         $oControl->UNITstopMonitor();
@@ -493,8 +494,9 @@ class Unit_Views_oxShopControlTest extends OxidTestCase
         $oOut = $this->getMock("oxOutput", array('output'));
         $oOut->expects($this->once())->method('output')->with($this->equalTo('debuginfo'));
 
-        $oControl = $this->getMock("oxShopControl", array("isAdmin", '_getOutputManager'), array(), '', false);
+        $oControl = $this->getMock("oxShopControl", array("isAdmin", '_getOutputManager', '_isDebugMode'), array(), '', false);
         $oControl->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
+        $oControl->expects($this->any())->method('_isDebugMode')->will($this->returnValue(true));
         $oControl->expects($this->once())->method('_getOutputManager')->will($this->returnValue($oOut));
         $oControl->UNITstartMonitor();
         $oControl->UNITstopMonitor();

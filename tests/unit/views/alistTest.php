@@ -371,7 +371,7 @@ class Unit_Views_alistTest extends OxidTestCase
         $oListView = oxNew('aList');
         $oListView->executefilter();
 
-        $this->assertEquals(array('somecategory' => array('0' => 'somefilter')), $this->getSessionParam('session_attrfilter'));
+        $this->assertEquals(array('somecategory' => array('de' => 'somefilter')), $this->getSessionParam('session_attrfilter'));
     }
 
     /**
@@ -751,6 +751,7 @@ class Unit_Views_alistTest extends OxidTestCase
      */
     public function testAddPageNrParamSeoOnSecondPage()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
         $oCategory = oxNew('oxcategory');
@@ -760,7 +761,7 @@ class Unit_Views_alistTest extends OxidTestCase
 
         $oListView = $this->getMock('alist', array('getActiveCategory'));
         $oListView->expects($this->any())->method('getActiveCategory')->will($this->returnValue($oCategory));
-        $this->assertEquals($sUrl . "2/", $oListView->UNITaddPageNrParam($sUrl, 1, 0));
+        $this->assertEquals($sUrl . "2/", $oListView->UNITaddPageNrParam($sUrl, 1, 'de'));
     }
 
     /**

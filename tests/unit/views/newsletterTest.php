@@ -400,7 +400,7 @@ class Unit_Views_newsletterTest extends OxidTestCase
         oxTestModules::addFunction("oxemail", "send", "{return false;}");
         oxTestModules::addFunction("oxemail", "sendNewsletterDbOptInMail", "{return false;}");
 
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $oTestNews = oxNew("NewsLetter");
         $aParams = array();
 

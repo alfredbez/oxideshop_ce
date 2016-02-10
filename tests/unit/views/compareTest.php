@@ -210,9 +210,9 @@ class Unit_Views_compareTest extends OxidTestCase
         $oCompare->setNonPublicVar("_oArtList", array('1672' => $oArticle, '6b661dda79318ca64ca06e97e4fbcb0a' =>$oArticle));
         $aAttributes = $oCompare->getAttributeList();
 
-        $sSelect = "select oxattrid, oxvalue from oxobject2attribute where oxobjectid = '1672'";
+        $sSelect = "select oxattrid, oxvalue_de from oxobject2attribute where oxobjectid = '1672'";
         $rs = oxDb::getDB()->execute($sSelect);
-        $sSelect = "select oxtitle from oxattribute where oxid = '" . $rs->fields[0] . "'";
+        $sSelect = "select oxtitle_de from oxattribute where oxid = '" . $rs->fields[0] . "'";
         $sTitle = oxDb::getDB()->getOne($sSelect);
 
         $this->assertEquals(9, count($aAttributes));

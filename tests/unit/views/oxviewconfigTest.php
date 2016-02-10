@@ -116,6 +116,7 @@ class Unit_Views_oxviewConfigTest extends OxidTestCase
      */
     public function testGetHelpPageLink()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         $sShopUrl = $this->getConfig()->getConfigParam("sShopURL");
 
         $oViewConfig = $this->getMock("oxviewconfig", array("getActiveClassName"));
@@ -147,14 +148,14 @@ class Unit_Views_oxviewConfigTest extends OxidTestCase
     public function testGetHelpPageLinkActiveContents_EN()
     {
         $oViewConfig = oxNew('oxViewConfig');
-        $this->getConfig()->setConfigParam("sDefaultLang", 1);
+        $this->getConfig()->setConfigParam("sDefaultLang", 'en');
         $this->assertEquals($this->getConfig()->getShopUrl() . 'en/Help-Main/', $oViewConfig->getHelpPageLink());
     }
 
     public function testGetHomeLinkEng()
     {
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
-        oxTestModules::addFunction("oxLang", "getBaseLanguage", "{return 1;}");
+        oxTestModules::addFunction("oxLang", "getBaseLanguage", "{return 'en';}");
 
         $oViewConfig = oxNew('oxviewconfig');
         $this->assertEquals($this->getConfig()->getShopUrl() . 'en/home/', $oViewConfig->getHomeLink());
@@ -169,8 +170,8 @@ class Unit_Views_oxviewConfigTest extends OxidTestCase
     {
         $sShopUrl = $this->getConfig()->getShopUrl();
 
-        $iLangDE = 0;
-        $iLangEN = 1;
+        $iLangDE = 'de';
+        $iLangEN = 'en';
 
         // Parameters:
         // - default shop language
@@ -179,7 +180,7 @@ class Unit_Views_oxviewConfigTest extends OxidTestCase
         return array(
             array($iLangDE, $iLangDE, $sShopUrl),
             array($iLangDE, $iLangEN, $sShopUrl . "index.php?lang=$iLangDE&amp;"),
-            array($iLangEN, $iLangDE, $sShopUrl . "index.php?lang=1&amp;"),
+            array($iLangEN, $iLangDE, $sShopUrl . "index.php?lang=en&amp;"),
             array($iLangEN, $iLangEN, $sShopUrl)
         );
     }
@@ -2497,7 +2498,7 @@ class Unit_Views_oxviewConfigTest extends OxidTestCase
         $this->setConfigParam('aModules', $aModules);
         $this->setConfigParam('aDisabledModules', $aDisabledModules);
         $this->setConfigParam('aModuleVersions', $aModuleVersions);
-        
+
         $oViewConf = oxNew('oxViewConfig');
         $blIsModuleActive = $oViewConf->isModuleActive($sModuleId);
 

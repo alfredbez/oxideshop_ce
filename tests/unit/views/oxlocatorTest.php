@@ -76,6 +76,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         oxRegistry::getUtils()->seoIsActive(true);
 
         $this->setRequestParameter("listtype", null);
+        $this->setConfigParam('iDefSeoLang', 'de');
     }
 
     /**

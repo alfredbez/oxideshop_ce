@@ -56,6 +56,8 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         // backup
         $this->_sRequestMethod = $_SERVER["REQUEST_METHOD"];
         $this->_sRequestUri = $_SERVER['REQUEST_URI'];
+
+        $this->setConfigParam('iDefSeoLang', 'de');
     }
 
     /**
@@ -307,11 +309,11 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         }
 
         $oView = oxNew('oxUBase');
-        $this->assertEquals("ox|0|0|0|0", $oView->getViewId());
+        $this->assertEquals("ox|de|0|0|0", $oView->getViewId());
 
         // and caching
-        oxRegistry::getLang()->setBaseLanguage(1);
-        $this->assertEquals("ox|0|0|0|0", $oView->getViewId());
+        oxRegistry::getLang()->setBaseLanguage('en');
+        $this->assertEquals("ox|de|0|0|0", $oView->getViewId());
     }
 
     /*
@@ -350,7 +352,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         $oView = oxNew('oxUBase');
         $sId = $oView->getViewId();
 
-        $this->assertEquals("ox|0|0|0|0|ssl", $sId);
+        $this->assertEquals("ox|de|0|0|0|ssl", $sId);
     }
 
     public function testGetMetaDescriptionForStartView()
@@ -875,7 +877,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
     public function testSetAdditionalParams()
     {
         $this->setRequestParameter('cnid', 'testCnId');
-        $this->setRequestParameter('lang', '1');
+        $this->setRequestParameter('lang', 'en');
         $this->setRequestParameter('searchparam', 'aa');
         $this->setRequestParameter('searchtag', 'testtag');
         $this->setRequestParameter('searchcnid', 'testcat');
@@ -1052,7 +1054,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
      */
     public function testGetLinkTransfersThirdParameter()
     {
-        $languageId = 2;
+        $languageId = 'xx';
         $activePage = 10;
 
         $baseView = $this->getMock('oxubase', array('getBaseLink', 'getActPage', '_addPageNrParam'));
@@ -1071,7 +1073,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         $oV->expects($this->any())->method('_getRequestParams')->will($this->returnValue('req'));
         $oV->expects($this->once())->method('getActPage')->will($this->returnValue(false));
 
-        $this->assertEquals($oConfig->getShopCurrentURL(0) . 'req', $oV->getLink());
+        $this->assertEquals($oConfig->getShopCurrentURL('de') . 'req', $oV->getLink());
 
         $oV = $this->getMock('oxubase', array('_getRequestParams', 'getActPage', '_addPageNrParam'));
         $oV->expects($this->any())->method('_getRequestParams')->will($this->returnValue('req'));
@@ -1097,13 +1099,13 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
             $sExpEng = "en/Games/Boardgames/Beergame-OANS-ZWOA-GSUFFA.html";
         }
         $oArt = oxNew('oxArticle');
-        $oArt->loadInLang(1, $articleId);
+        $oArt->loadInLang('en', $articleId);
 
         $oV->expects($this->any())->method('_getSubject')->will($this->returnValue($oArt));
 
         $this->assertEquals($oConfig->getShopURL() . $sExp, $oV->getLink());
-        $this->assertEquals($oConfig->getShopURL() . $sExp, $oV->getLink(0));
-        $this->assertEquals($oConfig->getShopURL() . $sExpEng, $oV->getLink(1));
+        $this->assertEquals($oConfig->getShopURL() . $sExp, $oV->getLink('de'));
+        $this->assertEquals($oConfig->getShopURL() . $sExpEng, $oV->getLink('en'));
     }
 
     public function testGetLink_SeoIsOnProductPageFromManufacturerList()
@@ -1124,13 +1126,13 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
 
         $oArt = oxNew('oxArticle');
         $oArt->setLinkType(OXARTICLE_LINKTYPE_MANUFACTURER);
-        $oArt->loadInLang(1, $articleId);
+        $oArt->loadInLang('en', $articleId);
 
         $oV->expects($this->any())->method('_getSubject')->will($this->returnValue($oArt));
 
         $this->assertEquals($oConfig->getShopURL() . $sVndExp, $oV->getLink());
-        $this->assertEquals($oConfig->getShopURL() . $sVndExp, $oV->getLink(0));
-        $this->assertEquals($oConfig->getShopURL() . $sVndExpEng, $oV->getLink(1));
+        $this->assertEquals($oConfig->getShopURL() . $sVndExp, $oV->getLink('de'));
+        $this->assertEquals($oConfig->getShopURL() . $sVndExpEng, $oV->getLink('en'));
     }
 
     public function testGetLink_SeiIsOnPageWithoutSeoURL()
@@ -1156,8 +1158,8 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         $oV->expects($this->any())->method('_getSeoRequestParams')->will($this->returnValue('cl=contact'));
 
         $this->assertEquals($oConfig->getShopURL() . 'kontakt/', $oV->getLink());
-        $this->assertEquals($oConfig->getShopURL() . 'kontakt/', $oV->getLink(0));
-        $this->assertEquals($oConfig->getShopURL() . 'en/contact/', $oV->getLink(1));
+        $this->assertEquals($oConfig->getShopURL() . 'kontakt/', $oV->getLink('de'));
+        $this->assertEquals($oConfig->getShopURL() . 'en/contact/', $oV->getLink('en'));
     }
 
 
@@ -1169,9 +1171,9 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         $oV = $this->getMock('oxubase', array('_getRequestParams'));
         $oV->expects($this->any())->method('_getRequestParams')->will($this->returnValue('req'));
 
-        $this->assertEquals($oConfig->getShopCurrentURL(0) . 'req', $oV->getLink());
-        $this->assertEquals($oConfig->getShopCurrentURL(0) . 'req', $oV->getLink(0));
-        $this->assertEquals($oConfig->getShopCurrentURL(1) . 'req&amp;lang=1', $oV->getLink(1));
+        $this->assertEquals($oConfig->getShopCurrentURL('de') . 'req', $oV->getLink());
+        $this->assertEquals($oConfig->getShopCurrentURL('de') . 'req', $oV->getLink('de'));
+        $this->assertEquals($oConfig->getShopCurrentURL('en') . 'req&amp;lang=en', $oV->getLink('en'));
     }
 
     public function testLoadCurrency()
@@ -1239,12 +1241,12 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
      */
     public function testGetActiveLangAbbr()
     {
-        oxRegistry::getLang()->setBaseLanguage(0);
+        oxRegistry::getLang()->setBaseLanguage('de');
 
         $oView = oxNew('oxubase');
         $this->assertEquals("de", $oView->getActiveLangAbbr());
 
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
 
         $oView = oxNew('oxubase');
         $this->assertEquals("en", $oView->getActiveLangAbbr());

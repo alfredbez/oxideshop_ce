@@ -26,6 +26,12 @@
 class Unit_Views_VendorListTest extends OxidTestCase
 {
 
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->setConfigParam('iDefSeoLang', 'de');
+    }
+
     /**
      * Tear down the fixture.
      */

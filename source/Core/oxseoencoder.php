@@ -784,7 +784,7 @@ class oxSeoEncoder extends oxSuperCfg
         $sUrl = str_replace(array($myConfig->getShopUrl($iLang, false), $myConfig->getSslShopUrl($iLang)), '', $sUrl);
         $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)(force_)?(admin_)?sid=[a-z0-9\.]+&?(amp;)?/i', '\1', $sUrl);
         $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)shp=[0-9]+&?(amp;)?/i', '\1', $sUrl);
-        $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)lang=[0-9]+&?(amp;)?/i', '\1', $sUrl);
+        $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)lang=[a-zA-Z0-9_]+&?(amp;)?/i', '\1', $sUrl);
         $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)cur=[0-9]+&?(amp;)?/i', '\1', $sUrl);
         $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)stoken=[a-z0-9]+&?(amp;)?/i', '\1', $sUrl);
         $sUrl = $oStr->preg_replace('/(\?|&(amp;)?)&(amp;)?/i', '\1', $sUrl);

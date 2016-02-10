@@ -68,11 +68,11 @@ class Unit_Views_oxcmpLangTest extends OxidTestCase
         $oLangView->setConfig($oConfig);
         $oLangView->init();
         $oLang = $oLangView->render();
-        $sExpLink0 = $this->getConfig()->getShopCurrentURL(0) . "cl=basket";
-        $sExpLink1 = $this->getConfig()->getShopCurrentURL(0) . "cl=basket&amp;lang=1";
+        $sExpLink0 = $this->getConfig()->getShopCurrentURL('de') . "cl=basket";
+        $sExpLink1 = $this->getConfig()->getShopCurrentURL('de') . "cl=basket&amp;lang=en";
 
-        $this->assertEquals($sExpLink0, $oLang[0]->link);
-        $this->assertEquals($sExpLink1, $oLang[1]->link);
+        $this->assertEquals($sExpLink0, $oLang['de']->link);
+        $this->assertEquals($sExpLink1, $oLang['en']->link);
     }
 
     public function testInitSetLink()
@@ -88,11 +88,11 @@ class Unit_Views_oxcmpLangTest extends OxidTestCase
         $oLangView->setConfig($oConfig);
         $oLangView->init();
         $oLang = $oLangView->render();
-        $sExpLink0 = $this->getConfig()->getShopCurrentURL(0) . "cl=basket&amp;fnc=changebasket";
-        $sExpLink1 = $this->getConfig()->getShopCurrentURL(0) . "cl=basket&amp;fnc=changebasket&amp;lang=1";
+        $sExpLink0 = $this->getConfig()->getShopCurrentURL('de') . "cl=basket&amp;fnc=changebasket";
+        $sExpLink1 = $this->getConfig()->getShopCurrentURL('de') . "cl=basket&amp;fnc=changebasket&amp;lang=en";
 
-        $this->assertEquals($sExpLink0, $oLang[0]->link);
-        $this->assertEquals($sExpLink1, $oLang[1]->link);
+        $this->assertEquals($sExpLink0, $oLang['de']->link);
+        $this->assertEquals($sExpLink1, $oLang['en']->link);
     }
 }
 

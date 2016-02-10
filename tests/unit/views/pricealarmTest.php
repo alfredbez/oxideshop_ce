@@ -123,7 +123,7 @@ class Unit_Views_pricealarmTest extends OxidTestCase
         $this->assertEquals($aParams["price"], $aAlarm["OXPRICE"]);
         $this->assertEquals("testUserId", $aAlarm["OXUSERID"]);
         $this->assertEquals("EUR", $aAlarm["OXCURRENCY"]);
-        $this->assertEquals(0, $aAlarm["OXLANG"]);
+        $this->assertEquals('de', $aAlarm["OXLANG"]);
     }
 
     public function testAddme_savesCurrentActiveLang()
@@ -137,7 +137,7 @@ class Unit_Views_pricealarmTest extends OxidTestCase
         $this->getSession()->setVariable('usr', "testUserId");
         $aParams["email"] = "goodemail@ladyGagaFans.lt";
 
-        oxRegistry::getLang()->setBaseLanguage(1);
+        oxRegistry::getLang()->setBaseLanguage('en');
         $this->setRequestParameter("pa", $aParams);
 
         $oPriceAlarm->addme();
@@ -145,7 +145,7 @@ class Unit_Views_pricealarmTest extends OxidTestCase
         $sSql = "select oxlang from oxpricealarm";
         $iLang = $oDb->getOne($sSql);
 
-        $this->assertEquals(1, $iLang);
+        $this->assertEquals('en', $iLang);
     }
 
 }

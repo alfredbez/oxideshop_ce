@@ -166,7 +166,7 @@ class Unit_Views_oxviewTest extends OxidTestCase
      */
     public function testSetAdditionalParams()
     {
-        oxTestModules::addFunction('oxlang', 'getBaseLanguage', '{ return 1; }');
+        oxTestModules::addFunction('oxlang', 'getBaseLanguage', '{ return "en"; }');
         $sParams = '';
         if (($sLang = oxRegistry::getLang()->getUrlLang())) {
             $sParams .= $sLang . "&amp;";
