@@ -38,8 +38,8 @@ class Unit_Core_oxSeoDecoderTest extends OxidTestCase
             $sCustomColumn = $oDb->getOne("show columns from oxv_oxarticles_de where field = 'oxseoid'");
 
             if ($sCustomColumn == 'OXSEOID') {
-                $oDb->execute("ALTER TABLE `oxarticles` DROP `OXSEOID`");
-                $oDb->execute("ALTER TABLE `oxarticles` DROP `OXSEOID_1`");
+                $oDb->execute("ALTER TABLE `oxarticles` DROP `OXSEOID_DE`");
+                $oDb->execute("ALTER TABLE `oxarticles` DROP `OXSEOID_EN`");
                 $dataHandler = oxNew('oxDbMetaDataHandler');
                 $dataHandler->updateViews();
             }

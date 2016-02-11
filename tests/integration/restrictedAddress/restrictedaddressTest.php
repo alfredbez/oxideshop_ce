@@ -47,7 +47,6 @@ class Integration_RestrictedAddress_RestrictedAddressTest extends OxidTestCase
             array($shopUrl . '?fnc=%67etshopversion'),
             array($shopUrl . '?fnc=getCharSet'),
             array($shopUrl . '?fnc=getShopFullEdition'),
-            array($shopUrl . '?fnc=isMall'),
             array($shopUrl . '?fnc=getCacheLifeTime'),
             array($shopUrl . '?fnc=addGlobalParams')
         );

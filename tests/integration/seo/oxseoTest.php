@@ -26,12 +26,21 @@
 class  Integration_Seo_oxseoTest extends OxidTestCase
 {
 
-    public function tearDown()
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->getConfig()->setConfigParam('iDefSeoLang', 'de');
+    }
+
+    protected function tearDown()
     {
         oxDb::getDb()->execute("delete from oxcategories where oxid like '_test%'");
         oxDb::getDb()->execute("delete from oxarticles where oxid like '_test%'");
         oxDb::getDb()->execute("delete from oxobject2category where oxobjectid like '_test%'");
         oxDb::getDb()->execute("delete from oxseo where oxobjectid like '_test%'");
+
+        parent::tearDown();
     }
 
     /**
@@ -351,7 +360,7 @@ class  Integration_Seo_oxseoTest extends OxidTestCase
         $this->_addArticle();
         $this->_addArticlesToCategories(array('_testid'), $aCategories);
 
-        $sArticleSeo = 'this/there/testArticle.html';
+        $sArticleSeo = 'testCategory1/testArticle.html';
         $sCurrentSeo = oxRegistry::getConfig()->getShopUrl() . $sArticleSeo;
 
         $oArticle = oxNew('oxArticle');
@@ -363,7 +372,7 @@ class  Integration_Seo_oxseoTest extends OxidTestCase
         $oAlc->resetArtSeoUrl(array('_testid'), array('_test3'));
 
         //check if old URL still active
-        $aExp = array("cl" => "details", "anid" => "_testid", "cnid" => "_test3", "lang" => 0);
+        $aExp = array("cl" => "details", "anid" => "_testid", "cnid" => "_test3", "lang" => 'de');
         /** @var oxSeoEncoder $oSeoDecoder */
         $oSeoDecoder = oxRegistry::get('oxSeoDecoder');
         $aDecoded = $oSeoDecoder->decodeUrl($sCurrentSeo);
@@ -379,13 +388,13 @@ class  Integration_Seo_oxseoTest extends OxidTestCase
     {
         foreach ($aCategories as $sCategoryId => $sTime) {
             $sQ = "replace into oxseo (`OXOBJECTID`,`OXIDENT`,`OXSHOPID`,`OXLANG`,`OXSEOURL`,`OXTYPE`,`OXFIXED`,`OXPARAMS`) " .
-                   "values ('{$sCategoryId}','{$sCategoryId}','{$this->_getShopId()}','0','this/there/','oxcategory','0','')";
+                   "values ('{$sCategoryId}','{$sCategoryId}','{$this->_getShopId()}','de','this/there/','oxcategory','0','')";
 
             $this->addToDatabase($sQ, 'oxseo');
         }
         $sParam = key($aCategories);
         $sQ = "replace into oxseo (`OXOBJECTID`,`OXIDENT`,`OXSHOPID`,`OXLANG`,`OXSEOURL`,`OXTYPE`,`OXFIXED`,`OXPARAMS`) " .
-               "values ('_testid','_testIndent3','{$this->_getShopId()}','0','this/there/then.html','oxarticle','0','{$sParam}')";
+               "values ('_testid','_testIndent3','{$this->_getShopId()}','de','this/there/then.html','oxarticle','0','{$sParam}')";
 
         $this->addToDatabase($sQ, 'oxseo');
     }
@@ -398,7 +407,7 @@ class  Integration_Seo_oxseoTest extends OxidTestCase
     protected function _addCategories(array $aCategoryIds)
     {
         foreach ($aCategoryIds as $sId => $sTime) {
-            $sQ = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
+            $sQ = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE_DE`,`OXLONGDESC_DE`,`OXLONGDESC_EN`,`OXLONGDESC_FR`,`OXLONGDESC`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
                    "values ('{$sId}',1,'{$sId}','1','4','testCategory1','','','','','1','10','50')";
 
             $this->addToDatabase($sQ, 'oxcategories');
@@ -410,7 +419,7 @@ class  Integration_Seo_oxseoTest extends OxidTestCase
      */
     protected function _addArticle()
     {
-        $sQ = "Insert into oxarticles (oxid, oxshopid, oxtitle, oxprice)
+        $sQ = "Insert into oxarticles (oxid, oxshopid, oxtitle_de, oxprice)
                 values ('_testid', '{$this->_getShopId()}', '_testArticle', '125')";
         $this->addToDatabase($sQ, 'oxarticles');
     }
