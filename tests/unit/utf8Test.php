@@ -143,12 +143,12 @@ class Unit_utf8Test extends OxidTestCase
         $value = 'Опрос Žiniasklaidai Gästebuch!P!-5,99__Опрос Žiniasklaidai Gästebuch@@';
 
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $query = "insert into oxselectlist (oxid, oxmapid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSellisttest', '777', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
+            $query = "insert into oxselectlist (oxid, oxmapid, oxshopid, oxtitle_de, oxident, oxvaldesc_de) values ('_testSellisttest', '777', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
             $database->execute($query);
             $query = "insert into oxselectlist2shop (oxmapobjectid, oxshopid ) values ('777', '$shopId')";
             $database->execute($query);
         } else {
-            $query = "insert into oxselectlist (oxid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSellisttest', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
+            $query = "insert into oxselectlist (oxid, oxshopid, oxtitle_de, oxident, oxvaldesc_de) values ('_testSellisttest', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
             $database->execute($query);
         }
 
@@ -236,7 +236,7 @@ class Unit_utf8Test extends OxidTestCase
     public function testOxArticleListLoadCategoryIds()
     {
         // choosing category id
-        $sCatId = oxDb::getDb()->getOne('select oxid from oxcategories where oxactive = "1" ');
+        $sCatId = oxDb::getDb()->getOne('select oxid from oxcategories where oxactive_de = "1" ');
 
         // creating test articles
         $oTestArticle1 = oxNew('oxArticle');
@@ -285,43 +285,42 @@ class Unit_utf8Test extends OxidTestCase
         $oO2a->setId('_testo2a1');
         $oO2a->oxobject2attribute__oxobjectid = new oxField('_testArticle1');
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute1');
-        $oO2a->oxobject2attribute__oxvalue = new oxField('Литовские-');
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField('Литовские-');
         $oO2a->save();
 
         $oO2a->setId('_testo2a2');
         $oO2a->oxobject2attribute__oxobjectid = new oxField('_testArticle2');
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute2');
-        $oO2a->oxobject2attribute__oxvalue = new oxField('agentūrų-');
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField('agentūrų-');
         $oO2a->save();
 
         $oO2a->setId('_testo2a3');
         $oO2a->oxobject2attribute__oxobjectid = new oxField('_testArticle3');
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute3');
-        $oO2a->oxobject2attribute__oxvalue = new oxField('für-');
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField('für-');
         $oO2a->save();
 
         $oO2a->setId('_testo2a4');
         $oO2a->oxobject2attribute__oxobjectid = new oxField($sCatId);
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute1');
-        $oO2a->oxobject2attribute__oxvalue = new oxField();
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField();
         $oO2a->save();
 
         $oO2a->setId('_testo2a5');
         $oO2a->oxobject2attribute__oxobjectid = new oxField($sCatId);
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute2');
-        $oO2a->oxobject2attribute__oxvalue = new oxField();
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField();
         $oO2a->save();
 
         $oO2a->setId('_testo2a6');
         $oO2a->oxobject2attribute__oxobjectid = new oxField($sCatId);
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute3');
-        $oO2a->oxobject2attribute__oxvalue = new oxField();
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField();
         $oO2a->save();
-
 
         // finally testing
         $oArtList = new oxArticleList();
-        $oArtList->loadCategoryIds($sCatId, array($sCatId => array('0' => array('_testAttribute1' => 'Литовские-'))));
+        $oArtList->loadCategoryIds($sCatId, array($sCatId => array('de' => array('_testAttribute1' => 'Литовские-'))));
         $aKeys = $oArtList->arrayKeys();
 
         $this->assertTrue(in_array('_testArticle1', $aKeys));
@@ -329,7 +328,7 @@ class Unit_utf8Test extends OxidTestCase
         $this->assertFalse(in_array('_testArticle3', $aKeys));
 
         $oArtList = new oxArticleList();
-        $oArtList->loadCategoryIds($sCatId, array($sCatId => array('0' => array('_testAttribute2' => 'agentūrų-'))));
+        $oArtList->loadCategoryIds($sCatId, array($sCatId => array('de' => array('_testAttribute2' => 'agentūrų-'))));
         $aKeys = $oArtList->arrayKeys();
 
         $this->assertFalse(in_array('_testArticle1', $aKeys));
@@ -337,7 +336,7 @@ class Unit_utf8Test extends OxidTestCase
         $this->assertFalse(in_array('_testArticle3', $aKeys));
 
         $oArtList = new oxArticleList();
-        $oArtList->loadCategoryIds($sCatId, array($sCatId => array('0' => array('_testAttribute3' => 'für-'))));
+        $oArtList->loadCategoryIds($sCatId, array($sCatId => array('de' => array('_testAttribute3' => 'für-'))));
         $aKeys = $oArtList->arrayKeys();
 
         $this->assertFalse(in_array('_testArticle1', $aKeys));
@@ -433,7 +432,7 @@ class Unit_utf8Test extends OxidTestCase
     {
         $sValue = 'agentūrų Литовские für';
 
-        $oCat = new oxbase();
+        $oCat = oxNew('oxI18n');
         $oCat->init('oxcategories');
         $oCat->setId('_testCat');
         $oCat->oxcategories__oxtitle = new oxField($sValue);
@@ -456,7 +455,7 @@ class Unit_utf8Test extends OxidTestCase
         $sValue = '[{ $oViewConf->getImageUrl() }] Nekilnojamojo turto agentūrų verslo sėkme Литовские европарламентарии, срок полномочий которых в 2009 году подходит к концу Der Umstieg war für uns ein voller Erfolg. OXID eShop ist flexibel und benutzerfreundlich';
         $sResult = $this->getConfig()->getImageUrl(false) . ' Nekilnojamojo turto agentūrų verslo sėkme Литовские европарламентарии, срок полномочий которых в 2009 году подходит к концу Der Umstieg war für uns ein voller Erfolg. OXID eShop ist flexibel und benutzerfreundlich';
 
-        $oCat = new oxbase();
+        $oCat = oxNew('oxI18n');
         $oCat->init('oxcategories');
         $oCat->setId('_testCat2');
         $oCat->oxcategories__oxlongdesc = new oxField($sValue);
@@ -470,7 +469,7 @@ class Unit_utf8Test extends OxidTestCase
     public function testOxCategoryLoadCategoryIds()
     {
         // choosing category id
-        $categoryId = oxDb::getDb()->getOne('select oxid from oxcategories where oxactive = "1" ');
+        $categoryId = oxDb::getDb()->getOne('select oxid from oxcategories where oxactive_de = "1" ');
 
         // creating test articles
         $oTestArticle1 = oxNew('oxArticle');
@@ -496,7 +495,7 @@ class Unit_utf8Test extends OxidTestCase
         $oO2a->setId('_testo2a1');
         $oO2a->oxobject2attribute__oxobjectid = new oxField('_testArticle1');
         $oO2a->oxobject2attribute__oxattrid = new oxField('_testAttribute1');
-        $oO2a->oxobject2attribute__oxvalue = new oxField('für-');
+        $oO2a->oxobject2attribute__oxvalue_de = new oxField('für-');
         $oO2a->save();
 
         $oO2a = new oxbase();
@@ -1171,6 +1170,7 @@ class Unit_utf8Test extends OxidTestCase
 
     public function testOxRssFeedLoadSearchArticles()
     {
+        $this->setConfigParam('iDefSeoLang', 'de');
         oxTestModules::addFunction('oxrssfeed', '_getSearchParamsTranslation', '{return $aA[0].$aA[1].$aA[2].$aA[3].$aA[4];}');
         $sValue = 'agentūЛитовfür';
         $oRss = new oxrssfeed();
@@ -1206,7 +1206,7 @@ class Unit_utf8Test extends OxidTestCase
         $oSearch = new oxSearch();
 
         // setting english language as base
-        $oSearch->setLanguage(1);
+        $oSearch->setLanguage('en');
 
         $sFix = $oSearch->UNITgetWhere($sValue);
 
