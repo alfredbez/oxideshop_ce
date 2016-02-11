@@ -31,7 +31,7 @@ class InvoicepdfOxOrder extends InvoicepdfOxOrder_parent
      *
      * @var int
      */
-    protected $_iSelectedLang = 0;
+    protected $_iSelectedLang = null;
 
     /**
      * Cached active shop object
@@ -660,6 +660,9 @@ class InvoicepdfOxOrder extends InvoicepdfOxOrder_parent
      */
     public function getSelectedLang()
     {
+        if (is_null($this->_iSelectedLang)) {
+            $this->_iSelectedLang = oxRegistry::getConfig()->getConfigParam('sDefaultLang');
+        }
         return $this->_iSelectedLang;
     }
 

@@ -410,7 +410,7 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
     public function testInvoicepdfArticleSummary_setPaymentMethodInfoInOtherLang()
     {
         $invoicePdfOxOrder = $this->getTestInvoicepdfOxOrder();
-        $invoicePdfOxOrder->setNonPublicVar('_iSelectedLang', 1);
+        $invoicePdfOxOrder->setNonPublicVar('_iSelectedLang', 'en');
 
         $oPdf = $this->getPdfTestObject();
         $oPdfArtSum = new InvoicepdfArticleSummary($invoicePdfOxOrder, $oPdf);
@@ -511,7 +511,7 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
     {
         $invoicePdfOxOrder =  new InvoicepdfOxOrder();
 
-        $invoicePdfOxOrder->setSelectedLang(1);
+        $invoicePdfOxOrder->setSelectedLang('en');
         $this->setAdminMode(true);
 
         $this->assertEquals('phone: ', $invoicePdfOxOrder->translate('ORDER_OVERVIEW_PDF_PHONE'));
@@ -558,7 +558,7 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
         $invoicePdfOxOrder->expects($this->exactly(3))->method('pdfHeader');
         $invoicePdfOxOrder->load('_testOrderId');
 
-        $invoicePdfOxOrder->genPdf('testfilename', 1);
+        $invoicePdfOxOrder->genPdf('testfilename', 'en');
     }
 
     /**
@@ -593,7 +593,7 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
         $invoicePdfOxOrder->expects($this->once())->method('getNextBillNum')->will($this->returnValue('testInvoiceNr'));
 
         $invoicePdfOxOrder->load('_testOrderId');
-        $invoicePdfOxOrder->genPdf('testfilename', 1);
+        $invoicePdfOxOrder->genPdf('testfilename', 'en');
 
         $this->assertEquals('testInvoiceNr', $invoicePdfOxOrder->oxorder__oxbillnr->value);
     }
@@ -797,9 +797,9 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
     public function testInvoicepdfOxOrder_getSelectedLang()
     {
         $invoicePdfOxOrder = $this->getProxyClass("InvoicepdfOxOrder");
-        $invoicePdfOxOrder->setNonPublicVar('_iSelectedLang', 1);
+        $invoicePdfOxOrder->setNonPublicVar('_iSelectedLang', 'en');
 
-        $this->assertEquals(1, $invoicePdfOxOrder->getSelectedLang());
+        $this->assertEquals('en', $invoicePdfOxOrder->getSelectedLang());
     }
 
     /**
