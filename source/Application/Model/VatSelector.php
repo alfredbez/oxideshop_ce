@@ -93,19 +93,19 @@ class VatSelector extends \oxSuperCfg
      * @param User    $oUser    given user object
      * @param Country $oCountry given country object
      *
-     * @return mixed
+     * @return bool
      */
     protected function _getForeignCountryUserVat(User $oUser, Country $oCountry)
     {
         if ($oCountry->isInEU()) {
             if ($oUser->oxuser__oxustid->value) {
-                return 0;
+                return true;
             }
 
             return false;
         }
 
-        return 0;
+        return true;
     }
 
     /**
