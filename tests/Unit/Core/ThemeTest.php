@@ -241,7 +241,8 @@ class ThemeTest extends \OxidTestCase
         $this->assertEquals('azure', $oTheme->getId());
     }
 
-    public function   testGetSettings(){
+    public function testGetSettings()
+    {
         $oTheme = oxNew('oxTheme');
         $oTheme->load("azure");
 
