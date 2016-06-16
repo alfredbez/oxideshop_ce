@@ -299,6 +299,15 @@ class ThemeTest extends \OxidTestCase
         $this->assertEquals('azure', $oTheme->getId());
     }
 
+    public function testGetSettings()
+    {
+        $oTheme = oxNew('oxTheme');
+        $oTheme->load("azure");
+
+        $this->assertEquals('665*665', $this->getConfig()->getConfigParam("sZoomImageSize"));
+        $this->assertEquals('1', $this->getConfig()->getConfigParam("bl_showCompareList"));
+    }
+
     /**
      * Test if getActiveThemeList gives correct list in simple case - one theme without extending
      */
