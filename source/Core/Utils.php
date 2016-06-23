@@ -99,41 +99,6 @@ class Utils extends \oxSuperCfg
      */
     protected $_blSeoIsActive = null;
 
-    /**
-     * OXID specific string manipulation method
-     *
-     * @param string $sVal string
-     * @param string $sKey key
-     *
-     * @deprecated since v5.2 (2014-08-11); use oxEncryptor::encrypt() instead.
-     *
-     * @return string
-     */
-    public function strMan($sVal, $sKey = null)
-    {
-        $oEncryptor = oxNew('oxEncryptor');
-        $sKey = $sKey ? $sKey : $this->getConfig()->getConfigParam('sConfigKey');
-
-        return $oEncryptor->encrypt($sVal, $sKey);
-    }
-
-    /**
-     * OXID specific string manipulation method
-     *
-     * @param string $sVal string
-     * @param string $sKey key
-     *
-     * @deprecated since v5.2 (2014-08-11); use oxDecryptor::decrypt() instead.
-     *
-     * @return string
-     */
-    public function strRem($sVal, $sKey = null)
-    {
-        $oDecryptor = oxNew('oxDecryptor');
-        $sKey = $sKey ? $sKey : $this->getConfig()->getConfigParam('sConfigKey');
-
-        return $oDecryptor->decrypt($sVal, $sKey);
-    }
 
     /**
      * Returns string witch "." symbols were replaced with "__".
@@ -1359,6 +1324,8 @@ class Utils extends \oxSuperCfg
      * @param string $sStr to encoding string
      *
      * @return string
+     * @internal do not use this method for any reason it is not secure
+     * @depricate please use always strong encryption 
      */
     public function strRot13($sStr)
     {
