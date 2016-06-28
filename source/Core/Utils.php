@@ -1325,6 +1325,8 @@ class Utils extends \oxSuperCfg
      * @param string $sStr to encoding string
      *
      * @return string
+     * @internal do not use this method for any reason it is not secure
+     * @deprecated please use always strong encryption
      */
     public function strRot13($sStr)
     {
