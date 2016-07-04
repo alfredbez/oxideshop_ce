@@ -229,33 +229,24 @@ class User extends \oxBase
         switch ($sParamName) {
             case 'oGroups':
                 return $this->_oGroups = $this->getUserGroups();
-                break;
             case 'iCntNoticeListArticles':
                 return $this->_iCntNoticeListArticles = $this->getNoticeListArtCnt();
-                break;
             case 'iCntWishListArticles':
                 return $this->_iCntWishListArticles = $this->getWishListArtCnt();
-                break;
             // @deprecated since v5.3 (2016-06-17); Listmania will be moved to an own module.
             case 'iCntRecommLists':
                 return $this->_iCntRecommLists = $this->getRecommListsCount();
-                break;
             // END deprecated
             case 'oAddresses':
                 return $this->getUserAddresses();
-                break;
             case 'oPayments':
                 return $this->_oPayments = $this->getUserPayments();
-                break;
             case 'oxuser__oxcountry':
                 return $this->oxuser__oxcountry = $this->getUserCountry();
-                break;
             case 'sDBOptin':
                 return $this->sDBOptin = $this->getNewsSubscription()->getOptInStatus();
-                break;
             case 'sEmailFailed':
                 return $this->sEmailFailed = $this->getNewsSubscription()->getOptInEmailStatus();
-                break;
         }
     }
 
@@ -444,7 +435,7 @@ class User extends \oxBase
      *
      * @return object $oSelectedAddress
      */
-    public function getSelectedAddress($sWishId = false)
+    public function getSelectedAddress()
     {
         if ($this->_oSelAddress !== null) {
             return $this->_oSelAddress;
@@ -598,21 +589,21 @@ class User extends \oxBase
             $sOXIDQuoted = $oDb->quote($sOXID);
 
             // deleting stored payment, address, group dependencies, remarks info
-            $rs = $oDb->execute("delete from oxaddress where oxaddress.oxuserid = {$sOXIDQuoted}");
-            $rs = $oDb->execute("delete from oxobject2group where oxobject2group.oxobjectid = {$sOXIDQuoted}");
+            $oDb->execute("delete from oxaddress where oxaddress.oxuserid = {$sOXIDQuoted}");
+            $oDb->execute("delete from oxobject2group where oxobject2group.oxobjectid = {$sOXIDQuoted}");
 
             // deleting notice/wish lists
-            $rs = $oDb->execute("delete oxuserbasketitems.* from oxuserbasketitems, oxuserbaskets where oxuserbasketitems.oxbasketid = oxuserbaskets.oxid and oxuserid = {$sOXIDQuoted}");
-            $rs = $oDb->execute("delete from oxuserbaskets where oxuserid = {$sOXIDQuoted}");
+            $oDb->execute("delete oxuserbasketitems.* from oxuserbasketitems, oxuserbaskets where oxuserbasketitems.oxbasketid = oxuserbaskets.oxid and oxuserid = {$sOXIDQuoted}");
+            $oDb->execute("delete from oxuserbaskets where oxuserid = {$sOXIDQuoted}");
 
             // deleting newsletter subscription
-            $rs = $oDb->execute("delete from oxnewssubscribed where oxuserid = {$sOXIDQuoted}");
+            $oDb->execute("delete from oxnewssubscribed where oxuserid = {$sOXIDQuoted}");
 
             // delivery and delivery sets
-            $rs = $oDb->execute("delete from oxobject2delivery where oxobjectid = {$sOXIDQuoted}");
+            $oDb->execute("delete from oxobject2delivery where oxobjectid = {$sOXIDQuoted}");
 
             // discounts
-            $rs = $oDb->execute("delete from oxobject2discount where oxobjectid = {$sOXIDQuoted}");
+            $oDb->execute("delete from oxobject2discount where oxobjectid = {$sOXIDQuoted}");
 
             $this->deleteAdditionally($sOXIDQuoted);
 
@@ -1104,22 +1095,18 @@ class User extends \oxBase
     {
         // assigning to newsletter
         $blSuccess = false;
-        $myConfig = $this->getConfig();
-        $mySession = $this->getSession();
 
         // user wants to get newsletter messages or no ?
         $oNewsSubscription = $this->getNewsSubscription();
         if ($oNewsSubscription) {
             if ($blSubscribe && ($blForceCheckOptIn || ($iOptInStatus = $oNewsSubscription->getOptInStatus()) != 1)) {
                 if (!$blSendOptIn) {
-
                     // double-opt-in check is disabled - assigning automatically
                     $this->addToGroup('oxidnewsletter');
                     // and setting subscribed status
                     $oNewsSubscription->setOptInStatus(1);
                     $blSuccess = true;
                 } else {
-
                     // double-opt-in check enabled - sending confirmation email and setting waiting status
                     if ($iOptInStatus != 2) {
                         // sending double-opt-in mail
@@ -1907,7 +1894,7 @@ class User extends \oxBase
      *
      * @return string
      */
-    public function prepareSalt($sSalt)
+    public function prepareSalt()
     {
         /** @var oxOpenSSLFunctionalityChecker $oOpenSSLFunctionalityChecker */
         $oOpenSSLFunctionalityChecker = oxNew('oxOpenSSLFunctionalityChecker');

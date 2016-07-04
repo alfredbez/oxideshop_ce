@@ -188,35 +188,26 @@ class Category extends \oxI18n implements \oxIUrl
         switch ($sName) {
             case 'aSubCats':
                 return $this->_aSubCats;
-                break;
             case 'aContent':
                 return $this->_aContentCats;
-                break;
             case 'iArtCnt':
                 return $this->getNrOfArticles();
-                break;
             case 'isVisible':
                 return $this->getIsVisible();
-                break;
             case 'expanded':
                 return $this->getExpanded();
-                break;
             case 'hasSubCats':
                 return $this->getHasSubCats();
-                break;
             case 'hasVisibleSubCats':
                 return $this->getHasVisibleSubCats();
-                break;
             case 'openlink':
             case 'closelink':
             case 'link':
                 //case 'toListLink':
                 //case 'noparamlink':
                 return $this->getLink();
-                break;
             case 'dimagedir':
                 return $this->getPictureUrl();
-                break;
         }
         return parent::__get($sName);
     }
@@ -753,10 +744,8 @@ class Category extends \oxI18n implements \oxIUrl
         $oCategoryInDefaultLanguage = oxNew("oxCategory");
         if ($this->isPriceCategory()) {
             // get it in base language
-            $oCategoryInDefaultLanguage = oxNew("oxCategory");
             $oCategoryInDefaultLanguage->loadInLang(0, $this->getId());
         } else {
-            $oCategoryInDefaultLanguage = oxNew("oxCategory");
             $oCategoryInDefaultLanguage->loadInLang(0, $oActCategory->getId());
         }
 

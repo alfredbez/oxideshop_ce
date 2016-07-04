@@ -83,7 +83,7 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var oxPrice
      */
-    protected $_oPrice = null;
+    protected $_oPrice;
 
 
     /**
@@ -91,28 +91,28 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var double | null
      */
-    protected $_dVarMinPrice = null;
+    protected $_dVarMinPrice;
 
     /**
      * cached article variant max price
      *
      * @var double | null
      */
-    protected $_dVarMaxPrice = null;
+    protected $_dVarMaxPrice;
 
     /**
      * caches article vat
      *
      * @var double | null
      */
-    protected $_dArticleVat = null;
+    protected $_dArticleVat;
 
     /**
      * Persistent Parameter.
      *
      * @var array
      */
-    protected $_aPersistParam = null;
+    protected $_aPersistParam;
 
     /**
      * Status of article - buyable/not buyable.
@@ -134,14 +134,14 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var array
      */
-    protected $_aVariants = null;
+    protected $_aVariants;
 
     /**
      * Article variants with empty stock, not orderable flagged variants
      *
      * @var array
      */
-    protected $_aVariantsWithNotOrderables = null;
+    protected $_aVariantsWithNotOrderables;
 
     /**
      * $_blNotBuyableParent is set to true, when article has variants and is not buyable due to:
@@ -176,7 +176,7 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var oxUser
      */
-    protected $_oUser = null;
+    protected $_oUser;
 
     /**
      * Performance issue. Sometimes you want to load articles without calculating
@@ -192,7 +192,7 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      * and from oxArticle::oxarticles__oxuniname->value. If either one of these values is empty then $_fPricePerUnit is not calculated.
      * Example: In case when product price is 10 EUR and product quantity is 0.5 (liters) then $_fPricePerUnit would be 20,00
      */
-    protected $_fPricePerUnit = null;
+    protected $_fPricePerUnit;
 
     /**
      * Variable used to force load parent data in export
@@ -214,26 +214,26 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var bool
      */
-    protected $_blSkipDiscounts = null;
+    protected $_blSkipDiscounts;
 
     /**
      * Object holding the list of attributes and attribute values associated with this article
      */
-    protected $_oAttributeList = null;
+    protected $_oAttributeList;
 
     /**
      * Indicates whether the price is "From" price
      *
      * @var bool
      */
-    protected $_blIsRangePrice = null;
+    protected $_blIsRangePrice;
 
     /**
      * The list of article media URLs
      *
      * @var string
      */
-    protected $_aMediaUrls = null;
+    protected $_aMediaUrls;
 
     /**
      * Array containing references to already loaded parent articles, in order for variant to skip parent data loading
@@ -268,7 +268,7 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var oxAmountPriceList
      */
-    protected $_oAmountPriceList = null;
+    protected $_oAmountPriceList;
 
     /**
      * Article details link type (default is 0):
@@ -313,28 +313,28 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var string
      */
-    protected $_sDynImageDir = null;
+    protected $_sDynImageDir;
 
     /**
      * More details link
      *
      * @var string
      */
-    protected $_sMoreDetailLink = null;
+    protected $_sMoreDetailLink;
 
     /**
      * To basket link
      *
      * @var string
      */
-    protected $_sToBasketLink = null;
+    protected $_sToBasketLink;
 
     /**
      * Article stock status when article is initially loaded.
      *
      * @var int
      */
-    protected $_iStockStatusOnLoad = null;
+    protected $_iStockStatusOnLoad;
 
     /**
      * Article original parameters when loaded.
@@ -348,28 +348,28 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var integer
      */
-    protected $_iStockStatus = null;
+    protected $_iStockStatus;
 
     /**
      * T price
      *
      * @var object
      */
-    protected $_oTPrice = null;
+    protected $_oTPrice;
 
     /**
      * Amount price list info
      *
      * @var object
      */
-    protected $_oAmountPriceInfo = null;
+    protected $_oAmountPriceInfo;
 
     /**
      * Amount price
      *
      * @var double
      */
-    protected $_dAmountPrice = null;
+    protected $_dAmountPrice;
 
     /**
      * Articles manufacturer ids cache
@@ -422,14 +422,14 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var oxMdVariant
      */
-    protected $_oMdVariants = null;
+    protected $_oMdVariants;
 
     /**
      * Product long description field
      *
      * @var oxField
      */
-    protected $_oLongDesc = null;
+    protected $_oLongDesc;
 
     /**
      * Variant selections array
@@ -452,28 +452,28 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      *
      * @var array
      */
-    protected static $_aCategoryCache = null;
+    protected static $_aCategoryCache;
 
     /**
      * stores if are stored any amount price
      *
      * @var bool
      */
-    protected static $_blHasAmountPrice = null;
+    protected static $_blHasAmountPrice;
 
     /**
      * stores downloadable file list
      *
      * @var array|oxList of oxArticleFile
      */
-    protected $_aArticleFiles = null;
+    protected $_aArticleFiles;
 
     /**
      * If admin can edit any field.
      *
      * @var bool
      */
-    protected $_blCanUpdateAnyField = null;
+    protected $_blCanUpdateAnyField;
 
     /**
      * Constructor, sets shop ID for article (oxconfig::getShopId()),
@@ -2470,7 +2470,6 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
         $rs = $oDb->select($sQ);
 
         $iOnStock = 0;
-        $iStockFlag = 0;
         if ($rs !== false && $rs->recordCount() > 0) {
             $iOnStock = $rs->fields['oxstock'] - $dArtStockAmount;
             $iStockFlag = $rs->fields['oxstockflag'];
@@ -4501,7 +4500,7 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
         $oDb->execute($sDelete);
 
         $sDelete = 'delete from oxratings where oxobjectid = ' . $articleId . ' ';
-        $rs = $oDb->execute($sDelete);
+        $oDb->execute($sDelete);
 
         $sDelete = 'delete from oxaccessoire2article where oxobjectid = ' . $articleId . ' or oxarticlenid = ' . $articleId . ' ';
         $oDb->execute($sDelete);
@@ -4519,7 +4518,7 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
         }
 
         $sDelete = 'delete from oxactions2article where oxartid = ' . $articleId . ' ';
-        $rs = $oDb->execute($sDelete);
+        $oDb->execute($sDelete);
 
         $sDelete = 'delete from oxobject2list where oxobjectid = ' . $articleId . ' ';
         $rs = $oDb->execute($sDelete);
@@ -4555,7 +4554,6 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
      */
     protected function _deletePics()
     {
-        $myUtilsPic = oxRegistry::get("oxUtilsPic");
         $myConfig = $this->getConfig();
         $oPictureHandler = oxRegistry::get("oxPictureHandler");
 
@@ -4564,8 +4562,6 @@ class Article extends \oxI18n implements ArticleInterface, \oxIUrl
 
         //deleting custom thumbnail
         $oPictureHandler->deleteThumbnail($this);
-
-        $sAbsDynImageDir = $myConfig->getPictureDir(false);
 
         // deleting master image and all generated images
         $iPicCount = $myConfig->getConfigParam('iPicCount');

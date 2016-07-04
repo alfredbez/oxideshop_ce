@@ -275,13 +275,10 @@ class Base extends \oxSuperCfg
         switch ($variableName) {
             case 'blIsDerived':
                 return $this->isDerived();
-                break;
             case 'sOXID':
                 return $this->getId();
-                break;
             case 'blReadOnly':
                 return $this->isReadOnly();
-                break;
         }
 
         // implementing lazy loading fields
@@ -396,7 +393,7 @@ class Base extends \oxSuperCfg
     public function oxClone($object)
     {
         $classVariables = get_object_vars($object);
-        while (list($name, $value) = each($classVariables)) {
+        while (list($name) = each($classVariables)) {
             if (is_object($object->$name)) {
                 $this->$name = clone $object->$name;
             } else {
