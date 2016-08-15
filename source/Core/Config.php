@@ -1890,7 +1890,7 @@ class Config extends SuperConfig
             $value = $this->decodeValue($rs->fields['oxvartype'], $rs->fields['oxvarvalue']);
         }
 
-        if ($isModule && $value) {
+        if ($isModule && $value && !in_array($varName, ['sClusterId'])) {
             $this->setConfigParam($module . ':' . $varName, $value);
         }
 
