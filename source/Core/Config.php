@@ -1909,6 +1909,9 @@ class Config extends SuperConfig
     {
         $value = $mOrigValue;
         switch ($type) {
+            case 'int':
+                $value = (int) $mOrigValue;
+                break;
             case 'arr':
             case 'aarr':
                 $value = unserialize($mOrigValue);
