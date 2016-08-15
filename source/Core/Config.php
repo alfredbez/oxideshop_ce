@@ -168,7 +168,7 @@ class Config extends SuperConfig
                                         'oxlinks', 'oxvoucherseries', 'oxmanufacturers',
                                         // @deprecated since v.5.3.0 (2016-06-17); The Admin Menu: Customer Info -> News feature will be moved to a module in v6.0.0
                                         'oxnews',
-                                        // END deprecated 
+                                        // END deprecated
                                         'oxselectlist', 'oxwrapping',
                                         'oxdeliveryset', 'oxdelivery', 'oxvendor', 'oxobject2category');
 
@@ -1868,8 +1868,13 @@ class Config extends SuperConfig
             $shopId = $this->getShopId();
         }
 
-        if ($shopId == $this->getShopId() && (!$module || $module == Config::OXMODULE_THEME_PREFIX . $this->getConfigParam('sTheme'))) {
+        $isModule = strpos($module, Config::OXMODULE_MODULE_PREFIX) !== false;
+        $isCurrentTheme = $module == Config::OXMODULE_THEME_PREFIX . $this->getConfigParam('sTheme');
+        if ($shopId == $this->getShopId() && ($isModule || $isCurrentTheme)) {
             $varValue = $this->getConfigParam($varName);
+            if ($isModule) {
+                $varValue = $this->getConfigParam($module . ':' . $varName);
+            }
             if ($varValue !== null) {
                 return $varValue;
             }
@@ -1883,6 +1888,10 @@ class Config extends SuperConfig
         $value = null;
         if ($rs != false && $rs->recordCount() > 0) {
             $value = $this->decodeValue($rs->fields['oxvartype'], $rs->fields['oxvarvalue']);
+        }
+
+        if ($isModule && $value) {
+            $this->setConfigParam($module . ':' . $varName, $value);
         }
 
         return $value;
