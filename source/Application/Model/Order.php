@@ -24,6 +24,7 @@ namespace OxidEsales\EshopCommunity\Application\Model;
 
 use Exception;
 use oxArticleInputException;
+use OxidEsales\EshopCommunity\Core\Counter;
 use oxNoArticleException;
 use oxOutOfStockException;
 use oxField;
@@ -536,7 +537,7 @@ class Order extends \OxidEsales\Eshop\Core\Model\BaseModel
             if (!$this->oxorder__oxordernr->value) {
                 $this->_setNumber();
             } else {
-                oxNew('oxCounter')->update($this->_getCounterIdent(), $this->oxorder__oxordernr->value);
+                oxNew(Counter::class)->update($this->_getCounterIdent(), $this->oxorder__oxordernr->value);
             }
 
             // deleting remark info only when order is finished
@@ -1270,13 +1271,18 @@ class Order extends \OxidEsales\Eshop\Core\Model\BaseModel
     /**
      * creates counter ident
      *
+     * @param string $fieldName
      * @return String
      */
-    protected function _getCounterIdent()
+    protected function _getCounterIdent($fieldName = '')
     {
-        $sCounterIdent = ($this->_blSeparateNumbering) ? 'oxOrder_' . $this->getConfig()->getShopId() : 'oxOrder';
+        $counterIdent = ($this->_blSeparateNumbering) ? 'oxOrder_' . $this->getConfig()->getShopId() : 'oxOrder';
 
-        return $sCounterIdent;
+        if ($fieldName !== '') {
+            $counterIdent .= '_' . $fieldName;
+        }
+
+        return $counterIdent;
     }
 
 
@@ -1289,7 +1295,7 @@ class Order extends \OxidEsales\Eshop\Core\Model\BaseModel
     {
         $oDb = oxDb::getDb();
 
-        $iCnt = oxNew('oxCounter')->getNext($this->_getCounterIdent());
+        $iCnt = oxNew(Counter::class)->getNext($this->_getCounterIdent());
         $sQ = "update oxorder set oxordernr = ? where oxid = ?";
         $blUpdate = ( bool ) $oDb->execute($sQ, array($iCnt, $this->getId()));
 
@@ -1555,8 +1561,7 @@ class Order extends \OxidEsales\Eshop\Core\Model\BaseModel
      */
     public function getInvoiceNum()
     {
-        $sCounterIdent = ($this->_blSeparateNumbering) ? 'oxOrder_oxinvoicenr_' . $this->getConfig()->getShopId() : 'oxOrder_oxinvoicenr';
-        return oxNew('oxCounter')->getNext($sCounterIdent);
+        return $this->getNextNum('oxinvoicenr');
     }
 
     /**
@@ -1566,9 +1571,20 @@ class Order extends \OxidEsales\Eshop\Core\Model\BaseModel
      */
     public function getNextBillNum()
     {
-        $sCounterIdent = ($this->_blSeparateNumbering) ? 'oxOrder_oxbillnr_' . $this->getConfig()->getShopId() : 'oxOrder_oxbillnr';
-        return oxNew('oxCounter')->getNext($sCounterIdent);
+        return $this->getNextNum('oxbillnr');
     }
+
+    /**
+     * Returns next counter value for given field
+     *
+     * @param $fieldName
+     * @return mixed
+     */
+    protected function getNextNum($fieldName)
+    {
+        return oxNew(Counter::class)->getNext($this->_getCounterIdent($fieldName));
+    }
+
 
     /**
      * Loads possible shipping sets for this order

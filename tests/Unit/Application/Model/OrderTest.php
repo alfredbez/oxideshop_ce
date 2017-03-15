@@ -26,6 +26,7 @@ use oxArticleHelper;
 use \oxdeliverylist;
 use oxEmailHelper;
 use \oxField;
+use OxidEsales\EshopCommunity\Core\Counter;
 use oxOrder;
 use \stdClass;
 use \oxDb;
@@ -2910,40 +2911,24 @@ class OrderTest extends \OxidTestCase
 
     public function testDeleteNotExistingOrder()
     {
-        $oOrder = oxNew('oxOrder');;
+        $oOrder = oxNew('oxOrder');
         $this->assertFalse($oOrder->delete('_noSuchOrderId'));
     }
 
     public function testGetInvoiceNum()
     {
-        $this->_insertTestOrder();
+        oxNew(Counter::class)->update('oxOrder_oxinvoicenr', 5);
+        $order = oxNew('oxOrder');
 
-        $oOrder = oxNew('oxOrder');
-        $oOrder->load('_testOrderId');
-        $oOrder->oxorder__oxinvoicenr = new oxField(5, oxField::T_RAW);
-        $oOrder->save();
-
-        $iNum = $oOrder->getInvoiceNum();
-        $this->assertEquals(6, $iNum);
+        $this->assertEquals(6, $order->getInvoiceNum());
     }
 
     public function testGetNextBillNum()
     {
-        $this->_insertTestOrder('_testOrderId');
-        $this->_insertTestOrder('_testOrderId1');
+        oxNew(Counter::class)->update('oxOrder_oxbillnr', 1000);
+        $order = oxNew('oxOrder');
 
-        $oOrder = oxNew('oxOrder');
-        $oOrder->load('_testOrderId');
-        $oOrder->oxorder__oxbillnr = new oxField(999, oxField::T_RAW);
-        $oOrder->save();
-
-        $oOrder = oxNew('oxOrder');
-        $oOrder->load('_testOrderId1');
-        $oOrder->oxorder__oxbillnr = new oxField(1000, oxField::T_RAW);
-        $oOrder->save();
-
-        $iNum = $oOrder->getNextBillNum();
-        $this->assertEquals(1001, $iNum);
+        $this->assertEquals(1001, $order->getNextBillNum());
     }
 
     public function testVoucherNrList()
