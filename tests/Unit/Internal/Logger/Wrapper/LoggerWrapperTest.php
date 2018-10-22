@@ -7,13 +7,14 @@
 namespace OxidEsales\EshopCommunity\Tests\Unit\Internal\Logger\Wrapper;
 
 use OxidEsales\EshopCommunity\Internal\Logger\Wrapper\LoggerWrapper;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LoggerServiceWrapperTest
  *
  * @package OxidEsales\EshopCommunity\Tests\Unit\Internal\Logger\Wrapper
  */
-class LoggerServiceWrapperTest extends \PHPUnit\Framework\TestCase
+class LoggerWrapperTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -74,12 +75,12 @@ class LoggerServiceWrapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
     private function getLoggerMock()
     {
         $loggerMock = $this
-            ->getMockBuilder(\Psr\Log\LoggerInterface::class)
+            ->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->setMethods(
                 [

@@ -2071,7 +2071,7 @@ class Email extends \PHPMailer
             if ($this->isDebugModeEnabled()) {
                 throw $ex;
             } else {
-                $ex->debugOut();
+                \OxidEsales\Eshop\Core\Registry::getLogger()->error($ex->getMessage(), [$ex]);
             }
         }
 
