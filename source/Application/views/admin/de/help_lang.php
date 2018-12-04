@@ -589,4 +589,6 @@ $aLang =  [
 'HELP_SHOP_CONFIG_ENABLE_INTANGIBLE_PRODUCTS_AGREEMENT'   => 'Ist diese Option aktiviert, müssen Benutzer die AGB für immaterielle oder Downloadartikel im vierten Bestellschritt bestätigen. Bitte aktivieren Sie diese Option auch für die spezifischen Produkte!',
 
 'HELP_SHOP_CONFIG_FIELDS_CONTACTFORM'         => 'Hier können Sie die Felder des Kontaktformulars festlegen, welche vom Benutzer unbedingt auszufüllen sind.',
+'HELP_SHOP_CONFIG_ASSETTIMESTAMPMODE'         => 'Wenn dieser Modus aktiviert ist, wird der Zeitstempel der letzten Veränderung an den Dateinamen' .
+        ' von CSS & JS Dateien angehängt (z.B. wird dann aus script.js -> script.123456789.js)',
 ];

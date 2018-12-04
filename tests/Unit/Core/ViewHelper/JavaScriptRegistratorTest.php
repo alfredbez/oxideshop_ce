@@ -31,7 +31,7 @@ use OxidEsales\Eshop\Core\Registry;
 class JavaScriptRegistratorTest extends \OxidTestCase
 {
     /**
-     * @dataProvider addFileProvider
+     * @dataProvider queryParamTimestampProvider
      */
     public function testAddFile($file, $shopurl, $expected)
     {
@@ -47,7 +47,40 @@ class JavaScriptRegistratorTest extends \OxidTestCase
         $this->assertEquals($expected, Registry::getConfig()->getGlobalParameter('includes')[0][0]);
     }
 
-    public function addFileProvider()
+    /**
+     * @dataProvider filenameWithTimestampProvider
+     */
+    public function testAddFileWithTimestampInFilename($file, $shopurl, $expected)
+    {
+        $config = $this->getMock('oxConfig', ['getCurrentShopUrl']);
+        $config->setConfigParam("assetTimestampMode", 2);
+        $config->expects($this->any())->method('getCurrentShopUrl')->will($this->returnValue($shopurl));
+        Registry::set('oxConfig', $config);
+
+        $scriptRegistrator = $this->getMock(JavaScriptRegistrator::class, ['getFileModificationTime']);
+        $scriptRegistrator->expects($this->any())->method('getFileModificationTime')->will($this->returnValue(123456789));
+
+        $scriptRegistrator->addFile($file, 0);
+
+        $this->assertEquals($expected, Registry::getConfig()->getGlobalParameter('includes')[0][0]);
+    }
+
+    public function filenameWithTimestampProvider()
+    {
+        return [
+            ['http://someurl/script.js', 'http://shopurl.de', 'http://someurl/script.js'],
+            ['http://someurl/script.js', 'http://shopurl.de', 'http://someurl/script.js'],
+            ['http://shopurl.de/script.js', 'http://shopurl.de', 'http://shopurl.de/script.123456789.js'],
+            ['http://shopurl.de/very/long/path/to/script.js', 'http://shopurl.de', 'http://shopurl.de/very/long/path/to/script.123456789.js'],
+            ['https://shopurl.de/script.js', 'https://shopurl.de', 'https://shopurl.de/script.123456789.js'],
+            ['http://shopurl.de/script.js', 'https://shopurl.de', 'http://shopurl.de/script.123456789.js'],
+            ['https://shopurl.de/script.js', 'http://shopurl.de', 'https://shopurl.de/script.123456789.js'],
+            ['//shopurl.de/script.js', 'http://shopurl.de', '//shopurl.de/script.123456789.js'],
+            ['//shopurl.de/script.js', 'https://shopurl.de', '//shopurl.de/script.123456789.js'],
+        ];
+    }
+
+    public function queryParamTimestampProvider()
     {
         return [
             ['http://someurl/script.js', 'http://shopurl.de', 'http://someurl/script.js'],

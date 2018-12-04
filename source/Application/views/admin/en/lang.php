@@ -1159,6 +1159,7 @@ $aLang = [
     'SHOP_CONFIG_ERROR_INVALID_VALUE'                         => 'Provided configuration value: %s is not valid.',
     'SHOP_CONFIG_LOADREVIEWS'                                 => 'Activate user reviews and star ratings',
     'SHOP_CONFIG_INCLUDE_PRODUCT_REVIEW_LINKS_IN_ORDER_EMAIL' => 'Include a link  to product reviews in order e-mail',
+    'SHOP_CONFIG_ASSETTIMESTAMPMODE'                          => 'Show timestamp in filename for JS & CSS files',
 
     'SHOP_SYSTEM_ATTRIBUTESPERCENT'                      => 'Number of equal Attributes for similar Products (%)',
     'SHOP_SYSTEM_DEFAULTIMAGEQUALITY'                    => 'Picture Quality - from 0 (poor Quality, small File Size) to 100 (best Quality, large File Size)',

@@ -687,6 +687,20 @@ function editThis(sID)
                 <div class="spacer"></div>
             </dl>
 
+            <dl>
+                <dt>
+                    <select class="select" name=confstrs[iAssetTimestampMode] [{$readonly}]>
+                        <option value="1"  [{if !$confstrs.iAssetTimestampMode}]selected[{/if}]>[{oxmultilang ident="SHOP_CONFIG_DISABLE"}]</option>
+                        <option value="2"  [{if $confstrs.iAssetTimestampMode}]selected[{/if}]>[{oxmultilang ident="SHOP_CONFIG_ENABLE"}]</option>
+                    </select>
+                    [{oxinputhelp ident="HELP_SHOP_CONFIG_ASSETTIMESTAMPMODE"}]
+                </dt>
+                <dd>
+                    [{oxmultilang ident="SHOP_CONFIG_ASSETTIMESTAMPMODE"}]
+                </dd>
+                <div class="spacer"></div>
+            </dl>
+
          </div>
     </div>
 

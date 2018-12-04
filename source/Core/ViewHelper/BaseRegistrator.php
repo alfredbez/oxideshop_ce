@@ -36,6 +36,11 @@ abstract class BaseRegistrator
     /** @var UtilsUrl|null */
     protected $utilsUrl;
 
+    protected $mode;
+
+    const MODE_QUERY_PARAM = 1;
+    const MODE_FILENAME = 2;
+
     /**
      * BaseRegistrator constructor.
      *
@@ -44,6 +49,7 @@ abstract class BaseRegistrator
     public function __construct()
     {
         $this->config = Registry::getConfig();
+        $this->mode = $this->config->getConfigParam('assetTimestampMode') ?? self::MODE_QUERY_PARAM;
     }
 
     /**
@@ -87,7 +93,19 @@ abstract class BaseRegistrator
             trigger_error($error, E_USER_WARNING);
         }
 
-        return $url ? "$url?$parameters" : '';
+        return $url ? $this->buildUrlWithParameters($url, $parameters) : '';
+    }
+
+    protected function buildUrlWIthParameters($url, $parameters)
+    {
+        switch ($this->mode) {
+            case self::MODE_QUERY_PARAM:
+                return "$url?$parameters";
+            case self::MODE_FILENAME:
+                $pathinfo = pathinfo($url);
+
+                return "{$pathinfo['dirname']}/{$pathinfo['filename']}.$parameters.{$pathinfo['extension']}";
+        }
     }
 
     /**
