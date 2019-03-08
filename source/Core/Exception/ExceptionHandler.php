@@ -142,7 +142,7 @@ class ExceptionHandler
         $class = get_class($exception);
 
         /** report the error */
-        $trace = $exception->getTraceAsString();
+        $trace = $exception->getFullTraceAsString();
         $lines = explode(PHP_EOL, $trace);
         $logMessage = "[$timestamp] [exception] [type {$class}] [code {$exception->getCode()}] [file {$exception->getFile()}] [line {$exception->getLine()}] [message {$exception->getMessage()}]" . PHP_EOL;
         foreach ($lines as $line) {

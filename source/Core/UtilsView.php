@@ -164,7 +164,7 @@ class UtilsView extends \OxidEsales\Eshop\Core\Base
             }
 
             $oEx->setValues($oEr->getValues());
-            $oEx->setStackTrace($oEr->getTraceAsString());
+            $oEx->setStackTrace($oEr->getFullTraceAsString());
             $oEx->setDebug($blFull);
             $oEr = $oEx;
         } elseif ($oEr && !($oEr instanceof \OxidEsales\Eshop\Core\Contract\IDisplayError)) {
