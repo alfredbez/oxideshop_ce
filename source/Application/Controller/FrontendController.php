@@ -1035,9 +1035,9 @@ class FrontendController extends \OxidEsales\Eshop\Core\Controller\BaseControlle
         $shopId = \OxidEsales\Eshop\Core\Registry::getConfig()->getShopId();
 
         if ($seoObjectId && Registry::getUtils()->seoIsActive() &&
-            ($keywords = Registry::getSeoEncoder()->getMetaData($seoObjectId, $dataType, $shopId, $baseLanguageId))
+            ($metadata = Registry::getSeoEncoder()->getMetaData($seoObjectId, $dataType, $shopId, $baseLanguageId))
         ) {
-            return $keywords;
+            return $metadata;
         }
     }
 
