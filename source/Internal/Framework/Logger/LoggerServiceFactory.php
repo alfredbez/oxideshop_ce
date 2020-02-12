@@ -25,13 +25,20 @@ class LoggerServiceFactory
     private $context;
 
     /**
+     * @var string
+     */
+    private $loggerName;
+
+    /**
      * LoggerServiceFactory constructor.
      *
      * @param ContextInterface $context
+     * @param string $loggerName
      */
-    public function __construct(ContextInterface $context)
+    public function __construct(ContextInterface $context, string $loggerName = 'OXID Logger')
     {
         $this->context = $context;
+        $this->loggerName = $loggerName;
     }
 
     /**
@@ -61,7 +68,7 @@ class LoggerServiceFactory
     private function getMonologConfiguration()
     {
         return new MonologConfiguration(
-            'OXID Logger',
+            $this->loggerName,
             $this->context->getLogFilePath(),
             $this->context->getLogLevel()
         );

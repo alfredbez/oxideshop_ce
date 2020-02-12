@@ -12,6 +12,7 @@ namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Framework\Logger;
 use OxidEsales\EshopCommunity\Internal\Framework\Logger\LoggerServiceFactory;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\Context;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
@@ -43,12 +44,31 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
         $logger = $this->getLogger($context);
         $logger->critical('Carthago delenda est');
 
-        $this->assertTrue(
-            file_exists($context->getLogFilePath())
+        $this->assertFileExists(
+            $context->getLogFilePath()
         );
 
         $this->assertContains(
             'Carthago delenda est',
+            file_get_contents($context->getLogFilePath())
+        );
+
+        $this->assertContains(
+            'OXID Logger',
+            file_get_contents($context->getLogFilePath())
+        );
+    }
+
+    public function testCustomLoggerName()
+    {
+        $loggerName = 'My custom logger';
+
+        $context = $this->getContextStub(LogLevel::ERROR);
+        $logger = $this->getLogger($context, $loggerName);
+        $logger->critical('foo');
+
+        $this->assertContains(
+            $loggerName,
             file_get_contents($context->getLogFilePath())
         );
     }
@@ -66,13 +86,14 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $context Context
+     * @param Context $context
+     * @param string $loggerName
      *
-     * @return \Psr\Log\LoggerInterface
+     * @return LoggerInterface
      */
-    private function getLogger($context)
+    private function getLogger($context, $loggerName = 'OXID Logger'): LoggerInterface
     {
-        $loggerServiceFactory = new LoggerServiceFactory($context);
+        $loggerServiceFactory = new LoggerServiceFactory($context, $loggerName);
 
         return $loggerServiceFactory->getLogger();
     }
