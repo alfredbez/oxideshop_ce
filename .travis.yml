@@ -8,9 +8,12 @@ notifications:
 php:
   - "7.3"
   - "7.4"
+  - nightly
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - php: nightly
 
 cache:
   directories:
@@ -37,7 +40,7 @@ before_install:
 
 before_script:
   # remove xdebug
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
   # apache setup (https://docs.travis-ci.com/user/languages/php/#apache--php)
   - sudo apt-get install apache2 libapache2-mod-fastcgi
   # enable php-fpm
@@ -66,6 +69,7 @@ before_script:
   - chmod -R 777 "${TRAVIS_BUILD_DIR}/source/log"
 
   # composer initiation
+  - if [[ $(phpenv version-name) = 'nightly' ]]; then composer config platform.php 7.4.0; fi;
   - COMPOSER_MEMORY_LIMIT=-1 SHOP_PATH='source' SHOP_TESTS_PATH='tests' MODULES_PATH='' composer install
 
 script:
