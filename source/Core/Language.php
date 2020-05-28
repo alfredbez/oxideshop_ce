@@ -393,10 +393,17 @@ class Language extends \OxidEsales\Eshop\Core\Base
 
         $iLanguage = isset($iLanguage) ? (int) $iLanguage : $this->getBaseLanguage();
         if (isset($this->_aLangAbbr[$iLanguage])) {
-            $iLanguage = $this->_aLangAbbr[$iLanguage];
+            return $this->_aLangAbbr[$iLanguage];
         }
 
-        return $iLanguage;
+        throw new \Exception(
+            'Could not find language abbreviation for language-id ' . $iLanguage . '! '
+            . (
+                count($this->_aLangAbbr) === 0
+                ? 'No languages available'
+                : 'Available languages: ' . implode(', ', $this->_aLangAbbr)
+            )
+        );
     }
 
     /**
