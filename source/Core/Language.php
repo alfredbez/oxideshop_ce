@@ -65,7 +65,7 @@ class Language extends \OxidEsales\Eshop\Core\Base
      *
      * @var array
      */
-    protected $_aLangAbbr = null;
+    protected $_aLangAbbr = [];
 
     /**
      * registered additional language filesets to load
@@ -388,7 +388,7 @@ class Language extends \OxidEsales\Eshop\Core\Base
      */
     public function getLanguageAbbr($iLanguage = null)
     {
-        if ($this->_aLangAbbr === null) {
+        if ($this->_aLangAbbr === []) {
             $this->_aLangAbbr = $this->getLanguageIds();
         }
 
