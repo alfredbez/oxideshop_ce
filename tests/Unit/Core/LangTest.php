@@ -1064,7 +1064,15 @@ class LangTest extends \OxidTestCase
 
         $this->assertEquals('de', $oLang->getLanguageAbbr(0));
         $this->assertEquals('en', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(3, $oLang->getLanguageAbbr(3));
+
+        $this->expectException(
+            \OxidEsales\EshopCommunity\Core\Exception\LanguageNotFoundException\LanguageNotFoundException::class
+        );
+        $this->expectExceptionMessage(
+            'Could not find language abbreviation for language-id 3! Available languages: de, en'
+        );
+        $oLang->getLanguageAbbr(3);
+
         $this->assertEquals('de', $oLang->getLanguageAbbr(null));
     }
 
@@ -1087,7 +1095,15 @@ class LangTest extends \OxidTestCase
 
         $this->assertEquals('de', $oLang->getLanguageAbbr(0));
         $this->assertEquals('ru', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(2, $oLang->getLanguageAbbr(2));
+
+        $this->expectException(
+            \OxidEsales\EshopCommunity\Core\Exception\LanguageNotFoundException\LanguageNotFoundException::class
+        );
+        $this->expectExceptionMessage(
+            'Could not find language abbreviation for language-id 2! Available languages: de, ru, en'
+        );
+        $oLang->getLanguageAbbr(2);
+
         $this->assertEquals('en', $oLang->getLanguageAbbr(3));
         $this->assertEquals('de', $oLang->getLanguageAbbr(null));
     }
@@ -1102,7 +1118,15 @@ class LangTest extends \OxidTestCase
 
         $this->assertEquals('de', $oLang->getLanguageAbbr(0));
         $this->assertEquals('en', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(3, $oLang->getLanguageAbbr(3));
+
+        $this->expectException(
+            \OxidEsales\EshopCommunity\Core\Exception\LanguageNotFoundException\LanguageNotFoundException::class
+        );
+        $this->expectExceptionMessage(
+            'Could not find language abbreviation for language-id 3! Available languages: de, en'
+        );
+        $oLang->getLanguageAbbr(3);
+
         $this->assertEquals('de', $oLang->getLanguageAbbr(null));
     }
 
@@ -1124,7 +1148,14 @@ class LangTest extends \OxidTestCase
 
         $this->assertEquals('de', $oLang->getLanguageAbbr(0));
         $this->assertEquals('en', $oLang->getLanguageAbbr(1));
-        $this->assertEquals(2, $oLang->getLanguageAbbr(2));
+
+        $this->expectException(
+            \OxidEsales\EshopCommunity\Core\Exception\LanguageNotFoundException\LanguageNotFoundException::class
+        );
+        $this->expectExceptionMessage(
+            'Could not find language abbreviation for language-id 2! Available languages: de, en'
+        );
+        $oLang->getLanguageAbbr(2);
     }
 
     /**

@@ -8,6 +8,7 @@
 namespace OxidEsales\EshopCommunity\Core;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Bridge\AdminThemeBridgeInterface;
+use OxidEsales\Eshop\Core\Exception\LanguageNotFoundException;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Str;
 use stdClass;
@@ -396,7 +397,7 @@ class Language extends \OxidEsales\Eshop\Core\Base
             return $this->_aLangAbbr[$iLanguage];
         }
 
-        throw new \Exception(
+        throw new LanguageNotFoundException(
             'Could not find language abbreviation for language-id ' . $iLanguage . '! '
             . (
                 count($this->_aLangAbbr) === 0
