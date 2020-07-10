@@ -1052,6 +1052,20 @@ class LangTest extends \OxidTestCase
         $this->assertEquals(1, $aLanguages[1]->selected);
     }
 
+    public function testGetLanguageAbbrWhenLangParamsArrayIsCompletelyEmpty()
+    {
+        $this->getConfig()->setConfigParam('aLanguageParams', null);
+        $language = oxNew(\OxidEsales\Eshop\Core\Language::class);
+        \OxidEsales\Eshop\Core\Registry::set(\OxidEsales\Eshop\Core\Config::class, $this->getConfig());
+
+        $this->expectException(
+            \OxidEsales\EshopCommunity\Core\Exception\LanguageNotFoundException::class
+        );
+        $this->expectExceptionMessage('No languages available');
+
+        $language->getLanguageAbbr(0);
+    }
+
     /**
      * Testing language name getter when language parameters array does not exist
      */
